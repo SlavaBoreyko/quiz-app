@@ -1,0 +1,28 @@
+:root {
+    --size: 50%;
+}
+
+.circularProgress {
+    position: relative;
+    width: var(--size);
+    padding-top: var(--size);
+    border-radius: 50%; 
+    display: grid;
+    place-items: center;
+
+    &:before {
+        content: '';
+        position: absolute;
+        height: 95%;
+        // padding-top: 95%;
+        width: 95%;
+        background-color: #1a1e21;
+        border-radius: 50%;
+    }
+}
+
+.valueContainer {
+    position: absolute;
+    font-size: calc(var(--size)*8);
+    color: #3bc9db;
+}

@@ -1,0 +1,42 @@
+.circleFrame {
+    z-index: 100;
+    transform: translate(0%, -50%);
+    background-color: #1a1e21fc;
+    border: 1px solid #fbbc05;
+    // border: 1px solid #4285f4;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+    transition: all 300ms;
+
+    & img {
+        width: 100%;
+    }
+}
+
+.regGmail {
+    cursor: pointer;
+    margin-top: 1rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    // color: #4285f4;
+    color: #fbbc05;
+}
+
+.btnG {
+    cursor: pointer;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+
+    &:hover .circleFrame {
+        padding: 0.5rem;
+    }
+}

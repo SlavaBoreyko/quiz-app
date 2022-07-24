@@ -1,0 +1,43 @@
+.headerProfile {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #adb5bd2b;
+
+}
+.avatar {
+    background-color: #adb5bd;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    margin-right: 2rem;
+}
+.name {
+    text-align: center;
+    margin: 2rem 0 1rem 0;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #adb5bd;
+}
+.details {
+    font-size: 1.2rem;
+    color: #adb5bd;
+}
+
+.btnDiv {
+    display:flex;
+    flex-grow: 1;
+    align-self: flex-start;
+    justify-content: flex-end;
+}
+.btnLogout {
+    background: none;
+    border: none;
+    color: #adb5bd;
+
+    &:hover {
+        color: aquamarine;
+    }
+}

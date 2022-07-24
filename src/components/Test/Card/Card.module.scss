@@ -1,0 +1,15 @@
+
+.cardContainer {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & p {
+        font-size: 2rem;
+        text-align: center;
+        // color: #3bc9db;
+        color: #adb5bd
+    }
+}
+

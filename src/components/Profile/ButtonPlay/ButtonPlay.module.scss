@@ -1,0 +1,43 @@
+:root {
+    --size: 100%;
+}
+
+.btn {
+    // background: none;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    
+    width: var(--size);
+    padding-top: var(--size);
+
+    border-radius: 50%; 
+    display: grid;
+    place-items: center;
+    background-color: #343a40;
+
+    &:hover,
+    &:active {
+        background-color: #3bc9db;
+    }
+    
+    &:before {
+        content: '';
+        position: absolute;
+        height: 95%;
+        width: 95%;
+        background-color: #1a1e21;
+        border-radius: 50%;
+    }
+
+    .icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-40%,-50%);
+        height: calc(var(--size)*2);
+        color: #3bc9db;
+        z-index: 10;
+    }
+}
+

@@ -1,0 +1,25 @@
+.h1Title {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 2rem;
+    font-weight: 900;
+    // color: #adb5bd;
+    color: #3bc9db;
+}
+
+.description {
+    margin-top: 1rem;
+    font-size: 1.6rem;
+    color: #adb5bd;
+}
+.hidden {
+    opacity: 0;
+    // overflow: hidden;
+    // margin-top: -15rem;
+    transition: all 2000ms;
+}
+.showText {
+    opacity: 1;
+    // margin-top: 0rem;
+    transition: all 2000ms;
+}

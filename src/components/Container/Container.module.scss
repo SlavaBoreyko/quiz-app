@@ -1,0 +1,22 @@
+.containerBack {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    // justify-content: flex-end;
+    padding: 8rem 2rem 8rem 2rem;
+
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #1a1e21d7;
+    overflow: hidden;
+}
+
+.backImage {
+    position: absolute;
+    top: 0;
+    z-index: -10;
+    height: 100vh;
+}

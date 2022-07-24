@@ -1,0 +1,59 @@
+.grid3 {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1rem;
+    width: 100%;
+    justify-content: space-between;
+    justify-items: center;
+    border: 2px solid #adb5bd2b;
+    border-radius: 0.5rem;
+    padding: 3rem 3rem 5rem 3rem;
+}
+
+// .divCenter {
+//     display: flex;
+//     flex-direction: column;
+//     width: 100%;
+//     align-items: center;
+// }
+
+
+
+.previewTitle {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1a1e21fc;
+    padding: 0 2rem 0 2rem;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    font-size: 1.6rem;
+    color: #adb5bd;
+}
+
+.previewTestTitle {
+    margin-top: 1rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #adb5bd;
+}
+
+.previewImg {
+    height: 6rem;
+    width: 100%;
+    object-fit: cover;
+    object-position: 0 0;
+    overflow: hidden;
+    
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.showText {
+    opacity: 1;
+    transition: all 8000ms ;
+}
+

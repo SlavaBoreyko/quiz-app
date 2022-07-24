@@ -1,25 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import './style/main.scss';
+// Redux  
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+// Pages
+import ResultPage from './pages/ResultPage';
+import ProfilePage from './pages/ProfilePage';
+import PrivateRoute from './components/Private/PrivateRoute';
+import TestPage from './pages/TestPage';
+import AuthWrapper from "./components/AuthWrapper/AuthWrapper";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          <Route path='/' element={<AuthWrapper />} >
+
+            <Route path='/test/:id' element={<TestPage />} />
+            <Route path='/test/:id/result/' element={<ResultPage />}/>
+
+            <Route path='/profile' element={<PrivateRoute />} >
+              <Route path='/profile' element={<ProfilePage />} />
+            </Route>  
+            
+          </Route> 
+        </Routes>
+      </Router>
+    </Provider>
   );
 }
 
