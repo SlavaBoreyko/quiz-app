@@ -4,7 +4,7 @@ import {userApi} from './userApi';
 
 import { getAuth } from 'firebase/auth';
 
-export interface DemoTest {
+export interface UserAnswersType {
     [key: string]: {
         answersArray: number[];
         points: number;
@@ -15,16 +15,14 @@ export interface UserState {
     id: string | undefined;
     name: string | null | undefined;
     email: string | null | undefined;
-    demo: DemoTest | undefined;
-    results: any | undefined;
+    answers: UserAnswersType | undefined; 
 }
 
 const userInitState: UserState = {
         id: undefined,
         name: undefined,
         email: undefined,
-        demo:undefined,
-        results: undefined,
+        answers:undefined,
 }
 
 const userSlice = createSlice({
@@ -37,15 +35,15 @@ const userSlice = createSlice({
             state.name = auth.currentUser?.displayName;
             state.email = auth.currentUser?.email;
         },
-        addDemoAnswer(state: UserState, action: PayloadAction<DemoTest>) {
-            state.demo = action.payload;
+        addDemoAnswer(state: UserState, action: PayloadAction<UserAnswersType>) {
+            localStorage.setItem('demoTest', JSON.stringify(action.payload));
         }
     },
     extraReducers: (builder) => {
         builder.addMatcher(
             userApi.endpoints.fetchAnswers.matchFulfilled,
             (state, { payload }) => {
-                state.results = payload
+                state.answers = payload
             }
         )
       },

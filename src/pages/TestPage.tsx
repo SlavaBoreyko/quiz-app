@@ -10,10 +10,11 @@ import { db } from '../firebase.config'
 import { doc, getDoc, updateDoc, arrayUnion, serverTimestamp } from "firebase/firestore";
 import { getAuth } from 'firebase/auth';
 import { useAppSelector } from '../app/hooks';
-import { addDemoAnswer, DemoTest } from '../features/user/userSlice';
+import { addDemoAnswer, UserAnswersType } from '../features/user/userSlice';
 
 // redux-toolkit
 import { useAppDispatch } from '../app/hooks';
+import { useAddAnswerMutation } from '../features/user/userApi';
 
 export interface TestPageProps {
 }
@@ -50,6 +51,8 @@ const TestPage: FC<TestPageProps> = () => {
         fetchData();
     }, [params.id])
 
+    const [ addAnswer, result ]  = useAddAnswerMutation();
+
     const nextHandler = async() => {
         if (test) {
             if (questionNum < test.questions.length - 1) {
@@ -68,7 +71,7 @@ const TestPage: FC<TestPageProps> = () => {
                         (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/(maxPoints* (answersArr.length+1)));
                   
                     const testId = params.id;
-                    let ObjectWithTestId: DemoTest = {};
+                    let ObjectWithTestId: UserAnswersType = {};
                     ObjectWithTestId[testId] = {
                             answersArray: [...answersArr, value],
                             points: resultPoints,
@@ -78,29 +81,26 @@ const TestPage: FC<TestPageProps> = () => {
 
                 // 2.1. If Test was passed (exists doc with userId)-> just update 
                 // 2.2. else if user start new test -> addDoc with with userId 
-                if (userState.id) {
+                if (userState.id && params.id) {
                     const maxPoints = 3;
-                    const answersRef = doc(db, "answers", userState.id);
-
                     const resultPoints = Math.round(100*
                           (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/(maxPoints* (answersArr.length+1)));
-                    
-                    // !!! Paste test id instead 101
-                    await updateDoc(answersRef, {
-                        101: {
+
+                    const testId = params.id;
+                    let ObjectWithTestId: UserAnswersType = {};
+                    ObjectWithTestId[testId] = {
                             answersArray: [...answersArr, value],
                             points: resultPoints,
-                        }
-                        
-                      });
+                    }
+                    addAnswer({id: userState.id, data: ObjectWithTestId});
                 }
                 
                 return navigate(`/test/${params.id}/result`);
             }
         }
     }
-    console.log('userState from TestPage', userState);
-    console.log();
+    // console.log('userState from TestPage', userState);
+    // console.log();
 
     return (
     <>

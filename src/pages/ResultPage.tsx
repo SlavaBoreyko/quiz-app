@@ -20,15 +20,25 @@ const _ = require('lodash');
 
 
 const ResultPage = () => {
-    const params = useParams();
-    
 
-    const { data: answersData, isLoading, isError, error } = useFetchAnswersQuery();
-    // isLoading for Spinner
+    const params = useParams();
+    // redux-toolkit
     const userState = useAppSelector((state: RootState) => state.user);
+    const { data: answersData, isLoading, isError, error } = useFetchAnswersQuery(userState.id!);
 
     const [resultPoints, setResultPoints] = useState<number | undefined>(undefined);
     const [showResult, setShowResult] = useState(false);
+
+    useEffect(() => {
+        if(!userState.id) {
+            const demoTest = localStorage.getItem('demoTest');
+            if(demoTest) {
+                const demoTestParsed = JSON.parse(demoTest);
+                const points = _.get(demoTestParsed, `${params.id}.points`);
+                setResultPoints(points);
+            }
+        }
+    }, []);
     
     useEffect(() => {
         if(answersData) {
@@ -39,15 +49,6 @@ const ResultPage = () => {
 
     // PROPER OR NOT? 
     const testId = params.id!;
-
-    // if userState.demo[testId] doesn't exist than params.id !== testid in demo
-    useEffect(() => {
-        if(!userState.id && userState.demo && userState.demo[testId]) {
-            setResultPoints(userState.demo[testId].points);
-        }
-    }, [userState]);
-
-
     const { data: dataVerdict } = useFetchVerdictQuery({key: testId, points: resultPoints!});
     
     console.log('userState', userState);

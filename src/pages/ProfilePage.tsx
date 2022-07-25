@@ -19,23 +19,39 @@ import { db } from '../firebase.config';
 import { RootState } from '../app/store';
 const _ = require('lodash');
 
+export interface setDemoTest {
+    idTest: string;
+    points: number;
+}
+
+
 const ProfilePage = () => {
     const navigate = useNavigate();
     
-    const [testList, setTestList] = useState<TestType[] | undefined>(undefined)
+    const [testList, setTestList] = useState<TestType[] | undefined>(undefined);
+    // const [demoTestData, setDemoTestData] = useState<setDemoTest | undefined>(undefined);
     
-     const userState = useAppSelector((state: RootState) => state.user);
-
-     const [ addAnswer, result ]  = useAddAnswerMutation();
-    console.log('> userState ', userState)
+    const userState = useAppSelector((state: RootState) => state.user);
+    const [ addAnswer, result ]  = useAddAnswerMutation();
+    console.log('>>ProfilePage userState ', userState);
+    console.log('>>result addAnswer demo before', result);
     
+    const localDemoTest = localStorage.getItem('demoTest');
     useEffect(() => {
-        if(userState.demo) {
-            addAnswer(userState.demo);
+        if(localDemoTest) {
+            const demoTestParsed = JSON.parse(localDemoTest);
+            addAnswer({id: userState.id!, data: demoTestParsed});
+
+            // Object.keys(demoTestParsed).map((key) => (
+            //     setDemoTestData({
+            //         idTest: key,
+            //         points: demoTestParsed[key].points
+            //     })
+            // ))
+
+            localStorage.removeItem('demoTest');
         }
     },[])
-
-    const { data, isLoading, isError, error } = useFetchAnswersQuery();
 
     useEffect(() => {
         const fetchData = async() => {
@@ -48,13 +64,43 @@ const ProfilePage = () => {
         fetchData();
     }, [])
 
+    const { data, isLoading, isError, error } = useFetchAnswersQuery(userState.id!);
+
+    console.log('>>localDemoTest after removed', localDemoTest);
+
     return (
     <Container img='' justifyContent='flex-start'>
-        {(userState.name) && (userState.email)  && (
+        {(userState.name) && (userState.email) && (
             <ProfileHeader name={userState.name} email={userState.email}/>
         )}
-        {data && testList && testList.map((testItem, index) => {
-            if (testItem.id in data) { 
+        {/* { demoTestData && testList && testList.map((testItem, index) => {
+            if (testItem.id === demoTestData.idTest) { 
+                const points = demoTestData.points;
+                return (
+                    <PassedTestCard 
+                        key={index}             
+                        id={testItem.id} 
+                        testName={testItem.testName}
+                        cover={testItem.questions[0].img}
+                        points={points}
+                        onClick={() => navigate(`/test/${testItem.id}/result`)}
+                    />
+                )
+            } else {
+                return (
+                    <NewTestCard 
+                        key={index}
+                        id={testItem.id}
+                        title={testItem.testName}
+                        length={testItem.questions.length}
+                        onClick={() => navigate(`/test/${testItem.id}`)}
+                    />
+                )
+            }
+        })}  */}
+        
+        {  data && testList && testList.map((testItem, index) => {
+            if (data && testItem.id in data) { 
                 const points = _.get(data, `${testItem.id}.points`);
                 // const {text, svg} = await fetchVerdict(testItem.id);
                 return (
