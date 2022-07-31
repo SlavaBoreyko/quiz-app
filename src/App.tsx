@@ -13,6 +13,7 @@ import ProfilePage from './pages/ProfilePage';
 import PrivateRoute from './components/Private/PrivateRoute';
 import TestPage from './pages/TestPage';
 import AuthWrapper from "./components/AuthWrapper/AuthWrapper";
+import AdminPage from "./pages/Admin/AdminPage";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
             <Route path='/profile' element={<PrivateRoute />} >
               <Route path='/profile' element={<ProfilePage />} />
             </Route>  
-            
+
+            <Route path='/admin' element={<AdminPage />}/>
           </Route> 
         </Routes>
       </Router>

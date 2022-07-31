@@ -8,7 +8,7 @@ export interface CardProps {
 const Card: FC<CardProps> = ({title}) => {
   return (
     <div className={s.cardContainer}>
-        <p>{title}</p>
+        <p><span>{title}</span></p>
     </div>
   )
 }

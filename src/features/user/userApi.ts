@@ -1,7 +1,7 @@
 
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { 
-    doc, collection, getDoc, serverTimestamp, addDoc, query, where, getDocs, updateDoc 
+    doc, getDoc, serverTimestamp, addDoc, query, where, updateDoc, collection, getDocs 
 } from 'firebase/firestore'
 import { getVerdict } from '../../actions';
 import { db } from '../../firebase.config';
@@ -17,7 +17,7 @@ export interface fetchedAnswersType {
 }
 
 export interface FetchVerdictProps {
-    key: string;
+    testId: string;
     points: number;
 }
 
@@ -47,12 +47,18 @@ export const userApi = createApi({
         }),
 
         fetchVerdict: builder.query<any, FetchVerdictProps>({
-            async queryFn({key, points}) {
+            async queryFn({testId, points}) {
                 try {
-                    const docRef = doc(db, "verdict", key);
-                    const getVerdictDoc = await getDoc(docRef);
-                    const dataVerdict = getVerdictDoc.data()
-                    const verdictData = getVerdict(points, dataVerdict);
+                    // const docRef = doc(db, "verdict", key); 
+                    const q = query(collection(db, "verdict"), where("testId", "==", testId));
+                    const querySnapshot = await getDocs(q); 
+
+                    let verdictsList: any;
+                    querySnapshot.forEach((doc) => {
+                        verdictsList = doc.data();
+                    });
+
+                    const verdictData = getVerdict(points, verdictsList);
                     return { data: verdictData }
                 } catch(err) {
                     return { error: err }
@@ -63,10 +69,12 @@ export const userApi = createApi({
             async queryFn({id, data}) {
                 try {
                     const userDocRef = doc(db, "users", id);
-                    // !!! change to add to 'answers' field implicity 
+                    const userDoc = await getDoc(userDocRef);
+                    const userDocData = userDoc.data();
+
                     await updateDoc(userDocRef, {
                         answers: {
-                            ...data,
+                            ...userDocData!.answers, ...data,
                         }
                     })
                     return { data: 'addAnswer 200' }

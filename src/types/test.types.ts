@@ -1,18 +1,33 @@
+
+// Compound Test Type: 
+export interface AnswerTestType {
+    [key: string]: string;
+}
+export interface QuestionTestType {
+    question: string;
+    img: string;
+    answers: AnswerTestType[];
+}
+
+export interface SimpleBloggerType {
+    avatar: string;
+    name: string;
+}
+export interface TestType {
+    id: string;
+    testName: string;
+    blogger: SimpleBloggerType;
+    cover: string;
+    questions: QuestionTestType[];
+}
+// Add 
+
+
+//
 export interface TestAnswersType {
     [key: number]: string; 
 }
 // bind
-export interface TestQuestionType {
-    title: string; 
-    answers: TestAnswersType[],
-    img: string; 
-}
-// bind
-export interface TestType {
-    id: string;
-    testName: string;
-    questions: TestQuestionType[];
-}
 
 export interface ResultsListType {
     status: string;
@@ -27,10 +42,13 @@ export interface ResultType {
 }
 
 export interface VerdictType {
+    minPoints: number;
     status: string;
     description: string;
+    icon: string;
 }
 
 export interface VerdictListType {
-    [key: string]: VerdictType; 
+    testId: string;
+    verdicts: VerdictType[]; 
 }

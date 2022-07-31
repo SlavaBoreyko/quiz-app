@@ -1,19 +1,36 @@
-import React, { Dispatch, FC, SetStateAction, useRef } from 'react';
+import React, { Dispatch, FC, SetStateAction, useEffect, useRef } from 'react';
 import s from './CircleBar.module.scss';
 
 export interface CircleBarProps {
     resultPoints: number;
     width?: number;
+    fontSize?: string;
     setShowResult?: Dispatch<SetStateAction<boolean>>;
 }
 
 const CircleBar: FC<CircleBarProps> = ({
-    resultPoints, width, setShowResult, 
+    resultPoints, 
+    width = 50, 
+    fontSize, 
+    setShowResult, 
 }) => {
 
-    (width) && document.documentElement.style.setProperty('--size', `${width}%`);
+    // (width) && 
+    document.documentElement.style.setProperty('--size', `${width}%`);
     const refProgressBar = useRef<HTMLDivElement>(null);
     const refValueContainer = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (refValueContainer.current) {
+            if (fontSize) {
+                refValueContainer.current.style.fontSize = fontSize;
+            } else if(!fontSize && width) {
+                const fontSizebyWidth = width*8;
+                refValueContainer.current.style.fontSize = `${fontSizebyWidth}%`;
+            } 
+        };
+    }, [refValueContainer.current])
+
 
     let progressValue = 0;
     let progressEndValue: number;
@@ -28,6 +45,7 @@ const CircleBar: FC<CircleBarProps> = ({
             (refValueContainer.current) && (
                 refValueContainer.current.textContent = `${progressValue}%`
             );
+
             (refProgressBar.current) && (
                 refProgressBar.current.style.background = `conic-gradient(
                     #3bc9db ${progressValue * 3.6}deg,
@@ -46,7 +64,8 @@ const CircleBar: FC<CircleBarProps> = ({
     return (
     <>
         <div className={s.circularProgress} ref={refProgressBar}>
-            <div className={s.valueContainer} ref={refValueContainer}>
+            <div className={s.valueContainer} 
+                ref={refValueContainer}>
                 0
             </div>
         </div>

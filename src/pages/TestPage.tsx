@@ -1,20 +1,19 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import Container from '../components/Container/Container'
+import Container from '../components/Containers/Container/Container';
 import Test from '../components/Test/Test'
-import { addAnswer } from '../service/user.service';
 import { TestType } from '../types/test.types';
 
 // import { addDoc, collection, serverTimestamp, getDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase.config'
-import { doc, getDoc, updateDoc, arrayUnion, serverTimestamp } from "firebase/firestore";
-import { getAuth } from 'firebase/auth';
+import { doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { useAppSelector } from '../app/hooks';
 import { addDemoAnswer, UserAnswersType } from '../features/user/userSlice';
 
 // redux-toolkit
 import { useAppDispatch } from '../app/hooks';
 import { useAddAnswerMutation } from '../features/user/userApi';
+import { getTotalPoints } from '../actions/getTotalPoints';
 
 export interface TestPageProps {
 }
@@ -32,10 +31,9 @@ const TestPage: FC<TestPageProps> = () => {
     const [answersArr, setAnswersArr] = useState<number[]>([]);
 
     useEffect(() => {
+        // change to fetchTestList (name, blogger photos, idstring)
         const fetchData = async() => {
             if(params.id) {
-                // MY DEMO
-                // const testData = await getTest(+params.id);
                 const docRef = doc(db, "tests", params.id);
                 const getTestData = await getDoc(docRef);
                 const data = getTestData.data()
@@ -43,7 +41,6 @@ const TestPage: FC<TestPageProps> = () => {
                 if (getTestData.exists()) {
                     setTest(data);
                 } else {
-                    // doc.data() will be undefined in this case
                     console.log("Test is deleted!");
                 }
             }
@@ -51,8 +48,23 @@ const TestPage: FC<TestPageProps> = () => {
         fetchData();
     }, [params.id])
 
+    useEffect(() => {
+        if(test) {
+            const totalPoints = getTotalPoints(test);
+            console.log('totalPoints getTotalPoints(test) ', totalPoints);
+        }
+    }, [test])
+
     const [ addAnswer, result ]  = useAddAnswerMutation();
 
+    const calcResultPoints = () => {
+        // maxPoints need calculate when addTest from Admin 
+        const maxPoints = 30; // 3*10 questions
+        const resultPoints = Math.round(100*
+            (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/maxPoints);
+        return resultPoints;
+    }
+     
     const nextHandler = async() => {
         if (test) {
             if (questionNum < test.questions.length - 1) {
@@ -61,53 +73,52 @@ const TestPage: FC<TestPageProps> = () => {
                 //clear for next answer:
                 setValue(0);
             }
-            if (questionNum === test.questions.length - 1) {
-                // 1. If  user finished first demo test without auth
-                // we have to localStorage.setItem()
-
-                if (!userState.id && params.id) {
-                    const maxPoints = 3;
-                    const resultPoints = Math.round(100*
-                        (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/(maxPoints* (answersArr.length+1)));
-                  
-                    const testId = params.id;
-                    let ObjectWithTestId: UserAnswersType = {};
-                    ObjectWithTestId[testId] = {
-                            answersArray: [...answersArr, value],
-                            points: resultPoints,
-                    }
-                    dispatch(addDemoAnswer(ObjectWithTestId));
-                }
-
-                // 2.1. If Test was passed (exists doc with userId)-> just update 
-                // 2.2. else if user start new test -> addDoc with with userId 
-                if (userState.id && params.id) {
-                    const maxPoints = 3;
-                    const resultPoints = Math.round(100*
-                          (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/(maxPoints* (answersArr.length+1)));
-
-                    const testId = params.id;
-                    let ObjectWithTestId: UserAnswersType = {};
-                    ObjectWithTestId[testId] = {
-                            answersArray: [...answersArr, value],
-                            points: resultPoints,
-                    }
-                    addAnswer({id: userState.id, data: ObjectWithTestId});
+            if (questionNum === test.questions.length - 1 && params.id) {
+                const calcPoints = calcResultPoints();
+                const testId = params.id;
+                let ObjectWithTestId: UserAnswersType = {};
+                ObjectWithTestId[testId] = {
+                        answersArray: [...answersArr, value],
+                        points: calcPoints,
+                        // timestamp: serverTimestamp(),
                 }
                 
+                switch (userState.id) {
+                    // 1. If  user finished first demo test without auth
+                    // we have to localStorage.setItem()
+                    case undefined: 
+                        dispatch(addDemoAnswer(ObjectWithTestId));
+                        break;
+                    // 2.1. If Test was passed (exists doc with userId)-> just update 
+                    // 2.2. else if user start new test -> addDoc with with userId 
+                    default:
+                        addAnswer({id: userState.id, data: ObjectWithTestId});
+                }
+                // // 1. If  user finished first demo test without auth
+                // // we have to localStorage.setItem()
+                // if (!userState.id) {
+                //     console.log(userState.id);
+                //     dispatch(addDemoAnswer(ObjectWithTestId));
+                // }
+                // // // 2.1. If Test was passed (exists doc with userId)-> just update 
+                // // // 2.2. else if user start new test -> addDoc with with userId 
+                // if (userState.id) {
+                //     console.log('ObjectWithTestId before addAnswer', ObjectWithTestId)
+                //     addAnswer({id: userState.id, data: ObjectWithTestId});
+                // }
                 return navigate(`/test/${params.id}/result`);
             }
         }
     }
     // console.log('userState from TestPage', userState);
-    // console.log();
-
+    console.log('answersArr', answersArr);
     return (
     <>
         {
         (test) ? (
-        <Container 
+        <Container
             img={test.questions[questionNum].img} 
+            // img={testStore02}
             justifyContent='flex-end'
         >
             <Test 
@@ -118,7 +129,7 @@ const TestPage: FC<TestPageProps> = () => {
                 nextHandler={nextHandler}
             />
         </Container>
-        ) : ('Api problem')
+        ) : ('API problem')
         }
      </>
     )

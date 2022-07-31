@@ -3,6 +3,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 import s from './OAuth.module.scss';
+import GLogo from '../../assets/svg/GoogleLogo.svg'
 
 const OAuth = () => {
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ const OAuth = () => {
     return (
         <button className={s.btnG} onClick={onGoogleClick}>
             <div className={s.circleFrame}>
-                <img src={'img/GoogleLogo.svg'} alt='Google SignUp'/>
+                <img src={GLogo} alt='Google SignUp'/>
             </div>
             <p className={s.regGmail}
                 style={{marginTop: '-2rem'}}

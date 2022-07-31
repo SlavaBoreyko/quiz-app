@@ -6,21 +6,22 @@ export interface NewTestCardProps {
   id: string; 
   title: string; 
   length: number;
+  cover: string;
   onClick: MouseEventHandler<HTMLDivElement>;
 }
 
 const NewTestCard: FC<NewTestCardProps> = ({
-  id, title, length, onClick
+  id, title, cover, length, onClick
 }) => {
   return (
     <div className={s.testCardContainter} onClick={onClick}>
-        <img className={s.coverTest} src={'img/man1.png'} alt=''/>
+        <img className={s.coverTest} src={cover} alt='Cover'/>
         <div className={s.textDiv}>
             <p className={s.titleTest}>{title}</p>
             <p className={s.status}><span>{length}</span>запитань</p>
         </div>
         <div className={s.flexGrow}></div>
-        <ButtonPlay resultPoints={50} width={18}/>
+        <ButtonPlay width={'10rem'}/>
     </div>
   )
 }

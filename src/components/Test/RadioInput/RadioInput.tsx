@@ -25,7 +25,6 @@ const RadioInput: FC<RadioInputProps> = ({
       setChecked(newChecked);
     }
   } 
-  console.log('index input:',index, 'value=', +value)
 
   return (
     <div className={s.radioContainer}>

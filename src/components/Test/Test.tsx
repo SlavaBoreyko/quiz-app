@@ -1,5 +1,5 @@
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
-import { TestQuestionType } from '../../types/test.types';
+import { QuestionTestType } from '../../types/test.types';
 import Card from './Card/Card';
 import ProgressBar from './ProgressBar/ProgressBar';
 import RadioInput from './RadioInput/RadioInput'
@@ -7,7 +7,7 @@ import RadioInput from './RadioInput/RadioInput'
 export interface TestProps {
     length: number;
     questionNum: number;
-    question: TestQuestionType;
+    question: QuestionTestType;
     setValue: Dispatch<SetStateAction<number>>;
     nextHandler: () => void;
 }
@@ -29,18 +29,18 @@ const Test: FC<TestProps> = ({
 
   return (
     <>
-        <Card title={question.title} />
+        <Card title={question.question} />
         <ProgressBar 
             amountQA={length}
             current={questionNum + 1} 
             nextHandler={nextHandler}
         />
-        {question.answers.map((answer, index) => (
+        {question.answers.map((variant, index) => (
             <RadioInput 
                 key={index} 
                 index={index}
-                text={Object.values(answer)} 
-                value={Object.keys(answer)}
+                text={variant.answer} 
+                value={variant.points}
                 setValue={setValue}
                 setChecked={setChecked}
                 checked={checked}

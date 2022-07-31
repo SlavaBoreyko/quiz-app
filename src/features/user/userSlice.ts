@@ -8,6 +8,7 @@ export interface UserAnswersType {
     [key: string]: {
         answersArray: number[];
         points: number;
+        // timestamp: any;
     }
 }
 
@@ -15,6 +16,7 @@ export interface UserState {
     id: string | undefined;
     name: string | null | undefined;
     email: string | null | undefined;
+    photoUrl: string | null | undefined;
     answers: UserAnswersType | undefined; 
 }
 
@@ -22,7 +24,8 @@ const userInitState: UserState = {
         id: undefined,
         name: undefined,
         email: undefined,
-        answers:undefined,
+        photoUrl: undefined,
+        answers: undefined,
 }
 
 const userSlice = createSlice({
@@ -34,6 +37,7 @@ const userSlice = createSlice({
             state.id = auth.currentUser?.uid;
             state.name = auth.currentUser?.displayName;
             state.email = auth.currentUser?.email;
+            state.photoUrl = auth.currentUser?.photoURL;
         },
         addDemoAnswer(state: UserState, action: PayloadAction<UserAnswersType>) {
             localStorage.setItem('demoTest', JSON.stringify(action.payload));

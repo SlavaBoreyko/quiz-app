@@ -2,13 +2,15 @@ import React, { FC } from 'react';
 import s from './ProfileHeader.module.scss';
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import LogoutIcon from '../../../assets/svg/logout-1.svg';
 
 export interface ProfileHeaderProps {
     name: string;
     email: string;
+    photoUrl: string;
 }
 
-const ProfileHeader: FC<ProfileHeaderProps> = ({name, email}) => {
+const ProfileHeader: FC<ProfileHeaderProps> = ({name, email, photoUrl}) => {
     const auth = getAuth();
     const navigate = useNavigate();
     const onLogout = () => {
@@ -18,7 +20,7 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({name, email}) => {
     
     return (
         <header className={s.headerProfile}>
-            <div className={s.avatar}></div>
+            <img className={s.avatar} src={photoUrl} alt='Users avatar'/>
             <div className="">
                 <h1 className={s.name}>{name}</h1>
                 <p className={s.details}>{email}</p>
@@ -29,7 +31,7 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({name, email}) => {
                     type='button' 
                     onClick={onLogout}
                 >
-                X
+                Logout <i><img src={LogoutIcon} alt='icon'/></i>
                 </button>
             </div>
         </header>

@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import Container from '../components/Container/Container';
+// import Container from '../components/Containers/Container/Container';
 import ProfileHeader from '../components/Profile/ProfileHeader/ProfileHeader';
 import PassedTestCard from '../components/Profile/PassedTestCard/PassedTestCard';
 import NewTestCard from '../components/Profile/NewTestCard/NewTestCard';
-import ProfileSection from '../components/Profile/ProfileSection/ProfileSection'; 
-import {DemoTestType, UserAnswersType} from '../types/user.types';
 import { TestType } from '../types/test.types';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +15,9 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { doc, collection, serverTimestamp, addDoc, getDoc, getDocs, } from 'firebase/firestore'
 import { db } from '../firebase.config';
 import { RootState } from '../app/store';
+import Container from '../components/Containers/Container/Container';
+import TestCard from '../components/Profile/TestCard/TestCard';
+
 const _ = require('lodash');
 
 export interface setDemoTest {
@@ -27,28 +28,16 @@ export interface setDemoTest {
 
 const ProfilePage = () => {
     const navigate = useNavigate();
-    
     const [testList, setTestList] = useState<TestType[] | undefined>(undefined);
-    // const [demoTestData, setDemoTestData] = useState<setDemoTest | undefined>(undefined);
     
     const userState = useAppSelector((state: RootState) => state.user);
     const [ addAnswer, result ]  = useAddAnswerMutation();
-    console.log('>>ProfilePage userState ', userState);
-    console.log('>>result addAnswer demo before', result);
     
     const localDemoTest = localStorage.getItem('demoTest');
     useEffect(() => {
         if(localDemoTest) {
             const demoTestParsed = JSON.parse(localDemoTest);
             addAnswer({id: userState.id!, data: demoTestParsed});
-
-            // Object.keys(demoTestParsed).map((key) => (
-            //     setDemoTestData({
-            //         idTest: key,
-            //         points: demoTestParsed[key].points
-            //     })
-            // ))
-
             localStorage.removeItem('demoTest');
         }
     },[])
@@ -62,74 +51,82 @@ const ProfilePage = () => {
             setTestList(testListBase);
         };
         fetchData();
+
+
     }, [])
+
+    useEffect(() => {
+        if(testList) {
+            let maxPointfromEveryQuestion: number[] = [];
+            testList[0].questions.forEach((question) => {
+                // one question 
+                let pointsFromOneAnswer: number[] = [];
+                for (let i = 0; i < question.answers.length; i++) {
+                    pointsFromOneAnswer.push(+question.answers[i].points)
+                }
+                pointsFromOneAnswer.sort();
+                maxPointfromEveryQuestion.push(pointsFromOneAnswer[question.answers.length - 1]);
+            })
+            const totalPoints = maxPointfromEveryQuestion.reduce((totalPoints, maxPoints) => totalPoints + maxPoints);
+            console.log('>>> maxPointfromEveryQuestion', maxPointfromEveryQuestion);
+            console.log('>>> totalPoints', totalPoints)
+        }
+    }, [testList])
 
     const { data, isLoading, isError, error } = useFetchAnswersQuery(userState.id!);
 
-    console.log('>>localDemoTest after removed', localDemoTest);
-
     return (
-    <Container img='' justifyContent='flex-start'>
+        <>
+     <Container
+        justifyContent='flex-start'
+        backgroundColor='#212529'
+    >
         {(userState.name) && (userState.email) && (
-            <ProfileHeader name={userState.name} email={userState.email}/>
+            <ProfileHeader 
+                photoUrl={userState.photoUrl ? userState.photoUrl : ''} 
+                name={userState.name} 
+                email={userState.email}
+            />
         )}
-        {/* { demoTestData && testList && testList.map((testItem, index) => {
-            if (testItem.id === demoTestData.idTest) { 
-                const points = demoTestData.points;
-                return (
-                    <PassedTestCard 
-                        key={index}             
-                        id={testItem.id} 
-                        testName={testItem.testName}
-                        cover={testItem.questions[0].img}
-                        points={points}
-                        onClick={() => navigate(`/test/${testItem.id}/result`)}
-                    />
-                )
-            } else {
-                return (
-                    <NewTestCard 
-                        key={index}
-                        id={testItem.id}
-                        title={testItem.testName}
-                        length={testItem.questions.length}
-                        onClick={() => navigate(`/test/${testItem.id}`)}
-                    />
-                )
+        {  
+            data && 
+            testList && testList.map((testItem, index) => {
+                if (data && testItem.id in data) { 
+                    // const points = _.get(data, `${testItem.id}.points`);
+                    const points = data[testItem.id].points;
+                    // const {text, svg} = await fetchVerdict(testItem.id);
+                    return (
+                        <PassedTestCard 
+                            key={index}             
+                            id={testItem.id} 
+                            testName={testItem.testName}
+                            cover={testItem.cover}
+                            blogger={testItem.blogger}
+                            points={points}
+                            onClick={() => navigate(`/test/${testItem.id}/result`)}
+                        />
+                    )
+                } else {
+                    return (
+                        <TestCard
+                            key={index}
+                            id={testItem.id}
+                            testName={testItem.testName}
+                            cover={testItem.cover}
+                            blogger={testItem.blogger}
+                            length={testItem.questions.length}
+                            onClick={() => navigate(`/test/${testItem.id}`)}
+                        />
+                    )
+                }
             }
-        })}  */}
-        
-        {  data && testList && testList.map((testItem, index) => {
-            if (data && testItem.id in data) { 
-                const points = _.get(data, `${testItem.id}.points`);
-                // const {text, svg} = await fetchVerdict(testItem.id);
-                return (
-                    <PassedTestCard 
-                        key={index}             
-                        id={testItem.id} 
-                        testName={testItem.testName}
-                        cover={testItem.questions[0].img}
-                        points={points}
-                        onClick={() => navigate(`/test/${testItem.id}/result`)}
-                    />
-                )
-            } else {
-                return (
-                    <NewTestCard 
-                        key={index}
-                        id={testItem.id}
-                        title={testItem.testName}
-                        length={testItem.questions.length}
-                        onClick={() => navigate(`/test/${testItem.id}`)}
-                    />
-                )
-            }
-        })} 
+        )} 
         
         {/* <ProfileSection title={'Тести'} > */}
         {/* Subcategory: relathionship, dating, business */}
         {/* </ProfileSection> */}
     </Container>
+    </>
     )
 }
   

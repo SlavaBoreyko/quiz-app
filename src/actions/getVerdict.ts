@@ -1,30 +1,31 @@
-import RabbitIcon from '../assets/svg/rabbit.svg'
-import LionIcon from '../assets/svg/lion.svg'
-import DeerIcon from '../assets/svg/deer.svg'
 
+export const getVerdict = (points: number, verdictDoc: any) => {
 
-export const getVerdict = (points: number, resultText: any) => {
-    let arr: number[] = [];
-
-    if (resultText) {
-        Object.keys(resultText).map((item) => arr.push(+item));
-        arr.sort();
-
-        if (points < arr[1]) {
+    if (verdictDoc.verdicts) {
+        const verdicts = verdictDoc.verdicts;
+        // Object.keys(resultText).map((item) => arr.push(+item));
+        // arr.sort();
+        
+        if (points < verdicts[1].minPoints) {
             return {
-                text: resultText[arr[0]],
-                svg: RabbitIcon
+                status: verdicts[0].status,
+                description: verdicts[0].description,
+                icon: verdicts[0].icon,
             }
         }
-        else if (points === arr[1] || (points > arr[1] && points < arr[2]))  {
+        else if (points === verdicts[1].minPoints 
+                || (points > verdicts[1].minPoints 
+                    && points < verdicts[2].minPoints))  {
             return {
-                text: resultText[arr[1]],
-                svg: DeerIcon
+                status: verdicts[1].status,
+                description: verdicts[1].description,
+                icon: verdicts[1].icon,
             }
         } 
-        else return{
-            text: resultText[arr[2]],
-            svg: LionIcon
+        else return {
+            status: verdicts[2].status,
+            description: verdicts[2].description,
+            icon: verdicts[2].icon,
         }
     }
 }

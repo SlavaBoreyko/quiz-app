@@ -3,13 +3,27 @@
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
+    align-items: flex-end;
+    flex-grow: 1;
+    padding-bottom: 10%;
 
-    & p {
+    & p, span {
         font-size: 2rem;
         text-align: center;
+        color: #e3eaf1;
         // color: #3bc9db;
-        color: #adb5bd
+        
+        @media (min-width: 700px) {
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+
+        & span {
+            background-color: #00000098;
+            padding: 4px;
+            line-height: 1.5;
+        }
     }
 }
 

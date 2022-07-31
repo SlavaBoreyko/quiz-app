@@ -1,0 +1,31 @@
+.btn,
+.btnShare {
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #3bc8db89;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    display: grid;
+    place-items: center;
+    margin-bottom: 0.5rem;
+
+    & .icon {
+        width: 55%;
+    }
+}
+
+.btnShare {
+    padding-right: 2px;
+}
+
+.btn:hover,
+.btnShare:hover {
+    background-color: #3bc8db21;
+}
+
+// .btnHomeUnactive {
+//     background-color: #495057;
+//     border: none;
+//     cursor: auto;
+// }

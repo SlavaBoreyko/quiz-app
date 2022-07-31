@@ -1,0 +1,32 @@
+.containerBack {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    min-height: 100vh;
+
+    // justify-content: flex-end;
+    padding: 4rem 2rem 6rem 2rem;
+
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #000000ab;
+    // background-color: #000000da;
+    // background-color: #1e323fc5;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    @media (min-width: 700px) {
+        max-width: 36rem;
+        padding: 2rem;
+    }
+}
+
+.backImage {
+    position: absolute;
+    top: 0;
+    z-index: -10;
+    height: 100vh;
+}

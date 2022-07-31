@@ -1,5 +1,5 @@
 :root {
-    --size: 100%;
+    --sizeBtnPlay: 100%;
 }
 
 .btn {
@@ -8,13 +8,14 @@
     cursor: pointer;
     border: none;
     
-    width: var(--size);
-    padding-top: var(--size);
+    width: var(--sizeBtnPlay);
+    padding-top: var(--sizeBtnPlay);
 
     border-radius: 50%; 
     display: grid;
     place-items: center;
     background-color: #343a40;
+    flex-shrink: 0;
 
     &:hover,
     &:active {
@@ -35,7 +36,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-40%,-50%);
-        height: calc(var(--size)*2);
+        height: calc(var(--sizeBtnPlay)*2);
         color: #3bc9db;
         z-index: 10;
     }
