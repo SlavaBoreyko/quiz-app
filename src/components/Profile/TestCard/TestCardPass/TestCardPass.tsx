@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, useEffect, useRef } from 'react';
+import React, { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
 import CircleBar from '../../../Result/CircleBar/CircleBar';
 import s from './TestCardPass.module.scss';
 
@@ -21,37 +21,35 @@ const TestCardPass: FC<TestCardPassProps> = ({
     testName, cover,
     blogger,
 }) => {
-    // Maybe transfer to Profile page? 
-    const { data } = useFetchVerdictQuery({ testId: id, points});
-
     const refImg = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if(refImg.current) {
             refImg.current.style.backgroundImage = `url("${cover}")`;
         }
+
     }, [refImg.current])
 
+    const { data } = useFetchVerdictQuery({ testId: id, points});
+
     return (
-        (data) && (
-            <TestCard
-                onClick={onClick}
-                coverImage={ <div ref={refImg} className={s.coverOpen} /> }
-                blogger={blogger}
-                testName={testName}
-                footerText={data.status}
-                buttonEl={
-                    <>
-                        <img className={s.statusIcon} src={data.icon} alt='Status icon'/>
-                        <CircleBar 
-                            resultPoints={points} 
-                            width={22}
-                            fontSize={'1.2rem'}
-                        />
-                    </>
-                }
-            />
-        )
+        <TestCard
+            onClick={onClick}
+            coverImage={ <div ref={refImg} className={s.coverOpen} /> }
+            blogger={blogger}
+            testName={testName}
+            footerText={data && data.status}
+            buttonEl={data &&
+                <>
+                    <img className={s.statusIcon} src={data.icon} alt='Status icon'/>
+                    <CircleBar 
+                        resultPoints={points} 
+                        width={22}
+                        fontSize={'1.2rem'}
+                    />
+                </>
+            }
+        />
     )
 }
 
