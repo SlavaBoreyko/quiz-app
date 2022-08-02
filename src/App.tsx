@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 // Pages
 import ResultPage from './pages/ResultPage';
-// import ProfilePage from './pages/ProfilePage';
+import ProfilePage from './pages/ProfilePage';
 import PrivateRoute from './components/Private/PrivateRoute';
 import TestPage from './pages/TestPage';
 import AuthWrapper from "./components/AuthWrapper/AuthWrapper";
@@ -28,9 +28,9 @@ function App() {
             <Route path='/sign-in' element={<SignInPromo />}/>
            
 
-            {/* <Route path='/profile' element={<PrivateRoute />} >
+            <Route path='/profile' element={<PrivateRoute />} >
               <Route path='/profile' element={<ProfilePage />} />
-            </Route>   */}
+            </Route>  
 
   
             <Route path='/admin' element={<AdminPage />}/>

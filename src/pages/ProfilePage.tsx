@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 // import Container from '../components/Containers/Container/Container';
 import ProfileHeader from '../components/Profile/ProfileHeader/ProfileHeader';
-import PassedTestCard from '../components/Profile/PassedTestCard/PassedTestCard';
-import NewTestCard from '../components/Profile/NewTestCard/NewTestCard';
 import { TestType } from '../types/test.types';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +14,8 @@ import { doc, collection, serverTimestamp, addDoc, getDoc, getDocs, } from 'fire
 import { db } from '../firebase.config';
 import { RootState } from '../app/store';
 import Container from '../components/Containers/Container/Container';
-import TestCard from '../components/Profile/TestCard/TestCard';
+import TestCardPass from '../components/Profile/TestCard/TestCardPass/TestCardPass';
+import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 
 const _ = require('lodash');
 
@@ -96,9 +95,9 @@ const ProfilePage = () => {
                     const points = data[testItem.id].points;
                     // const {text, svg} = await fetchVerdict(testItem.id);
                     return (
-                        <PassedTestCard 
+                        <TestCardPass
+                            id={testItem.id}
                             key={index}             
-                            id={testItem.id} 
                             testName={testItem.testName}
                             cover={testItem.cover}
                             blogger={testItem.blogger}
@@ -108,9 +107,8 @@ const ProfilePage = () => {
                     )
                 } else {
                     return (
-                        <TestCard
+                        <TestCardOpen
                             key={index}
-                            id={testItem.id}
                             testName={testItem.testName}
                             cover={testItem.cover}
                             blogger={testItem.blogger}

@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC, MouseEventHandler, useEffect, useRef } from 'react';
 import s from './TestCardOpen.module.scss';
 
 import { SimpleBloggerType } from '../../../../types/test.types';
@@ -21,10 +21,18 @@ const TestCardOpen: FC<TestCardOpenProps> = ({
     length
 }) => {
 
+    const refImg = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if(refImg.current) {
+            refImg.current.style.backgroundImage = `url("${cover}")`;
+        }
+    }, [refImg.current])
+
     return (
         <TestCard 
             onClick={onClick}
-            coverImage={ <img className={s.coverOpen} src={cover} alt='Cover'/> }
+            coverImage={ <div ref={refImg} className={s.coverOpen} /> }
             blogger={blogger}
             testName={testName}
             footerText={`Питань: 2${length}`}
