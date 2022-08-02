@@ -9,11 +9,12 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 // Pages
 import ResultPage from './pages/ResultPage';
-import ProfilePage from './pages/ProfilePage';
+// import ProfilePage from './pages/ProfilePage';
 import PrivateRoute from './components/Private/PrivateRoute';
 import TestPage from './pages/TestPage';
 import AuthWrapper from "./components/AuthWrapper/AuthWrapper";
 import AdminPage from "./pages/Admin/AdminPage";
+import SignInPromo from "./pages/SignInPromo";
 
 function App() {
   return (
@@ -24,11 +25,14 @@ function App() {
 
             <Route path='/test/:id' element={<TestPage />} />
             <Route path='/test/:id/result/' element={<ResultPage />}/>
+            <Route path='/sign-in' element={<SignInPromo />}/>
+           
 
-            <Route path='/profile' element={<PrivateRoute />} >
+            {/* <Route path='/profile' element={<PrivateRoute />} >
               <Route path='/profile' element={<ProfilePage />} />
-            </Route>  
+            </Route>   */}
 
+  
             <Route path='/admin' element={<AdminPage />}/>
           </Route> 
         </Routes>

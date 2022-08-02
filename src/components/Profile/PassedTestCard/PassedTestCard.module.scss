@@ -1,6 +1,8 @@
 .testCardContainter {
     margin-top: 1rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+
     cursor: pointer;
     width: 100%;
     height: 100%;
@@ -31,18 +33,14 @@
 }
 
 .coverTest {
-    // height: 100%;
-    width: 35%;
+    height: 100%;
+    width: 100%;
     object-fit: cover;
     object-position: 50% 0;
     border-radius: 0.5rem 0 0 0.5rem;
 
     &:hover {
         opacity: 0.4;
-    }
-
-    @media (min-width: 700px) {
-        width: 40%;
     }
 }
 
@@ -54,7 +52,7 @@
 }
 
 .titleTest {
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 500;
     color: #adb5bd;
 
@@ -95,7 +93,7 @@
     display: flex;
     align-items: center;
     // border-top: 1px solid rgba(43, 49, 55, 0.486);
-    padding-top: 0.5rem;
+    padding-top: 1rem;
     // justify-content: space-between;
     height: 6rem;
 
@@ -106,7 +104,7 @@
 
 .status {
     // display: inline-block;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 500;
     color: #adb5bd;
     width: 50%;

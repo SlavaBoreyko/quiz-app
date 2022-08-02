@@ -20,7 +20,7 @@ const NavSidebar = () => {
     
     return (
     <>
-    {(pathname !== '/profile') && (
+    {( !['/profile', '/sign-in'].includes(pathname)) && (
         <div className={s.sideBarNav} >
             <ButtonNav 
                 icon={profileIcon}

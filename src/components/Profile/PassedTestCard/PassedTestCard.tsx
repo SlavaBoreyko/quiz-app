@@ -41,8 +41,8 @@ const PassedTestCard: FC<PassedProps> = ({
                         <img className={s.statusIcon} src={data.icon} alt='Status icon'/>
                         <CircleBar 
                             resultPoints={points} 
-                            width={24}
-                            fontSize={'1.4rem'}
+                            width={22}
+                            fontSize={'1.2rem'}
                         />
                     </div>
                 </div>
