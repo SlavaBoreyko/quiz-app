@@ -3,7 +3,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import './style/main.scss';
+import './style/index.scss';
 // Redux  
 import { Provider } from 'react-redux';
 import { store } from './app/store';

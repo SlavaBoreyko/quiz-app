@@ -1,8 +1,11 @@
+@import "../../../style/variables.scss";
+
 .btn,
 .btnShare {
     cursor: pointer;
     background-color: transparent;
-    border: 1px solid #3bc8db89;
+    // border: 1px solid #3bc8db89;
+    border: 1px solid $colorBorderLight;
     border-radius: 50%;
     width: 4rem;
     height: 4rem;
@@ -15,13 +18,13 @@
     }
 }
 
-.btnShare {
-    padding-right: 2px;
+.btnShare .icon {
+    width: 45%;
 }
 
 .btn:hover,
 .btnShare:hover {
-    background-color: #3bc8db21;
+    background-color: $backColorTransparent;
 }
 
 // .btnHomeUnactive {

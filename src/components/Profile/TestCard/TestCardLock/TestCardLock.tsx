@@ -49,7 +49,7 @@ const TestCardLock: FC<TestCardLockProps> = ({
             }
             blogger={blogger}
             testName={testName}
-            footerText={`Хтивок: 1${length}`}
+            footerText={`Хтивок: 2${length}`}
             buttonEl={<ButtonPlay width={'24%'}/>}
         />
     )

@@ -35,7 +35,7 @@ const TestCardOpen: FC<TestCardOpenProps> = ({
             coverImage={ <div ref={refImg} className={s.coverOpen} /> }
             blogger={blogger}
             testName={testName}
-            footerText={`Питань: 2${length}`}
+            footerText={`Питань: ${length}`}
             buttonEl={<ButtonPlay width={'24%'}/>}
         />
     )

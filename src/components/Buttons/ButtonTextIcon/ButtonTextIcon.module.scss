@@ -1,3 +1,5 @@
+@import "../../../style/variables.scss";
+
 .divButton,
 .divButtonActive {
     margin-top: 7rem;
@@ -18,7 +20,7 @@
     // border: 1px solid #3bc9db;
 
     &:hover {
-        background-color: #3bc8db21;
+        background-color: $backColorTransparent;
     }
 }
 
@@ -27,7 +29,7 @@
     width: 100%;
     cursor: pointer;
     border: none;
-    color: #3bc9db;
+    color: $colorAccentOrange;
     font-size: 1.6rem;
     border-radius: 3rem;
 }

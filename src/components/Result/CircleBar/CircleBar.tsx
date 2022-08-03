@@ -46,9 +46,16 @@ const CircleBar: FC<CircleBarProps> = ({
                 refValueContainer.current.textContent = `${progressValue}%`
             );
 
+            // (refProgressBar.current) && (
+            //     refProgressBar.current.style.background = `conic-gradient(
+            //         #3bc9db ${progressValue * 3.6}deg,
+            //         #343a40  ${progressValue * 3.6}deg
+                   
+            //     )`
+            // );
             (refProgressBar.current) && (
                 refProgressBar.current.style.background = `conic-gradient(
-                    #3bc9db ${progressValue * 3.6}deg,
+                    #F59F00 ${progressValue * 3.6}deg,
                     #343a40  ${progressValue * 3.6}deg
                    
                 )`

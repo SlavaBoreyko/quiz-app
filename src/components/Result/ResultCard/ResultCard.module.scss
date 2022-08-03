@@ -1,10 +1,13 @@
+@import "../../../style/variables";
+// $colorAccentOrange;
+
 .h1Title {
     text-align: center;
     margin-top: 2rem;
     font-size: 2rem;
     font-weight: 900;
     // color: #adb5bd;
-    color: #3bc9db;
+    color: $colorAccentOrange;
 }
 
 .description {

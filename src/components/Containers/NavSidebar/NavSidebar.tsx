@@ -3,7 +3,12 @@ import s from './NavSidebar.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ButtonNav from '../../Buttons/ButtonNav/ButtonNav';
 import profileIcon from '../../../assets/svg/personIconActive.svg';
-import shareIcon from '../../../assets/svg/share.svg';
+import shareIcon from '../../../assets/svg/share-like-tik.svg';
+
+// import logo from '../../../assets/test-images/logo-for-all.png';
+// import logo from '../../../assets/test-images/logo-3-check.png';
+import logo from '../../../assets/test-images/logo-4-message.png';
+
 
 const NavSidebar = () => {
     const { pathname } = useLocation();
@@ -21,6 +26,18 @@ const NavSidebar = () => {
     return (
     <>
     {( !['/profile', '/sign-in'].includes(pathname)) && (
+        <>
+        {/* <div> */}
+            <img 
+                style={{
+                    position: 'absolute',
+                    top: '1.5rem',
+                    height: '3rem',
+                    alignSelf: 'flex-start',
+                }}
+                src={logo} 
+            />
+        {/* </div> */}
         <div className={s.sideBarNav} >
             <ButtonNav 
                 icon={profileIcon}
@@ -32,6 +49,7 @@ const NavSidebar = () => {
                 optionClass={'share'}
             />
         </div>
+        </>
     )}
     </>
   )

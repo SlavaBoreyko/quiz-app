@@ -118,7 +118,7 @@ const TestPage: FC<TestPageProps> = () => {
         (test) ? (
         <Container
             img={test.questions[questionNum].img} 
-            // img={testStore02}
+            backgroundColor='#000000a0'
             justifyContent='flex-end'
         >
             <Test 

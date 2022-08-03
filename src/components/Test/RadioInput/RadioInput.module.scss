@@ -1,14 +1,7 @@
+@import "../../../style/variables.scss";
+
 input[type="radio"] {
     display: none;
-    // &:checked {
-    //     ~ .textContainer {
-    //         border: 2px solid #343a40;
-    //         background-color: #2125295a;
-    //         & span {
-    //             color: #3bc9db;
-    //         }
-    //     }
-    // }
 }
 
 .radioContainer {
@@ -41,6 +34,6 @@ input[type="radio"] {
     border: 2px solid #343a40;
     background-color: #2125295a;
     & span {
-        color: #3bc9db;
+        color: $colorAccentOrange;
     }
 }

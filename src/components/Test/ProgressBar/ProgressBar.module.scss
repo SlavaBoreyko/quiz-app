@@ -1,8 +1,12 @@
+@import "../../../style/variables.scss";
+
 :root {
     --qa-amount: 5;
 }
 
 .divCounterButton {
+    // Does -1rem create some bug?
+    margin-bottom: -1rem;
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -13,24 +17,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 8rem;
+    width: 4rem;
     height: 4rem;
-    border: 1px solid #0b7285;
+    // border: 1px solid #0b7285;
+    border: 1px solid $colorBorderLight;
     border-radius: 3rem;
 }
 
 .divButtonActive {
-    border: 1px solid #3bc9db;
+    border: 1px solid $colorAccentOrange;
 }
 
 .counter {
-    font-size: 1.6rem;
-    color: #3bc9db;
+    font-size: 1.4rem;
+    // color: #3bc9db;
+    color: $colorAccentOrange;
     font-weight: 700;
 }
 .amountQA {
-    font-size: 1.4rem;
-    color: #0b7285;
+    font-size: 1rem;
+    color: $colorDarkOrange;
 }
 
 .line {
@@ -48,7 +54,8 @@
 .progressItem,
 .progressItemDone {
     align-content: flex-start;
-    background-color: #0b7285;
+    // background-color: #0b7285;
+    background-color: $colorDarkOrange;
     width: 100%;
 }
 
@@ -63,5 +70,5 @@
 }
 
 .progressItemDone {
-    background-color: #3bc9db;
+    background-color: $colorAccentOrange;
 }

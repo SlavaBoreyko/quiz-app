@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import ButtonNav from '../Buttons/ButtonNav';
+import ButtonNav from '../../Buttons/ButtonNav/ButtonNav';
 import s from './ProgressBar.module.scss';
+import arrowIcon from '../../../assets/svg/arrow-right.svg';
 
 export interface ProgressProps {
     amountQA?: number;
@@ -23,9 +24,13 @@ const ProgressBar:FC<ProgressProps> = ({
                 <span className={s.counter}>{current}</span>
                 <span className={s.amountQA}>/{amountQA}</span>
             </div>
-            <div className={s.divButtonActive}>
-                <ButtonNav caption='Далі >' onClick={nextHandler}/>
-            </div>
+            {/* <div className={s.divButtonActive}> */}
+                {/* <ButtonNav caption='Далі >' onClick={nextHandler}/> */}
+                <ButtonNav 
+                    icon={arrowIcon}
+                    onClick={nextHandler}
+                />
+            {/* </div> */}
         </div>
 
         <div className={s.line}>
