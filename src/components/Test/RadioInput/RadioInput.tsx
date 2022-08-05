@@ -8,11 +8,20 @@ export interface RadioInputProps {
   setValue: Dispatch<SetStateAction<number>>;
   checked: boolean[];
   setChecked: Dispatch<SetStateAction<boolean[]>>;
+  indicatedAnswer?: number;
+  trueAnswer?: number;
+
+  reaction?: string;
+  setReactionSrc?: Dispatch<SetStateAction<string>>;
+
+  
 }
 
 const RadioInput: FC<RadioInputProps> = ({
   text, value, index, setValue, 
-  checked, setChecked
+  checked, setChecked,
+  reaction, setReactionSrc,
+  indicatedAnswer, trueAnswer
 }) => {
 
   const answerHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,9 +32,16 @@ const RadioInput: FC<RadioInputProps> = ({
       let newChecked = [false, false, false];
       newChecked[+e.target.id] = true;
       setChecked(newChecked);
+      if (reaction && setReactionSrc) {
+        setReactionSrc(reaction);
+      }
     }
   } 
 
+  // console.log('from input indicatedAnswer', indicatedAnswer)
+  // console.log('from input value', value)
+  console.log('===', value === indicatedAnswer)
+  console.log('-----------------------')
   return (
     <div className={s.radioContainer}>
       <label htmlFor={`${index}`} >
@@ -38,9 +54,20 @@ const RadioInput: FC<RadioInputProps> = ({
             onChange={answerHandler} 
             checked={checked[+index]}
           />
-        <div className={checked[+index] ? s.textContainerChecked : s.textContainer }> 
-          <span>{text}</span>
-        </div>
+        { (indicatedAnswer === undefined || trueAnswer === undefined) && (
+            <div className={checked[+index] ? s.textContainerChecked : s.textContainer }> 
+                <span>{text}</span>
+            </div>
+          )
+        }
+        
+        {(indicatedAnswer !== undefined && trueAnswer !== undefined) && (
+            <div className={((value === trueAnswer)) ? s.textContainerTrue : (value === indicatedAnswer) ? s.textContainerFalse : s.textContainer }> 
+              <span>{text}</span>
+            </div>
+          )
+        }
+
       </label>
     </div>
   )

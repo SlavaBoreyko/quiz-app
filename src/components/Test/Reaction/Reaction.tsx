@@ -1,11 +1,15 @@
-import React from 'react';
-import Sticker1 from '../../../assets/stickers/sticker.webp'
+import React, { FC } from 'react';
 import s from './Reaction.module.scss';
 
-const Reaction = () => {
+export interface ReactionProps {
+    show?: boolean;
+    stickerSrc: string;
+}
+
+const Reaction:FC<ReactionProps> = ({ show = false, stickerSrc}) => {
   return (
     <div className={s.Div}>
-        <img src={Sticker1} alt="Max's reaction"/>
+        <img className={ show ? s.stickerShow : s.stickerHidden} src={stickerSrc} alt="Max's reaction"/>
     </div>
   )
 }

@@ -31,8 +31,8 @@ function App() {
           )}
 
             <Route path='/test/:id' element={<TestPage />} />
-            <Route path='/test/:id/result/' element={<ResultPage />}/>
-            {/* <Route path='/sign-in' element={<SignInPromo />}/> */}
+            <Route path='/test/:id/result' element={<ResultPage />}/>
+            <Route path='/test/:id/answers' element={<TestPage />} />
            
 
             <Route path='/profile' element={<PrivateRoute />} >

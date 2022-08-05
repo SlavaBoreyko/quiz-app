@@ -7,6 +7,7 @@ import ResultCard from '../components/Result/ResultCard/ResultCard';
 import s from '../components/Profile/TestCard/TestCardPass/TestCardPass.module.scss';
 import testImage from '../assets/test-images/hand-or-not.jpg';
 import IconReset from '../assets/svg/reset-svgrepo-com.svg';
+import IconReadAnswers from '../assets/svg/question-mark.svg';
 
 
 // redux-toolkit
@@ -82,12 +83,17 @@ const ResultPage = () => {
                 description={dataVerdict.description}
             />
             {
-            (userState.id) && <ButtonTextIcon 
+            (!userState.id) && <ButtonTextIcon 
                 caption={'Пройти тест ще раз'} 
                 icon={IconReset} 
                 onClick={() => navigate(`/test/${params.id}`) }
             />
             }
+            <ButtonTextIcon 
+                caption={'Переглянути свої помилки'} 
+                // icon={} 
+                onClick={() => navigate(`/test/${params.id}/answers`) }
+            />
             </>
         }
         <div style={{marginTop: '2rem'}}></div>

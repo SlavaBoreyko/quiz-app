@@ -1,7 +1,10 @@
 
 // Compound Test Type: 
 export interface AnswerTestType {
-    [key: string]: string;
+    answer: string;
+    points: number;
+    reaction?: string;
+
 }
 export interface QuestionTestType {
     question: string;

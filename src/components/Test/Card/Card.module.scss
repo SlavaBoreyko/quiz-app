@@ -1,10 +1,11 @@
 
 .cardContainer {
     height: 100%;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    // align-items: center;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    // align-items: flex-end;
     flex-grow: 1;
     padding-bottom: 10%;
 
@@ -27,3 +28,8 @@
     }
 }
 
+.reactionDiv  {
+    align-self: flex-start;
+    margin-bottom: 2rem;
+    transition: all 1000ms;
+}

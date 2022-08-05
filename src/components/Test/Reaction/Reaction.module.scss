@@ -1,0 +1,9 @@
+.stickerHidden {
+    height: 0rem;
+    // transition: all 500ms;
+}
+
+.stickerShow {
+    height: 10rem;
+    transition: all 500ms;
+}
