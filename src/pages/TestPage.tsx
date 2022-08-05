@@ -41,7 +41,7 @@ const TestPage: FC<TestPageProps> = () => {
                 if (getTestData.exists()) {
                     setTest(data);
                 } else {
-                    console.log("Test is deleted!");
+                    // console.log("Test is deleted!");
                 }
             }
         };
@@ -51,7 +51,7 @@ const TestPage: FC<TestPageProps> = () => {
     useEffect(() => {
         if(test) {
             const totalPoints = getTotalPoints(test);
-            console.log('totalPoints getTotalPoints(test) ', totalPoints);
+            // console.log('totalPoints getTotalPoints(test) ', totalPoints);
         }
     }, [test])
 
@@ -110,8 +110,7 @@ const TestPage: FC<TestPageProps> = () => {
             }
         }
     }
-    // console.log('userState from TestPage', userState);
-    console.log('answersArr', answersArr);
+    
     return (
     <>
         {

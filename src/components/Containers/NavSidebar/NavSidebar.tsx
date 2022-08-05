@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import s from './NavSidebar.module.scss';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ButtonNav from '../../Buttons/ButtonNav/ButtonNav';
+import { toast } from 'react-toastify'
+
 import profileIcon from '../../../assets/svg/personIconActive.svg';
 import shareIcon from '../../../assets/svg/share-like-tik.svg';
-
-// import logo from '../../../assets/test-images/logo-for-all.png';
-// import logo from '../../../assets/test-images/logo-3-check.png';
-import logo from '../../../assets/test-images/logo-4-message.png';
+import logo from '../../../assets/svg/testroom-logo.svg';
 
 
 const NavSidebar = () => {
@@ -17,37 +16,50 @@ const NavSidebar = () => {
 
     const linkCopy = () => {
         navigator.clipboard.writeText(window.location.href);
-        setShareLinkCopied(true);
-        setTimeout(() => {
-            setShareLinkCopied(false)
-        }, 2000)
+        toast.success('Посилання скопійоване')
+        // setShareLinkCopied(true);
+        // setTimeout(() => {
+        //     setShareLinkCopied(false)
+        // }, 2000)
     }
+
+    // if(shareLinkCopied) {
+    //     toast.success('Посилання скопійоване')
+    // }
     
     return (
     <>
-    {( !['/profile', '/sign-in'].includes(pathname)) && (
-        <>
-        {/* <div> */}
+        <Link 
+            style={{
+                position: 'absolute',
+                top: '2rem',
+                
+                alignSelf: 'flex-start',
+            }}
+            to="/"
+        >
             <img 
                 style={{
-                    position: 'absolute',
-                    top: '1.5rem',
                     height: '3rem',
-                    alignSelf: 'flex-start',
                 }}
                 src={logo} 
+                alt='TestRoom'
             />
-        {/* </div> */}
+        </Link>
+    {( !['/profile'].includes(pathname)) && (
+        <>
+
         <div className={s.sideBarNav} >
             <ButtonNav 
                 icon={profileIcon}
                 onClick={() => navigate('/profile')}
             />
+            {(!['/', '/sign-in'].includes(pathname)) &&
             <ButtonNav 
                 icon={shareIcon}
                 onClick={linkCopy}
                 optionClass={'share'}
-            />
+            />}
         </div>
         </>
     )}

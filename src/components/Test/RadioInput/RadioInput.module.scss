@@ -18,10 +18,9 @@ input[type="radio"] {
     min-height: 5rem;
     width: 100%;
     padding: 1rem;
-    background-color: #343a40;
-   
-
+    // background-color: #343a40;
     background-color: #212529;
+    border: 1px solid #212529;
     border-radius: 0.5rem;
 
     & span {
@@ -31,7 +30,7 @@ input[type="radio"] {
 }
 
 .textContainerChecked {
-    border: 2px solid #343a40;
+    border: 1px solid #5e666e;
     background-color: #2125295a;
     & span {
         color: $colorAccentOrange;

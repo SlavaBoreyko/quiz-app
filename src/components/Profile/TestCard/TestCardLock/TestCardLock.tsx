@@ -13,6 +13,7 @@ export interface TestCardLockProps {
     blogger: SimpleBloggerType;
     testName: string;
     length: number;
+    button?: any;
 }
 
 const TestCardLock: FC<TestCardLockProps> = ({
@@ -20,7 +21,8 @@ const TestCardLock: FC<TestCardLockProps> = ({
     cover,
     blogger, 
     testName, 
-    length
+    length,
+    button
 }) => {
 
     const refBlurImg = useRef<HTMLDivElement>(null);
@@ -50,7 +52,7 @@ const TestCardLock: FC<TestCardLockProps> = ({
             blogger={blogger}
             testName={testName}
             footerText={`Хтивок: 2${length}`}
-            buttonEl={<ButtonPlay width={'24%'}/>}
+            buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 
         />
     )
 }

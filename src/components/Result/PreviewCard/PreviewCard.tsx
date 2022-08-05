@@ -1,8 +1,13 @@
-import React, { FC } from 'react';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import React, { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { db } from '../../../firebase.config';
 import OAuth from '../../Auth/OAuth';
+import BtnGoogleOAuth from '../../Profile/BtnGoogleOAuth/BtnGoogleOAuth';
+import TestCardOpen from '../../Profile/TestCard/TestCardOpen/TestCardOpen';
 import s from './PreviewCard.module.scss';
-import test3Cover from '../../../assets/test-images/relationship-1.jpg';
-import test2Cover from '../../../assets/test-images/first-date-1.jpg';
+
 
 export interface PreviewCardProps {
     showText: boolean;
@@ -12,38 +17,59 @@ export interface PreviewCardProps {
 const PreviewCard: FC<PreviewCardProps> = ({
     showText
 }) => {
-    const previewData = [
-        {
-            title: 'Олень чи домінатор в стосунках?',
-            image: test3Cover,
-        },
-        {
-            title: 'Чи ти достатній звабник на 1 побаченні?',
-            image: test2Cover,
-        },
-    ]
+    const navigate = useNavigate();
+    const [oneTest, setOneTest] = useState<any | undefined>(undefined);
+    useEffect(() => {
+        const fetchData = async() => {
+            const docRef = doc(db, 'tests', 'first-date')
+            const getOneTest = await getDoc(docRef);
+            if(getOneTest.exists()) { 
+                const testData = getOneTest.data();
+                setOneTest(testData);
+            }
+        };
+        fetchData();
+    }, [])
+
+    const onGoogleClick = async () => {
+        try {
+            const auth = getAuth();
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user
+
+            // Check for user
+            const docRef = doc(db, 'users', user.uid)
+            const docSnap = await getDoc(docRef)
+
+            // If user, doesn't exist, create user 
+            if(!docSnap.exists()) {
+                await setDoc(doc(db, 'users', user.uid), {
+                    name: user.displayName,
+                    email: user.email,
+                    // timestamp: serverTimestamp()
+                })
+            }
+            navigate('/profile');
+        } catch (error) {
+            console.error('Could not authorize with Google')
+        }
+    }
 
   return (
     <div className={ (showText) ? s.showText : s.hidden}>
-        {/* <div className={s.previewTitle}>
-            Більше тестів
-        </div> */}
-        <div className={s.grid3}>
-        {
-            previewData.map((test, index) => (
-                <div key={index}>
-                <img 
-                    className={s.previewImg}
-                    key={index}  
-                    src={`${test.image}`}
-                    alt='image1' 
+        {   (oneTest) &&
+                <TestCardOpen
+                    testName={oneTest.testName}
+                    cover={oneTest.cover}
+                    blogger={oneTest.blogger}
+                    footerText={'Вхід через Gmail'}
+                    onClick={onGoogleClick}
+                    button={<BtnGoogleOAuth />}
                 />
-                <p className={s.previewTestTitle}>{test.title}</p>
-                </div>
-            ))
-        }
-        </div>
-        <OAuth />
+        } 
+
+        {/* <OAuth /> */}
     </div>
   )
 }

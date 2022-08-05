@@ -25,8 +25,6 @@ const Test: FC<TestProps> = ({
         setChecked([false, false, false]);
     },[questionNum])
 
-    console.log(question);
-
   return (
     <>
         <Card title={question.question} />

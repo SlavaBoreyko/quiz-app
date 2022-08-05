@@ -47,10 +47,9 @@ const TestCard: FC<TestCardProps> = ({
 
                     {/* FOOTER */}
                     <div className={s.divResult}>
-                    <span className={s.status}>{footerText}</span>
-                    {/* <span className={s.status}>Хтивок: 2{length}</span> */}
-                    {/* Radius 24% must be equal to other circle elements for Balance */}
-                    {buttonEl}
+                        <span className={s.status}>{footerText}</span>
+                        {/* Radius 24% must be equal to other circle elements for Balance */}
+                        {buttonEl}
                     </div>
                 </div>
             </div>

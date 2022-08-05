@@ -16,16 +16,23 @@ import AuthWrapper from "./components/AuthWrapper/AuthWrapper";
 import AdminPage from "./pages/Admin/AdminPage";
 import SignInPromo from "./pages/SignInPromo";
 
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <Routes>
           <Route path='/' element={<AuthWrapper />} >
+          
+          {["/", "/sign-in"].map((path, index) => 
+            <Route path={path} element={<SignInPromo />} key={index} />
+          )}
 
             <Route path='/test/:id' element={<TestPage />} />
             <Route path='/test/:id/result/' element={<ResultPage />}/>
-            <Route path='/sign-in' element={<SignInPromo />}/>
+            {/* <Route path='/sign-in' element={<SignInPromo />}/> */}
            
 
             <Route path='/profile' element={<PrivateRoute />} >
@@ -37,6 +44,12 @@ function App() {
           </Route> 
         </Routes>
       </Router>
+      <ToastContainer 
+        style={{
+          fontSize: '1.2rem',
+        }}
+        autoClose={2000}
+      />
     </Provider>
   );
 }

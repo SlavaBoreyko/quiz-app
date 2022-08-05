@@ -3,7 +3,7 @@
 
 .h1Title {
     text-align: center;
-    margin-top: 2rem;
+    margin: 2rem 0;
     font-size: 2rem;
     font-weight: 900;
     // color: #adb5bd;
@@ -12,7 +12,9 @@
 
 .description {
     margin-top: 1rem;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    margin: 0 2rem;
     color: #adb5bd;
 }
 .hidden {
@@ -23,7 +25,5 @@
 }
 .showText {
     opacity: 1;
-    // margin-top: 0rem;
     transition: all 2000ms;
-    max-width: 20rem;
 }

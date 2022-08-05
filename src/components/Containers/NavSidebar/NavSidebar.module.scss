@@ -1,3 +1,12 @@
+@import "../../../style/variables.scss";
+// $colorAccentOrange;
+
+:root {
+    --toastify-icon-color-success: #F59F00 !important;
+    --toastify-color-success: #F59F00 !important;
+}
+
 .sideBarNav {
     align-self: flex-end;
 }
+

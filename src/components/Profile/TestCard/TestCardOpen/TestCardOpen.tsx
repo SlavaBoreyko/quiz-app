@@ -10,7 +10,9 @@ export interface TestCardOpenProps {
     cover: string;
     blogger: SimpleBloggerType;
     testName: string;
-    length: number;
+    // length: number;
+    button?: any;
+    footerText: string;
 }
 
 const TestCardOpen: FC<TestCardOpenProps> = ({
@@ -18,7 +20,9 @@ const TestCardOpen: FC<TestCardOpenProps> = ({
     cover,
     blogger, 
     testName, 
-    length
+    // length,
+    footerText,
+    button
 }) => {
 
     const refImg = useRef<HTMLDivElement>(null);
@@ -35,8 +39,9 @@ const TestCardOpen: FC<TestCardOpenProps> = ({
             coverImage={ <div ref={refImg} className={s.coverOpen} /> }
             blogger={blogger}
             testName={testName}
-            footerText={`Питань: ${length}`}
-            buttonEl={<ButtonPlay width={'24%'}/>}
+            // footerText={`Питань: ${length}`}
+            footerText={footerText}
+            buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 
         />
     )
 }

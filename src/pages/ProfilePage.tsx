@@ -67,64 +67,66 @@ const ProfilePage = () => {
                 maxPointfromEveryQuestion.push(pointsFromOneAnswer[question.answers.length - 1]);
             })
             const totalPoints = maxPointfromEveryQuestion.reduce((totalPoints, maxPoints) => totalPoints + maxPoints);
-            console.log('>>> maxPointfromEveryQuestion', maxPointfromEveryQuestion);
-            console.log('>>> totalPoints', totalPoints)
+            // console.log('>>> maxPointfromEveryQuestion', maxPointfromEveryQuestion);
+            // console.log('>>> totalPoints', totalPoints)
         }
     }, [testList])
 
     const { data, isLoading, isError, error } = useFetchAnswersQuery(userState.id!);
 
+    console.log('data useFetchAnswersQuery', data);
     return (
-        <>
-     <Container
-        justifyContent='flex-start'
-        backgroundColor='#212529'
-    >
-        {(userState.name) && (userState.email) && (
-            <ProfileHeader 
-                photoUrl={userState.photoUrl ? userState.photoUrl : ''} 
-                name={userState.name} 
-                email={userState.email}
-            />
-        )}
-        {  
-            data && 
-            testList && testList.map((testItem, index) => {
-                if (data && testItem.id in data) { 
-                    // const points = _.get(data, `${testItem.id}.points`);
-                    const points = data[testItem.id].points;
-                    // const {text, svg} = await fetchVerdict(testItem.id);
-                    return (
-                        <TestCardPass
-                            id={testItem.id}
-                            key={index}             
-                            testName={testItem.testName}
-                            cover={testItem.cover}
-                            blogger={testItem.blogger}
-                            points={points}
-                            onClick={() => navigate(`/test/${testItem.id}/result`)}
-                        />
-                    )
-                } else {
-                    return (
-                        <TestCardOpen
-                            key={index}
-                            testName={testItem.testName}
-                            cover={testItem.cover}
-                            blogger={testItem.blogger}
-                            length={testItem.questions.length}
-                            onClick={() => navigate(`/test/${testItem.id}`)}
-                        />
-                    )
+        <Container
+            justifyContent='flex-start'
+            backgroundColor='#212529'
+        >
+            {(userState.name) && (userState.email) && (
+                <ProfileHeader 
+                    photoUrl={userState.photoUrl ? userState.photoUrl : ''} 
+                    name={userState.name} 
+                    email={userState.email}
+                />
+            )}
+            {  
+                data && 
+                testList && testList.map((testItem, index) => {
+                    if (data && testItem.id in data) { 
+                        // const points = _.get(data, `${testItem.id}.points`);
+                        const points = data[testItem.id].points;
+                        // const {text, svg} = await fetchVerdict(testItem.id);
+                        return (
+                            <TestCardPass
+                                id={testItem.id}
+                                key={index}             
+                                testName={testItem.testName}
+                                cover={testItem.cover}
+                                blogger={testItem.blogger}
+                                points={points}
+                                onClick={() => navigate(`/test/${testItem.id}/result`)}
+                            />
+                        )
+                    } 
+                    else {
+                        return (
+                            <TestCardOpen
+                                key={index}
+                                testName={testItem.testName}
+                                cover={testItem.cover}
+                                blogger={testItem.blogger}
+                                // length={testItem.questions.length}
+                                footerText={'Питань: 20'}
+                                // onClick={() => navigate(`/test/${testItem.id}`)}
+                                onClick={() => {}}
+                            />
+                        )
+                    }
                 }
-            }
-        )} 
-        
-        {/* <ProfileSection title={'Тести'} > */}
-        {/* Subcategory: relathionship, dating, business */}
-        {/* </ProfileSection> */}
-    </Container>
-    </>
+            )} 
+            
+            {/* <ProfileSection title={'Тести'} > */}
+            {/* Subcategory: relathionship, dating, business */}
+            {/* </ProfileSection> */}
+        </Container>
     )
 }
   

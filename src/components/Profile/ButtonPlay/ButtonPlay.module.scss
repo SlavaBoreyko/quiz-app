@@ -1,3 +1,5 @@
+@import "../../../style/variables";
+// $colorAccentOrange;
 :root {
     --sizeBtnPlay: 100%;
 }
@@ -20,7 +22,7 @@
     &:hover,
     &:active {
         // background-color: #3bc8db8f;
-        background-color: #3bc9db;
+        background-color: $colorAccentOrange;
     }
     
     &:before {
@@ -36,10 +38,9 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        // transform: translate(-40%,-50%);
-        transform: translate(-50%,-50%);
+        transform: translate(-40%,-50%);
         height: calc(var(--sizeBtnPlay)*2);
-        color: #3bc9db;
+        // color: #3bc9db;
         z-index: 10;
     }
 }

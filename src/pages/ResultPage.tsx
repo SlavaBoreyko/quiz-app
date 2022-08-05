@@ -4,8 +4,8 @@ import Container from '../components/Containers/Container/Container'
 import CircleBar from '../components/Result/CircleBar/CircleBar'
 import PreviewCard from '../components/Result/PreviewCard/PreviewCard';
 import ResultCard from '../components/Result/ResultCard/ResultCard';
-import s from '../components/Profile/PassedTestCard/PassedTestCard.module.scss';
-import testImage from '../assets/test-images/test-stock01.png';
+import s from '../components/Profile/TestCard/TestCardPass/TestCardPass.module.scss';
+import testImage from '../assets/test-images/hand-or-not.jpg';
 import IconReset from '../assets/svg/reset-svgrepo-com.svg';
 
 
@@ -13,7 +13,6 @@ import IconReset from '../assets/svg/reset-svgrepo-com.svg';
 import { useFetchAnswersQuery, useFetchVerdictQuery } from '../features/user/userApi';
 
 // actions
-import { getVerdict } from '../actions';
 import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import ButtonTextIcon from '../components/Buttons/ButtonTextIcon/ButtonTextIcon';
@@ -56,15 +55,17 @@ const ResultPage = () => {
     const testId = params.id!;
     const { data: dataVerdict } = useFetchVerdictQuery({ testId, points: resultPoints!});
 
-    // console.log(' >>>> dataVerdict.description', dataVerdict.description)
+    console.log(' >>answersData ', answersData);
+    console.log(' >>resultPoints ', resultPoints);
   return (
     <Container 
         img={testImage} 
         backgroundColor='#000000da'
         justifyContent='flex-start'
     >
-        {(dataVerdict) && <img className={s.IconBigBackgroung} src={dataVerdict.icon} alt='Status icon'/>}
-        {/* <img className={s.IconBigBackgroung} src={RabbitIcon} alt='Status icon'/> */}
+        {(dataVerdict) && (resultPoints) && 
+            <img className={s.IconBigBackgroung} src={dataVerdict.icon} alt='Status icon'/>
+        }
         {   (resultPoints) &&
             <CircleBar 
                 resultPoints={resultPoints}
@@ -89,7 +90,7 @@ const ResultPage = () => {
             }
             </>
         }
-        <div style={{marginTop: '5rem'}}></div>
+        <div style={{marginTop: '2rem'}}></div>
         {   (!userState.id) && 
             (<PreviewCard showText={true}/> )
         } 

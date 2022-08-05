@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import statusMockImg from '../assets/test-images/status-mock-2.png'
 import MyLogo from '../assets/svg/logo-testroom.svg'
 import MyLogo2 from '../assets/svg/logo-testroom-2.svg'
-
 import logo from '../assets/test-images/logo-4-message.png';
 
 // REDUX-TOOLKIT
@@ -18,6 +17,7 @@ import TestCardLock from '../components/Profile/TestCard/TestCardLock/TestCardLo
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import OAuth from '../components/Auth/OAuth';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import BtnGoogleOAuth from '../components/Profile/BtnGoogleOAuth/BtnGoogleOAuth';
 
 const SignInPromo = () => {
     const navigate = useNavigate();
@@ -74,31 +74,6 @@ const SignInPromo = () => {
             justifyContent='flex-start'
             backgroundColor='#212529'
         > 
-            <img 
-                style={{
-                    top: '2rem',
-                    height: '4rem',
-                    alignSelf: 'flex-start',
-                }}
-                src={logo} 
-            />
-            {/* <img 
-                style={{
-                    height: '5rem',
-                    textAlign: 'left',
-                    marginBottom: '3px',
-                }}
-                src={MyLogo2}
-                alt='Logo'
-            />
-            <span
-                style={{
-                    color: '#F59F00',
-                    fontWeight: '700',
-                    fontSize: '1.1rem',
-                }}
-            >testroom</span> */}
-
             <ProfileSection title={'YouTube-тести'} 
                 // description={
                 //     `Тести по відео улюблених блогерів. Дізнайся, наскільки ти засвоїв "матеріал", і які відео рекомендовано передивитись. 
@@ -114,8 +89,9 @@ const SignInPromo = () => {
                     testName={oneTest.testName}
                     cover={oneTest.cover}
                     blogger={oneTest.blogger}
-                    length={oneTest.questions.length}
+                    footerText={'Питань: 19'}
                     onClick={onGoogleClick}
+                    button={<BtnGoogleOAuth />}
                 />
             } 
             
@@ -124,7 +100,8 @@ const SignInPromo = () => {
             <img style={{
                 border: '1px solid #F59F00',
                 borderRadius: '0.5rem',
-                width: '100%'
+                width: '100%',
+                marginBottom: '4rem',
             }} src={statusMockImg} />
 
 
@@ -140,6 +117,7 @@ const SignInPromo = () => {
                     blogger={oneTest2.blogger}
                     length={oneTest2.questions.length}
                     onClick={onGoogleClick}
+                    button={<BtnGoogleOAuth  width={'24%'}/>}
                 />
             }   
             </ProfileSection>
