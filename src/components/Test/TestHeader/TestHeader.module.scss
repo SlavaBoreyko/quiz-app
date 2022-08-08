@@ -1,0 +1,41 @@
+@import "../../../style/variables.scss";
+
+.divHeader {
+    display: flex;
+    height: 100%;
+    // max-width: 70%;
+}
+
+.avatarHeader {
+    cursor: pointer;
+    // border: 1px solid $colorBorderLight;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+}
+
+.bloggerName  {
+    display: inline-block;
+    font-weight: 700;
+    color: #ced7df;
+
+    // @media (min-width: 700px) {
+    //     font-size: 1.2rem;
+    // }
+}
+
+.testName {
+    display: inline-block;
+    color: $colorAccentOrange;
+}
+
+.divText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.4rem;
+    text-align: left;
+    margin-left: 0.5rem;
+
+}
+

@@ -55,9 +55,9 @@ const ResultPage = () => {
     // PROPER OR NOT? 
     const testId = params.id!;
     const { data: dataVerdict } = useFetchVerdictQuery({ testId, points: resultPoints!});
-
-    console.log(' >>answersData ', answersData);
-    console.log(' >>resultPoints ', resultPoints);
+    const openInNewTab = (url: string) => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
   return (
     <Container 
         img={testImage} 
@@ -82,13 +82,20 @@ const ResultPage = () => {
                 status={dataVerdict.status} 
                 description={dataVerdict.description}
             />
-            {
-            (!userState.id) && <ButtonTextIcon 
+            {/* BUTTONS */}
+            {(dataVerdict.status !== 'Грозний Їбака') && (
+                <ButtonTextIcon 
+                    caption={'Відкрити відео Макса'} 
+                    // icon={IconReset} 
+                    onClick={() => openInNewTab('https://youtu.be/9_RgZdxEwkY') }
+                />
+            )}
+
+            <ButtonTextIcon 
                 caption={'Пройти тест ще раз'} 
                 icon={IconReset} 
                 onClick={() => navigate(`/test/${params.id}`) }
             />
-            }
             <ButtonTextIcon 
                 caption={'Переглянути свої помилки'} 
                 // icon={} 

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import profileIcon from '../../../assets/svg/personIconActive.svg';
 import shareIcon from '../../../assets/svg/share-like-tik.svg';
 import logo from '../../../assets/svg/testroom-logo.svg';
+import TestHeader from '../../Test/TestHeader/TestHeader';
 
 
 const NavSidebar = () => {
@@ -29,23 +30,41 @@ const NavSidebar = () => {
     
     return (
     <>
-        <Link 
-            style={{
-                position: 'absolute',
-                top: '2rem',
-                
-                alignSelf: 'flex-start',
-            }}
-            to="/"
-        >
-            <img 
+        {
+            (!['/', '/profile', '/sign-in'].includes(pathname)) ? (
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: '2rem',
+                        left: '2rem',
+                        
+                        alignSelf: 'flex-start',
+                    }}
+                >
+                    <TestHeader />
+                </div>
+            ) : (
+                <Link 
                 style={{
-                    height: '3rem',
+                    position: 'absolute',
+                    top: '2rem',
+                    
+                    alignSelf: 'flex-start',
                 }}
-                src={logo} 
-                alt='TestRoom'
-            />
-        </Link>
+                to="/"
+                >
+                    <img 
+                        style={{
+                            height: '3rem',
+                        }}
+                        src={logo} 
+                        alt='TestRoom'
+                    />
+                </Link>
+            )
+        }
+
+        
     {( !['/profile'].includes(pathname)) && (
         <>
 

@@ -15,8 +15,6 @@ import { useAppDispatch } from '../app/hooks';
 import { useAddAnswerMutation } from '../features/user/userApi';
 import { getTotalPoints } from '../actions/getTotalPoints';
 
-import sticker1 from '../assets/stickers/sticker.webp';
-
 export interface TestPageProps {
 }
 
@@ -39,6 +37,8 @@ const TestPage: FC<TestPageProps> = () => {
     const [reactionSrc, setReactionSrc] = useState<string>('');
     const [demoAnswers, setDemoAnswers] = useState<any | undefined>(undefined);
     const [indecatedAnswer, setIndecatedAnswer] = useState<number | undefined>(undefined);
+
+    const [isNext, setIsNext] = useState<boolean>(false);
 
     const localDemoTest = localStorage.getItem('demoTest');
 
@@ -102,18 +102,17 @@ const TestPage: FC<TestPageProps> = () => {
         setValue(0);
         setReactionShow(false)
         setReactionSrc('');
+        setIsNext(false);
     }
      
     const nextHandler = async() => {
         if (test && location.pathname.split('/')[3] !== 'answers') {
             if (questionNum < test.questions.length - 1) {
-                setReactionShow(true)
+                setIsNext(true)
+                setReactionShow(true);
                 setTimeout(
                     saveAnswerNextQuestion
-                , 1500);
-                // timeoutNextHandler();
-                // clearTimeout(timeoutNextHandler);
-                
+                , 1000);
             } 
 
             if (questionNum === test.questions.length - 1 && params.id) {
@@ -165,6 +164,8 @@ const TestPage: FC<TestPageProps> = () => {
                 setValue={setValue} 
                 indicatedAnswer={indecatedAnswer}
                 nextHandler={nextHandler}
+                isNext={isNext}
+
                 reactionSrc={reactionSrc}
                 setReactionSrc={setReactionSrc}
                 reactionShow={reactionShow}

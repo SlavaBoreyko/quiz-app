@@ -13,6 +13,7 @@ export interface TestProps {
     setValue: Dispatch<SetStateAction<number>>;
     indicatedAnswer?: number;
     nextHandler: () => void;
+    isNext: boolean;
     reactionSrc?: string;
     setReactionSrc?: Dispatch<SetStateAction<string>>;
     reactionShow?: boolean;
@@ -25,12 +26,15 @@ const Test: FC<TestProps> = ({
     setValue, 
     indicatedAnswer,
     nextHandler,
+    isNext,
+
     reactionSrc,
     setReactionSrc,
     reactionShow,
 }) => {
     const [checked, setChecked] = useState([false,false,false]);
     const [trueAnswer, setTrueAnswer] = useState<number | undefined>(undefined);
+    
     
     let pointsArray: number[] = []; 
     const maxPointTrue = () => {
@@ -64,6 +68,7 @@ const Test: FC<TestProps> = ({
             amountQA={length}
             current={questionNum + 1} 
             nextHandler={nextHandler}
+            isNext={isNext}
         />
         {question.answers.map((variant, index) => (
             <RadioInput 

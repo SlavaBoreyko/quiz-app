@@ -2,15 +2,19 @@ import React, { FC } from 'react';
 import ButtonNav from '../../Buttons/ButtonNav/ButtonNav';
 import s from './ProgressBar.module.scss';
 import arrowIcon from '../../../assets/svg/arrow-right.svg';
+import Spinner from '../../../assets/gif/Rolling-1s-401px.gif';
+import TestHeader from '../TestHeader/TestHeader';
+
 
 export interface ProgressProps {
-    amountQA?: number;
-    current?: number;
+    amountQA: number;
+    current: number;
     nextHandler: () => void;
+    isNext: boolean;
 }
 
 const ProgressBar:FC<ProgressProps> = ({
-    amountQA, current, nextHandler
+    amountQA, current, nextHandler, isNext
 }) => {
     const ProgressArray = [...Array(amountQA)].fill(s.progressItem);
     ProgressArray.fill(s.progressItemDone, 0, current);
@@ -24,13 +28,22 @@ const ProgressBar:FC<ProgressProps> = ({
                 <span className={s.counter}>{current}</span>
                 <span className={s.amountQA}>/{amountQA}</span>
             </div>
-            {/* <div className={s.divButtonActive}> */}
-                {/* <ButtonNav caption='Далі >' onClick={nextHandler}/> */}
-                <ButtonNav 
-                    icon={arrowIcon}
-                    onClick={nextHandler}
-                />
-            {/* </div> */}
+
+            {/* <TestHeader /> */}
+
+            {  (isNext) ? (
+                    <ButtonNav 
+                        icon={Spinner}
+                        optionClass={'spinner'}
+                        onClick={nextHandler}
+                    />
+                ) : (
+                    <ButtonNav 
+                        icon={arrowIcon}
+                        onClick={nextHandler}
+                    />
+                )
+            }
         </div>
 
         <div className={s.line}>
@@ -41,11 +54,6 @@ const ProgressBar:FC<ProgressProps> = ({
         </div>
     </>
   )
-}
-
-ProgressBar.defaultProps = {
-    amountQA: 15,
-    current: 1,
 }
 
 export default ProgressBar

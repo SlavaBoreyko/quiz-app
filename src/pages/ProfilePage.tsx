@@ -106,7 +106,7 @@ const ProfilePage = () => {
                             />
                         )
                     } 
-                    else {
+                    else if (testItem.id !== 'test-xtivki-one') {
                         return (
                             <TestCardOpen
                                 key={index}

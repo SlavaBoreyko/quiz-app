@@ -18,6 +18,7 @@ import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOp
 import OAuth from '../components/Auth/OAuth';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import BtnGoogleOAuth from '../components/Profile/BtnGoogleOAuth/BtnGoogleOAuth';
+import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
 
 const SignInPromo = () => {
     const navigate = useNavigate();
@@ -51,7 +52,7 @@ const SignInPromo = () => {
 
     useEffect(() => {
         const fetchData = async() => {
-            const docRef = doc(db, 'tests', 'first-date')
+            const docRef = doc(db, 'tests', 'at-home')
             const getOneTest = await getDoc(docRef);
             if(getOneTest.exists()) { 
                 const testData = getOneTest.data();
@@ -80,7 +81,7 @@ const SignInPromo = () => {
                 //     \n А також отримуй "сертифікацію" своїx навиків:`
                 // }
                 description={
-                    `Дізнайся, наскільки ти засвоїв "матеріал", і які відео рекомендовано передивитись. 
+                    `Дізнайся, наскільки ти засвоїв "матеріал" і які відео рекомендовано передивитись. 
                     А також отримуй "сертифікацію" своїx навиків:`
                 }
             >
@@ -89,9 +90,9 @@ const SignInPromo = () => {
                     testName={oneTest.testName}
                     cover={oneTest.cover}
                     blogger={oneTest.blogger}
-                    footerText={'Питань: 19'}
-                    onClick={onGoogleClick}
-                    button={<BtnGoogleOAuth />}
+                    footerText={`Питань: ${oneTest.questions.length}`}
+                    onClick={() => navigate('/test/at-home')}
+                    button={<ButtonPlay />}
                 />
             } 
             

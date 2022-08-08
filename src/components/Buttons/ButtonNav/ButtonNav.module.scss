@@ -1,7 +1,8 @@
 @import "../../../style/variables.scss";
 
 .btn,
-.btnShare {
+.btnShare,
+.btnSpinner {
     cursor: pointer;
     background-color: transparent;
     // border: 1px solid #3bc8db89;
@@ -22,13 +23,19 @@
     width: 45%;
 }
 
+.btnSpinner {
+    display: flex;
+    width: 4rem;
+    // place-items: center;
+}
+
+.btnSpinner .icon {
+    width: 100%;
+}
+
+
+
 .btn:hover,
 .btnShare:hover {
     background-color: $backColorTransparent;
 }
-
-// .btnHomeUnactive {
-//     background-color: #495057;
-//     border: none;
-//     cursor: auto;
-// }

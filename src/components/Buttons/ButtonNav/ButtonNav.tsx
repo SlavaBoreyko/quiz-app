@@ -13,11 +13,12 @@ const ButtonNav: FC<BtnNavProps> = ({
   return (
     <button 
         // s.btnShare has additional padding-left for icon 
-        className={optionClass === 'share' ? s.btnShare : s.btn}
+        className={optionClass === 'share' ? s.btnShare : (optionClass === 'spinner') ? s.btnSpinner : s.btn}
         onClick={onClick}
     >
       <img className={s.icon} src={icon} alt='Icon' /> 
     </button>
+    
   )
 }
 
