@@ -20,7 +20,6 @@ export interface TestPageProps {
 
 const TestPage: FC<TestPageProps> = () => {
     const location = useLocation();
-    console.log('location ', location.pathname.split('/')[3])
     const params = useParams();
     const navigate = useNavigate();
     // redux-toolkit
@@ -37,11 +36,9 @@ const TestPage: FC<TestPageProps> = () => {
     const [reactionSrc, setReactionSrc] = useState<string>('');
     const [demoAnswers, setDemoAnswers] = useState<any | undefined>(undefined);
     const [indecatedAnswer, setIndecatedAnswer] = useState<number | undefined>(undefined);
-
     const [isNext, setIsNext] = useState<boolean>(false);
 
     const [locked, setLocked] = useState<boolean>(false);
-
     const [ fullScreen, setFullScreen] = useState<boolean>(false);
 
     const localDemoTest = localStorage.getItem('demoTest');
@@ -52,7 +49,6 @@ const TestPage: FC<TestPageProps> = () => {
             setDemoAnswers(demoTestParsed)
         }
     },[])
-
 
     // Logic for /xtivka
     useEffect(() => {
@@ -108,6 +104,7 @@ const TestPage: FC<TestPageProps> = () => {
 
     const [ addAnswer, result ]  = useAddAnswerMutation();
 
+    // FOR ADMIN PAGE
     const calcResultPoints = () => {
         // maxPoints need calculate when addTest from Admin 
         const maxPoints = 30; // 3*10 questions
@@ -121,28 +118,23 @@ const TestPage: FC<TestPageProps> = () => {
         // setLocked(true);
 
         setQuestion((prev) => prev + 1);
+        console.log('value from setAnswersArr', value );
+
         setAnswersArr((prev) => [...prev, value]);
+
         //clear for next answer:
         setValue(0);
         setReactionShow(false)
         setReactionSrc('');
         setIsNext(false);
-
     }
 
-
-
-
-     
     const nextHandler = async() => {
         if (test && location.pathname.split('/')[3] !== 'answers') {
             if (questionNum < test.questions.length - 1) {
                 // 1 === true, 0 === false in database fields
                 setIsNext(true)
                 setReactionShow(false);
-                // setTimeout(
-                //     saveAnswerNextQuestion
-                // , 1000);
                 saveAnswerNextQuestion();
             } 
 

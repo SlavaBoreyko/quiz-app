@@ -25,13 +25,16 @@ const RadioInput: FC<RadioInputProps> = ({
 }) => {
 
   const answerHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (checked.includes(true)) {
-      return ;
-    }
-
+    // BLOCKED radioinputs AFTER FIRST PRESS 'true' checked
+    if (checked.includes(true)) return ;
+    
     if (e.target.checked) {
       e.preventDefault();
       setValue(+e.currentTarget.value);
+      // DEBUG
+      console.log('value', value);
+      console.log('e.currentTarget.value', +e.currentTarget.value);
+
       // restart checked inputs 
       let newChecked = [false, false, false];
       newChecked[+e.target.id] = true;
@@ -41,7 +44,6 @@ const RadioInput: FC<RadioInputProps> = ({
       if (reaction && setReactionSrc) {
         setReactionSrc(reaction);
       }
-
     }
   } 
 

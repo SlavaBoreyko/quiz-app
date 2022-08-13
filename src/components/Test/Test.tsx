@@ -64,7 +64,7 @@ const Test: FC<TestProps> = ({
 
     // const trueAnswer = maxPointTrue();
 
-    console.log('trueAnswer', trueAnswer);
+    // console.log('trueAnswer', trueAnswer);
     // console.log('{indicatedAnswer === variant.points}', indicatedAnswer === +question.answers[1].points)
 
   return (
@@ -89,13 +89,8 @@ const Test: FC<TestProps> = ({
                 value={variant.points}
                 reaction={variant.reaction}
                 setReactionSrc={setReactionSrc}
-                setValue={
-                    (value === -1) ? setValue : () => {}
-                }
-                setChecked={
-                    // (value === -1) ? setChecked : () => {}
-                    setChecked
-                }
+                setValue={setValue}
+                setChecked={setChecked}
                 checked={checked}
                 indicatedAnswer={indicatedAnswer}
                 trueAnswer={trueAnswer}
