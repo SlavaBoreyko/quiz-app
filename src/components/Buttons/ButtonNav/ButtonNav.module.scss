@@ -2,7 +2,10 @@
 
 .btn,
 .btnShare,
-.btnSpinner {
+.btnSpinner,
+.btn35 
+{   
+    flex-shrink: 0;
     cursor: pointer;
     background-color: transparent;
     // border: 1px solid #3bc8db89;
@@ -13,14 +16,20 @@
     display: grid;
     place-items: center;
     margin-bottom: 0.5rem;
+   
 
     & .icon {
         width: 55%;
+        
     }
 }
 
 .btnShare .icon {
     width: 45%;
+}
+
+.btn35 .icon {
+    width: 35%;
 }
 
 .btnSpinner {

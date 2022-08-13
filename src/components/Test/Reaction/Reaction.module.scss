@@ -1,9 +1,19 @@
 .stickerHidden {
+    // margin-left: -14rem;
     height: 0rem;
-    // transition: all 500ms;
+
+    & img {
+        height: 0%;
+    }
 }
 
-.stickerShow {
+.stickerShow  {
     height: 10rem;
-    transition: all 500ms;
+    margin-left: 0rem;
+    transition: all 1000ms;
+
+    & img {
+        height: 100%;
+        transition: all 500ms;
+    }
 }

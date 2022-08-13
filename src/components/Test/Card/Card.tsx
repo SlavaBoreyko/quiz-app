@@ -1,19 +1,22 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import Reaction from '../Reaction/Reaction';
 import s from './Card.module.scss';
 
 
+
 export interface CardProps {
-    title: string;
+    // title: string;
     reactionShow?: boolean;
     reactionSrc?: string;
 }
 
 const Card: FC<CardProps> = ({
-  title,
+  // title,
   reactionShow,
   reactionSrc
 }) => {
+
+
   return (
     <div className={s.cardContainer}>
        <div className={s.reactionDiv}>
@@ -25,10 +28,8 @@ const Card: FC<CardProps> = ({
             />
           )
         }
-
        </div>
-        
-        <p><span>{title}</span></p>
+        {/* <p><span>{title}</span></p> */}
     </div>
   )
 }

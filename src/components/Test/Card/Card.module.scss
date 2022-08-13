@@ -1,24 +1,20 @@
 
 .cardContainer {
     height: 100%;
+    // BEFORE 
     width: 100%;
+    // padding-bottom: 10%;
+    // width: 70%;
+    // margin-bottom: -8rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    // align-items: flex-end;
     flex-grow: 1;
-    padding-bottom: 10%;
 
     & p, span {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         text-align: center;
         color: #e3eaf1;
-        // color: #3bc9db;
-        
-        @media (min-width: 700px) {
-            font-size: 1.6rem;
-            font-weight: 500;
-        }
 
         & span {
             background-color: #00000098;
@@ -30,6 +26,7 @@
 
 .reactionDiv  {
     align-self: flex-start;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     transition: all 1000ms;
 }
+

@@ -7,7 +7,7 @@ const TestHeader = () => {
     <div className={s.divHeader}>
         <img className={s.avatarHeader} src={avatar} alt={'Avatar'}/>
         <div className={s.divText}>
-            <span className={s.bloggerName}>Максим Дівертіто</span>
+            <span className={s.bloggerName}>Апостоли Дівертіто</span>
             <span className={s.testName}>Коли дівчина у тебе вдома</span>
         </div>
 

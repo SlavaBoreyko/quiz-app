@@ -25,6 +25,10 @@ const RadioInput: FC<RadioInputProps> = ({
 }) => {
 
   const answerHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (checked.includes(true)) {
+      return ;
+    }
+
     if (e.target.checked) {
       e.preventDefault();
       setValue(+e.currentTarget.value);
@@ -32,16 +36,15 @@ const RadioInput: FC<RadioInputProps> = ({
       let newChecked = [false, false, false];
       newChecked[+e.target.id] = true;
       setChecked(newChecked);
+
+      // STICKER
       if (reaction && setReactionSrc) {
         setReactionSrc(reaction);
       }
+
     }
   } 
 
-  // console.log('from input indicatedAnswer', indicatedAnswer)
-  // console.log('from input value', value)
-  console.log('===', value === indicatedAnswer)
-  console.log('-----------------------')
   return (
     <div className={s.radioContainer}>
       <label htmlFor={`${index}`} >

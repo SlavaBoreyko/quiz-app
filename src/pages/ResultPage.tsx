@@ -63,6 +63,7 @@ const ResultPage = () => {
         img={testImage} 
         backgroundColor='#000000da'
         justifyContent='flex-start'
+        locked={false}
     >
         {(dataVerdict) && (resultPoints) && 
             <img className={s.IconBigBackgroung} src={dataVerdict.icon} alt='Status icon'/>

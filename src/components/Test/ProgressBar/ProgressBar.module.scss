@@ -10,11 +10,14 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: flex-end;
 }
 
 .divButton,
 .divButtonActive {
+    margin-bottom: 0.5rem;
     display: flex;
+    flex-shrink: 0;
     justify-content: center;
     align-items: center;
     width: 4rem;
@@ -71,4 +74,21 @@
 
 .progressItemDone {
     background-color: $colorAccentOrange;
+}
+
+
+
+.question {
+    margin: 0 1rem 1rem 1rem;
+    & p, span {
+        font-size: 1.6rem;
+        text-align: center;
+        color: #e3eaf1;
+
+        & span {
+            background-color: #00000098;
+            padding: 4px;
+            line-height: 1.5;
+        }
+    }
 }

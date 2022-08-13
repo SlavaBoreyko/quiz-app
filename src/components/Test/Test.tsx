@@ -10,19 +10,27 @@ export interface TestProps {
     length: number;
     questionNum: number;
     question: QuestionTestType;
+
+    value: number;
     setValue: Dispatch<SetStateAction<number>>;
     indicatedAnswer?: number;
+
     nextHandler: () => void;
     isNext: boolean;
+
     reactionSrc?: string;
     setReactionSrc?: Dispatch<SetStateAction<string>>;
     reactionShow?: boolean;
+
+    fullScreenBtnHandle: () => void;
 }
 
 const Test: FC<TestProps> = ({
     length,
     questionNum,
     question, 
+
+    value,
     setValue, 
     indicatedAnswer,
     nextHandler,
@@ -31,6 +39,8 @@ const Test: FC<TestProps> = ({
     reactionSrc,
     setReactionSrc,
     reactionShow,
+
+    fullScreenBtnHandle,
 }) => {
     const [checked, setChecked] = useState([false,false,false]);
     const [trueAnswer, setTrueAnswer] = useState<number | undefined>(undefined);
@@ -60,15 +70,16 @@ const Test: FC<TestProps> = ({
   return (
     <>
         <Card 
-            title={question.question} 
             reactionSrc={reactionSrc}
             reactionShow={reactionShow}
         />
         <ProgressBar 
+            question={question.question} 
             amountQA={length}
             current={questionNum + 1} 
             nextHandler={nextHandler}
             isNext={isNext}
+            fullScreenBtnHandle={fullScreenBtnHandle}
         />
         {question.answers.map((variant, index) => (
             <RadioInput 
@@ -78,8 +89,13 @@ const Test: FC<TestProps> = ({
                 value={variant.points}
                 reaction={variant.reaction}
                 setReactionSrc={setReactionSrc}
-                setValue={setValue}
-                setChecked={setChecked}
+                setValue={
+                    (value === -1) ? setValue : () => {}
+                }
+                setChecked={
+                    // (value === -1) ? setChecked : () => {}
+                    setChecked
+                }
                 checked={checked}
                 indicatedAnswer={indicatedAnswer}
                 trueAnswer={trueAnswer}

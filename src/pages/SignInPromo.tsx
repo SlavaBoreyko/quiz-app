@@ -74,6 +74,7 @@ const SignInPromo = () => {
         <Container
             justifyContent='flex-start'
             backgroundColor='#212529'
+            locked={false}
         > 
             <ProfileSection title={'YouTube-тести'} 
                 // description={
@@ -92,7 +93,7 @@ const SignInPromo = () => {
                     blogger={oneTest.blogger}
                     footerText={`Питань: ${oneTest.questions.length}`}
                     onClick={() => navigate('/test/at-home')}
-                    button={<ButtonPlay />}
+                    button={<ButtonPlay width={'24%'}/>}
                 />
             } 
             
@@ -106,7 +107,7 @@ const SignInPromo = () => {
             }} src={statusMockImg} />
 
 
-            <ProfileSection title={'Хтивки-тести'} 
+            {/* <ProfileSection title={'Хтивки-тести'} 
                 description={
                     'Інсайти у флірті, звабленні та технікам сексу у форматі ігрового тесту з хтивками-відкривашками від секс-блогерш.'
                 }
@@ -121,7 +122,7 @@ const SignInPromo = () => {
                     button={<BtnGoogleOAuth  width={'24%'}/>}
                 />
             }   
-            </ProfileSection>
+            </ProfileSection> */}
 
             {/* <div>
                 <OAuth />

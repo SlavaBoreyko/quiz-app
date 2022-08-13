@@ -79,6 +79,7 @@ const ProfilePage = () => {
         <Container
             justifyContent='flex-start'
             backgroundColor='#212529'
+            locked={false}
         >
             {(userState.name) && (userState.email) && (
                 <ProfileHeader 

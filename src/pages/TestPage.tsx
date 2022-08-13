@@ -40,6 +40,10 @@ const TestPage: FC<TestPageProps> = () => {
 
     const [isNext, setIsNext] = useState<boolean>(false);
 
+    const [locked, setLocked] = useState<boolean>(false);
+
+    const [ fullScreen, setFullScreen] = useState<boolean>(false);
+
     const localDemoTest = localStorage.getItem('demoTest');
 
     useEffect(() => {
@@ -49,13 +53,30 @@ const TestPage: FC<TestPageProps> = () => {
         }
     },[])
 
+
+    // Logic for /xtivka
+    useEffect(() => {
+        if (location.pathname.split('/')[1] === 'xtivka') {
+            setLocked(true);
+        }
+        if(value !== -1) setReactionShow(true);
+        if (value === 1) setLocked(false);   
+    },[location.pathname, questionNum, value])
+
+    const fullScreenBtnHandle = () => {
+        if (locked === false) {
+            setFullScreen(prev => !prev);
+        }
+    }
+
     useEffect(() => {
         if(location.pathname.split('/')[3] === 'answers') {
             if(demoAnswers && params.id) {
                 setIndecatedAnswer(demoAnswers[params.id].answersArray[questionNum]);
             }
         }
-    }, [questionNum, demoAnswers, location])
+
+    }, [questionNum, demoAnswers, location.pathname])
 
     // console.log(indecatedAnswer);
     // console.log('demoAnswers', demoAnswers[params.id!].answersArray);
@@ -96,6 +117,9 @@ const TestPage: FC<TestPageProps> = () => {
     }
 
     const saveAnswerNextQuestion = () => {
+        // preLocked next image
+        // setLocked(true);
+
         setQuestion((prev) => prev + 1);
         setAnswersArr((prev) => [...prev, value]);
         //clear for next answer:
@@ -103,16 +127,23 @@ const TestPage: FC<TestPageProps> = () => {
         setReactionShow(false)
         setReactionSrc('');
         setIsNext(false);
+
     }
+
+
+
+
      
     const nextHandler = async() => {
         if (test && location.pathname.split('/')[3] !== 'answers') {
             if (questionNum < test.questions.length - 1) {
+                // 1 === true, 0 === false in database fields
                 setIsNext(true)
-                setReactionShow(true);
-                setTimeout(
-                    saveAnswerNextQuestion
-                , 1000);
+                setReactionShow(false);
+                // setTimeout(
+                //     saveAnswerNextQuestion
+                // , 1000);
+                saveAnswerNextQuestion();
             } 
 
             if (questionNum === test.questions.length - 1 && params.id) {
@@ -140,7 +171,7 @@ const TestPage: FC<TestPageProps> = () => {
             }
         } else if (test && location.pathname.split('/')[3] === 'answers') {
             if (questionNum < test.questions.length - 1) {
-                setReactionShow(true)
+                setReactionShow(false);
                 saveAnswerNextQuestion();
             } else  if (questionNum === test.questions.length - 1 && params.id) {
                 return navigate(`/test/${params.id}/result`);
@@ -155,15 +186,22 @@ const TestPage: FC<TestPageProps> = () => {
         <Container
             img={test.questions[questionNum].img} 
             backgroundColor='#000000a0'
+            // backgroundColor='#000000cb'
             justifyContent='flex-end'
+            locked={locked}
+            fullScreen={fullScreen}
         >
             <Test 
                 length={test.questions.length}
                 questionNum={questionNum}
                 question={test.questions[questionNum]} 
+
+                value={value}
                 setValue={setValue} 
+
                 indicatedAnswer={indecatedAnswer}
                 nextHandler={nextHandler}
+                fullScreenBtnHandle={fullScreenBtnHandle}
                 isNext={isNext}
 
                 reactionSrc={reactionSrc}
