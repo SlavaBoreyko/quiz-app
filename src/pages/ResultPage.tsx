@@ -7,8 +7,6 @@ import ResultCard from '../components/Result/ResultCard/ResultCard';
 import s from '../components/Profile/TestCard/TestCardPass/TestCardPass.module.scss';
 import testImage from '../assets/test-images/hand-or-not.jpg';
 import IconReset from '../assets/svg/reset-svgrepo-com.svg';
-import IconReadAnswers from '../assets/svg/question-mark.svg';
-
 
 // redux-toolkit
 import { useFetchAnswersQuery, useFetchVerdictQuery } from '../features/user/userApi';

@@ -18,15 +18,7 @@ const NavSidebar = () => {
     const linkCopy = () => {
         navigator.clipboard.writeText(window.location.href);
         toast.success('Посилання скопійоване')
-        // setShareLinkCopied(true);
-        // setTimeout(() => {
-        //     setShareLinkCopied(false)
-        // }, 2000)
     }
-
-    // if(shareLinkCopied) {
-    //     toast.success('Посилання скопійоване')
-    // }
     
     return (
     <>
@@ -37,7 +29,7 @@ const NavSidebar = () => {
                         position: 'absolute',
                         top: '2rem',
                         left: '2rem',
-                        
+                        width: '100%',
                         alignSelf: 'flex-start',
                     }}
                 >

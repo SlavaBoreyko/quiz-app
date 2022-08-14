@@ -31,9 +31,6 @@ const RadioInput: FC<RadioInputProps> = ({
     if (e.target.checked) {
       e.preventDefault();
       setValue(+e.currentTarget.value);
-      // DEBUG
-      console.log('value', value);
-      console.log('e.currentTarget.value', +e.currentTarget.value);
 
       // restart checked inputs 
       let newChecked = [false, false, false];
@@ -65,7 +62,7 @@ const RadioInput: FC<RadioInputProps> = ({
             </div>
           )
         }
-        
+        {/* FOR watching my /answers  */}
         {(indicatedAnswer !== undefined && trueAnswer !== undefined) && (
             <div className={((value === trueAnswer)) ? s.textContainerTrue : (value === indicatedAnswer) ? s.textContainerFalse : s.textContainer }> 
               <span>{text}</span>

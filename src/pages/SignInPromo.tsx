@@ -59,7 +59,9 @@ const SignInPromo = () => {
                 setOneTest(testData);
             }
 
-            const docRef2 = doc(db, 'tests', 'test-xtivki-one')
+            // const docRef2 = doc(db, 'tests', 'test-xtivki-one')
+            const docRef2 = doc(db, 'tests', 'relationship-level')
+            
             const getOneTest2 = await getDoc(docRef2);
             if(getOneTest.exists()) { 
                 const testData2 = getOneTest2.data();
@@ -99,13 +101,30 @@ const SignInPromo = () => {
             
             </ProfileSection>
             {/* Mock */}
-            <img style={{
-                border: '1px solid #F59F00',
-                borderRadius: '0.5rem',
-                width: '100%',
-                marginBottom: '4rem',
-            }} src={statusMockImg} />
+            <img 
+                style={{
+                    border: '1px solid #F59F00',
+                    borderRadius: '0.5rem',
+                    width: '100%',
+                    marginBottom: '4rem',
+                }} 
+                src={statusMockImg} 
+                alt="Mock status screen"
+            />
 
+
+
+
+            {   (oneTest2) &&
+                <TestCardOpen
+                    testName={oneTest2.testName}
+                    cover={oneTest2.cover}
+                    blogger={oneTest2.blogger}
+                    footerText={`Питань: ${oneTest2.questions.length}`}
+                    onClick={onGoogleClick}
+                    button={<BtnGoogleOAuth  width={'24%'}/>}
+                />
+            }   
 
             {/* <ProfileSection title={'Хтивки-тести'} 
                 description={

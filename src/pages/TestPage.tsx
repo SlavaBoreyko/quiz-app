@@ -13,6 +13,7 @@ import { addDemoAnswer, UserAnswersType } from '../features/user/userSlice';
 // redux-toolkit
 import { useAppDispatch } from '../app/hooks';
 import { useAddAnswerMutation } from '../features/user/userApi';
+import { useFetchTestQuery } from '../features/test/testApi';
 import { getTotalPoints } from '../actions/getTotalPoints';
 
 export interface TestPageProps {
@@ -22,11 +23,13 @@ const TestPage: FC<TestPageProps> = () => {
     const location = useLocation();
     const params = useParams();
     const navigate = useNavigate();
+    const localDemoTest = localStorage.getItem('demoTest');
+
     // redux-toolkit
     const dispatch = useAppDispatch();
     const userState = useAppSelector((state: any) => state.user);
 
-    const [test, setTest] = useState<TestType | any | undefined>(undefined);
+    // const [test, setTest] = useState<TestType | any | undefined>(undefined);
     const [questionNum, setQuestion] = useState(0);
     const [value, setValue] = useState(-1);
     const [answersArr, setAnswersArr] = useState<number[]>([]);
@@ -38,10 +41,11 @@ const TestPage: FC<TestPageProps> = () => {
     const [indecatedAnswer, setIndecatedAnswer] = useState<number | undefined>(undefined);
     const [isNext, setIsNext] = useState<boolean>(false);
 
+    // XTIVKA
     const [locked, setLocked] = useState<boolean>(false);
     const [ fullScreen, setFullScreen] = useState<boolean>(false);
 
-    const localDemoTest = localStorage.getItem('demoTest');
+    const { data: test, isLoading, isError, error }  = useFetchTestQuery(params.id!);
 
     useEffect(() => {
         if(localDemoTest) {
@@ -59,6 +63,7 @@ const TestPage: FC<TestPageProps> = () => {
         if (value === 1) setLocked(false);   
     },[location.pathname, questionNum, value])
 
+
     const fullScreenBtnHandle = () => {
         if (locked === false) {
             setFullScreen(prev => !prev);
@@ -73,36 +78,25 @@ const TestPage: FC<TestPageProps> = () => {
         }
 
     }, [questionNum, demoAnswers, location.pathname])
-
     // console.log(indecatedAnswer);
     // console.log('demoAnswers', demoAnswers[params.id!].answersArray);
 
-    useEffect(() => {
-        // change to fetchTestList (name, blogger photos, idstring)
-        const fetchData = async() => {
-            if(params.id) {
-                const docRef = doc(db, "tests", params.id);
-                const getTestData = await getDoc(docRef);
-                const data = getTestData.data()
+    // useEffect(() => {
+    //     const fetchData = async() => {
+    //         if(params.id) {
+    //             const docRef = doc(db, "tests", params.id);
+    //             const getTestData = await getDoc(docRef);
+    //             const data = getTestData.data()
 
-                if (getTestData.exists()) {
-                    setTest(data);
-                } else {
-                    // console.log("Test is deleted!");
-                }
-            }
-        };
-        fetchData();
-    }, [params.id])
-
-    useEffect(() => {
-        if(test) {
-            const totalPoints = getTotalPoints(test);
-            // console.log('totalPoints getTotalPoints(test) ', totalPoints);
-        }
-    }, [test])
-
-    const [ addAnswer, result ]  = useAddAnswerMutation();
+    //             if (getTestData.exists()) {
+    //                 setTest(data);
+    //             } else {
+    //                 // console.log("Test is deleted!");
+    //             }
+    //         }
+    //     };
+    //     fetchData();
+    // }, [params.id])
 
     // FOR ADMIN PAGE
     const calcResultPoints = () => {
@@ -113,15 +107,11 @@ const TestPage: FC<TestPageProps> = () => {
         return resultPoints;
     }
 
+    const [ addAnswer, result ]  = useAddAnswerMutation();
+
     const saveAnswerNextQuestion = () => {
-        // preLocked next image
-        // setLocked(true);
-
         setQuestion((prev) => prev + 1);
-        console.log('value from setAnswersArr', value );
-
         setAnswersArr((prev) => [...prev, value]);
-
         //clear for next answer:
         setValue(0);
         setReactionShow(false)
@@ -164,7 +154,7 @@ const TestPage: FC<TestPageProps> = () => {
         } else if (test && location.pathname.split('/')[3] === 'answers') {
             if (questionNum < test.questions.length - 1) {
                 setReactionShow(false);
-                saveAnswerNextQuestion();
+                setQuestion((prev) => prev + 1);
             } else  if (questionNum === test.questions.length - 1 && params.id) {
                 return navigate(`/test/${params.id}/result`);
             }

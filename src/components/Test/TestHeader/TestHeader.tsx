@@ -1,18 +1,22 @@
-import React from 'react';
 import s from './TestHeader.module.scss';
-import avatar from '../../../assets/test-images/max-avatar.jpeg'
+import { Link, useParams } from 'react-router-dom';
+import { useFetchTestQuery } from '../../../features/test/testApi';
 
 const TestHeader = () => {
-  return (
-    <div className={s.divHeader}>
-        <img className={s.avatarHeader} src={avatar} alt={'Avatar'}/>
-        <div className={s.divText}>
-            <span className={s.bloggerName}>Апостоли Дівертіто</span>
-            <span className={s.testName}>Коли дівчина у тебе вдома</span>
-        </div>
+  const params = useParams();
+  const { data: testData, isLoading, isError, error }  = useFetchTestQuery(params.id!);
 
-    </div>
-    
+  return (
+    <Link to='/'>
+      <div className={s.divHeader}>
+          <img className={s.avatarHeader} src={testData.blogger.avatar} alt={'Avatar'}/>
+          <div className={s.divText}>
+              <span className={s.bloggerName}>{testData.blogger.name}</span>
+              <span className={s.testName}>{testData.testName}</span>
+          </div>
+
+      </div>
+    </Link>  
   )
 }
 

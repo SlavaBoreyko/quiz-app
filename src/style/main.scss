@@ -14,3 +14,7 @@ body {
     background: #171a1c;
 }
 
+a,
+a:-webkit-any-link {
+    text-decoration: none;
+}
