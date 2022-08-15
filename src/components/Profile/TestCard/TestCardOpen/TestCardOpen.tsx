@@ -41,7 +41,7 @@ const TestCardOpen: FC<TestCardOpenProps> = ({
             testName={testName}
             // footerText={`Питань: ${length}`}
             footerText={footerText}
-            buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 
+            buttonEl={ (button) ? button : <ButtonPlay width={'22%'}/>} 
         />
     )
 }

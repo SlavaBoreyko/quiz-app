@@ -24,7 +24,7 @@ const NavSidebar = () => {
     return (
     <>
         {
-            (!['/', '/profile', '/sign-in'].includes(pathname)) ? (
+            (!['/', '/profile', '/sign-in', '/developer'].includes(pathname)) ? (
                 <div
                     style={{
                         position: 'absolute',
@@ -38,15 +38,7 @@ const NavSidebar = () => {
                 </div>
             ) : (
                 <div className={s.divDeveloper}>
-                    <Link 
-                    style={{
-                        // position: 'absolute',
-                        // top: '2rem',
-                        
-                        // alignSelf: 'flex-start',
-                    }}
-                    to="/"
-                    >
+                    <Link to="/">
                         <img 
                             style={{
                                 height: '3rem',
@@ -55,7 +47,12 @@ const NavSidebar = () => {
                             alt='TestRoom'
                         />
                     </Link>
-                    <BtnRectangle caption={`> Розробник. Співпраця`} onClick={() => navigate('/developer')} />
+                    {(!['/developer'].includes(pathname)) && (
+                        <BtnRectangle 
+                            caption={`> Розробник. Співпраця`} 
+                            onClick={() => navigate('/developer')} 
+                        />
+                    )}
                 </div>
             )
         }
@@ -70,13 +67,13 @@ const NavSidebar = () => {
                     onClick={() => navigate('/profile')}
                 />
                 {/* Pages for Share Btn */}
-                {/* {(!['/', '/sign-in'].includes(pathname)) && */}
+                {(!['/developer'].includes(pathname)) &&
                     <ButtonNav 
                         icon={shareIcon}
                         onClick={linkCopy}
                         optionClass={'share'}
                     />
-                {/* } */}
+                } 
             </div>
         // </div>
     )}

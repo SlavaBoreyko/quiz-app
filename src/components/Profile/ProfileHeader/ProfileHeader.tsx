@@ -5,27 +5,42 @@ import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '../../../assets/svg/logout-1.svg';
 
 export interface ProfileHeaderProps {
-    name: string;
-    email: string;
+    marginTop?: string;
     photoUrl: string;
+    name: string;
+    // email: string;
+    description: any;
 }
 
-const ProfileHeader: FC<ProfileHeaderProps> = ({name, email, photoUrl}) => {
-    const auth = getAuth();
-    const navigate = useNavigate();
-    const onLogout = () => {
-        auth.signOut()
-        navigate('/')
-    }
+const ProfileHeader: FC<ProfileHeaderProps> = ({
+    marginTop,
+    photoUrl,
+    name, 
+    description, 
+}) => {
+    // const auth = getAuth();
+    // const navigate = useNavigate();
+    // const onLogout = () => {
+    //     auth.signOut()
+    //     navigate('/')
+    // }
     
     return (
-        <header className={s.headerProfile}>
+        <header className={s.headerProfile} 
+            style={{
+                marginTop: `${marginTop}`
+            }}
+        >
+
             <img className={s.avatar} src={photoUrl} alt='Users avatar'/>
-            <div className="">
+            <div>
                 <h1 className={s.name}>{name}</h1>
-                <p className={s.details}>{email}</p>
+                {/* <p className={s.details}>{email}</p> */}
+                <div className={s.details}>
+                    {description}
+                </div>
             </div>
-            <div className={s.btnDiv}>
+            {/* <div className={s.btnDiv}>
                 <button 
                     className={s.btnLogout}
                     type='button' 
@@ -33,7 +48,7 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({name, email, photoUrl}) => {
                 >
                 Logout <i><img src={LogoutIcon} alt='icon'/></i>
                 </button>
-            </div>
+            </div> */}
         </header>
     )
 }

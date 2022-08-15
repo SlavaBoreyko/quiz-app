@@ -18,6 +18,7 @@ import SignInPromo from "./pages/SignInPromo";
 
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DeveloperPage from "./pages/DeveloperPage";
 
 function App() {
   return (
@@ -41,8 +42,8 @@ function App() {
               <Route path='/profile' element={<ProfilePage />} />
             </Route>  
 
-  
-            <Route path='/admin' element={<AdminPage />}/>
+            <Route path='/developer' element={<DeveloperPage />}/>
+            {/* <Route path='/admin' element={<AdminPage />}/> */}
           </Route> 
         </Routes>
       </Router>

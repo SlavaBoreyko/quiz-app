@@ -83,9 +83,10 @@ const ProfilePage = () => {
         >
             {(userState.name) && (userState.email) && (
                 <ProfileHeader 
+                    marginTop={'6rem'}
                     photoUrl={userState.photoUrl ? userState.photoUrl : ''} 
                     name={userState.name} 
-                    email={userState.email}
+                    description={userState.email}
                 />
             )}
             {  
