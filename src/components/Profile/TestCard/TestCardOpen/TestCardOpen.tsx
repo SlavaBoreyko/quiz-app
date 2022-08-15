@@ -25,18 +25,18 @@ const TestCardOpen: FC<TestCardOpenProps> = ({
     button
 }) => {
 
-    const refImg = useRef<HTMLDivElement>(null);
+    // const refImg = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if(refImg.current) {
-            refImg.current.style.backgroundImage = `url("${cover}")`;
-        }
-    }, [refImg.current])
+    // useEffect(() => {
+    //     if(refImg.current) {
+    //         refImg.current.style.backgroundImage = `url("${cover}")`;
+    //     }
+    // }, [refImg.current])
 
     return (
         <TestCard 
             onClick={onClick}
-            coverImage={ <div ref={refImg} className={s.coverOpen} /> }
+            coverImage={cover}
             blogger={blogger}
             testName={testName}
             // footerText={`Питань: ${length}`}

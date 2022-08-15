@@ -8,6 +8,7 @@ import profileIcon from '../../../assets/svg/personIconActive.svg';
 import shareIcon from '../../../assets/svg/share-like-tik.svg';
 import logo from '../../../assets/svg/testroom-logo.svg';
 import TestHeader from '../../Test/TestHeader/TestHeader';
+import BtnRectangle from '../../Profile/BtnRectangle/BtnRectangle';
 
 
 const NavSidebar = () => {
@@ -36,43 +37,48 @@ const NavSidebar = () => {
                     <TestHeader />
                 </div>
             ) : (
-                <Link 
-                style={{
-                    position: 'absolute',
-                    top: '2rem',
-                    
-                    alignSelf: 'flex-start',
-                }}
-                to="/"
-                >
-                    <img 
-                        style={{
-                            height: '3rem',
-                        }}
-                        src={logo} 
-                        alt='TestRoom'
-                    />
-                </Link>
+                <div className={s.divDeveloper}>
+                    <Link 
+                    style={{
+                        // position: 'absolute',
+                        // top: '2rem',
+                        
+                        // alignSelf: 'flex-start',
+                    }}
+                    to="/"
+                    >
+                        <img 
+                            style={{
+                                height: '3rem',
+                            }}
+                            src={logo} 
+                            alt='TestRoom'
+                        />
+                    </Link>
+                    <BtnRectangle caption={`> Розробник. Співпраця`} onClick={() => navigate('/developer')} />
+                </div>
             )
         }
 
         
     {( !['/profile'].includes(pathname)) && (
-        <>
-
-        <div className={s.sideBarNav} >
-            <ButtonNav 
-                icon={profileIcon}
-                onClick={() => navigate('/profile')}
-            />
-            {(!['/', '/sign-in'].includes(pathname)) &&
-            <ButtonNav 
-                icon={shareIcon}
-                onClick={linkCopy}
-                optionClass={'share'}
-            />}
-        </div>
-        </>
+        // <div className={s.divDeveloper}>
+            
+            <div className={s.sideBarNav} >
+                <ButtonNav 
+                    icon={profileIcon}
+                    onClick={() => navigate('/profile')}
+                />
+                {/* Pages for Share Btn */}
+                {/* {(!['/', '/sign-in'].includes(pathname)) && */}
+                    <ButtonNav 
+                        icon={shareIcon}
+                        onClick={linkCopy}
+                        optionClass={'share'}
+                    />
+                {/* } */}
+            </div>
+        // </div>
     )}
     </>
   )

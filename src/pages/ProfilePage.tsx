@@ -74,7 +74,7 @@ const ProfilePage = () => {
 
     const { data, isLoading, isError, error } = useFetchAnswersQuery(userState.id!);
 
-    console.log('data useFetchAnswersQuery', data);
+    // console.log('data useFetchAnswersQuery', data);
     return (
         <Container
             justifyContent='flex-start'
@@ -114,19 +114,14 @@ const ProfilePage = () => {
                                 testName={testItem.testName}
                                 cover={testItem.cover}
                                 blogger={testItem.blogger}
-                                // length={testItem.questions.length}
-                                footerText={'Питань: 20'}
-                                // onClick={() => navigate(`/test/${testItem.id}`)}
-                                onClick={() => {}}
+                                footerText={`Питань: ${testItem.questions.length}`}
+                                onClick={() => navigate(`/test/${testItem.id}`)}
                             />
                         )
                     }
                 }
             )} 
             
-            {/* <ProfileSection title={'Тести'} > */}
-            {/* Subcategory: relathionship, dating, business */}
-            {/* </ProfileSection> */}
         </Container>
     )
 }

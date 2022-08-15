@@ -21,21 +21,22 @@ const TestCardPass: FC<TestCardPassProps> = ({
     testName, cover,
     blogger,
 }) => {
-    const refImg = useRef<HTMLDivElement>(null);
+    // const refImg = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if(refImg.current) {
-            refImg.current.style.backgroundImage = `url("${cover}")`;
-        }
+    // useEffect(() => {
+    //     if(refImg.current) {
+    //         refImg.current.style.backgroundImage = `url("${cover}")`;
+    //     }
 
-    }, [refImg.current])
+    // }, [refImg.current])
 
     const { data } = useFetchVerdictQuery({ testId: id, points});
 
     return (
         <TestCard
             onClick={onClick}
-            coverImage={ <div ref={refImg} className={s.coverOpen} /> }
+            // coverImage={ <div ref={refImg} className={s.coverOpen} /> }
+            coverImage={cover}
             blogger={blogger}
             testName={testName}
             footerText={data && data.status}

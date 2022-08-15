@@ -1,10 +1,10 @@
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC, MouseEventHandler, useEffect, useRef } from 'react';
 import s from './TestCard.module.scss';
 import { SimpleBloggerType } from '../../../types/test.types';
 
 export interface TestCardProps {
     onClick: MouseEventHandler<HTMLDivElement>;
-    coverImage?: any;
+    coverImage: string | any;
     // Header
     blogger: SimpleBloggerType;
     // Title
@@ -23,14 +23,23 @@ const TestCard: FC<TestCardProps> = ({
     buttonEl,
 }) => {
 
+
+    const refImg = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if(refImg.current) {
+            refImg.current.style.backgroundImage = `url("${coverImage}")`;
+        }
+    }, [refImg.current])
+
     return (
         <>
        { 
         <div className={s.testCardContainter} onClick={onClick}>
             {/* COVER */}
             <div className={s.coverFrame}>
-                {coverImage}
-                {/* <div ref={refBlurImg} className={s.coverCard} /> */}
+                <div ref={refImg} className={s.coverOpen} />
+                {/* {coverImage} */}
             </div>
             <div className={s.divPaddingContainer}>
                 <div className={s.textDiv}>

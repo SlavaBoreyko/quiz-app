@@ -10,3 +10,11 @@
     align-self: flex-end;
 }
 
+.divDeveloper {
+    display: flex;
+    flex-direction: column;
+    // align-self: flex-end;
+    position: absolute;
+    top: 2rem;
+    align-self: flex-start;
+}

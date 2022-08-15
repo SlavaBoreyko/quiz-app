@@ -39,7 +39,8 @@
 }
 .amountQA {
     font-size: 1rem;
-    color: $colorDarkOrange;
+    // color: $colorDarkOrange;
+    color: rgb(237 159 17 / 88%);
 }
 
 .line {
@@ -75,8 +76,6 @@
 .progressItemDone {
     background-color: $colorAccentOrange;
 }
-
-
 
 .question {
     margin: 0 1rem 1rem 1rem;

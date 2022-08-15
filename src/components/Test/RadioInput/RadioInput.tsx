@@ -57,7 +57,7 @@ const RadioInput: FC<RadioInputProps> = ({
             checked={checked[+index]}
           />
         { (indicatedAnswer === undefined || trueAnswer === undefined) && (
-            <div className={checked[+index] ? s.textContainerChecked : s.textContainer }> 
+            <div className={checked[+index] ? s.textContainerTrue : s.textContainer }> 
                 <span>{text}</span>
             </div>
           )
