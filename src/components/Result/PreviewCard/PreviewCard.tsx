@@ -21,7 +21,7 @@ const PreviewCard: FC<PreviewCardProps> = ({
     const [oneTest, setOneTest] = useState<any | undefined>(undefined);
     useEffect(() => {
         const fetchData = async() => {
-            const docRef = doc(db, 'tests', 'first-date')
+            const docRef = doc(db, 'tests', 'at-home')
             const getOneTest = await getDoc(docRef);
             if(getOneTest.exists()) { 
                 const testData = getOneTest.data();

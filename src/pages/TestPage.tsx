@@ -81,31 +81,17 @@ const TestPage: FC<TestPageProps> = () => {
     // console.log(indecatedAnswer);
     // console.log('demoAnswers', demoAnswers[params.id!].answersArray);
 
-    // useEffect(() => {
-    //     const fetchData = async() => {
-    //         if(params.id) {
-    //             const docRef = doc(db, "tests", params.id);
-    //             const getTestData = await getDoc(docRef);
-    //             const data = getTestData.data()
-
-    //             if (getTestData.exists()) {
-    //                 setTest(data);
-    //             } else {
-    //                 // console.log("Test is deleted!");
-    //             }
-    //         }
-    //     };
-    //     fetchData();
-    // }, [params.id])
-
     // FOR ADMIN PAGE
     const calcResultPoints = () => {
-        // maxPoints need calculate when addTest from Admin 
-        const maxPoints = 30; // 3*10 questions
-        const resultPoints = Math.round(100*
-            (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/maxPoints);
-        return resultPoints;
+        // sumPoints has to calculate when add addTest from Admin 
+        if(test) {
+            const resultPoints = Math.round(100*
+                (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/test.sumPoints);
+            return resultPoints;
+        }
+        return 0;
     }
+    // console.log('test.sumPoints', test.sumPoints);
 
     const [ addAnswer, result ]  = useAddAnswerMutation();
 
@@ -129,12 +115,12 @@ const TestPage: FC<TestPageProps> = () => {
             } 
 
             if (questionNum === test.questions.length - 1 && params.id) {
-                const calcPoints = calcResultPoints();
+                // const calcPoints = 
                 const testId = params.id;
                 let ObjectWithTestId: UserAnswersType = {};
                 ObjectWithTestId[testId] = {
                         answersArray: [...answersArr, value],
-                        points: calcPoints,
+                        points: calcResultPoints(),
                         // timestamp: serverTimestamp(),
                 }
                 

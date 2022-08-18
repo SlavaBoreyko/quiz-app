@@ -39,7 +39,6 @@ const TestCardOpen: FC<TestCardOpenProps> = ({
             coverImage={cover}
             blogger={blogger}
             testName={testName}
-            // footerText={`Питань: ${length}`}
             footerText={footerText}
             buttonEl={ (button) ? button : <ButtonPlay width={'22%'}/>} 
         />

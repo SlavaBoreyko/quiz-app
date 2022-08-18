@@ -22,6 +22,7 @@ export interface TestType {
     blogger: SimpleBloggerType;
     cover: string;
     questions: QuestionTestType[];
+    sumPoints: number;
 }
 // Add 
 
@@ -47,8 +48,9 @@ export interface ResultType {
 export interface VerdictType {
     minPoints: number;
     status: string;
-    description: string;
     icon: string;
+    description: string;
+    blogLink?: string;
 }
 
 export interface VerdictListType {

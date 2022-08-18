@@ -82,11 +82,11 @@ const ResultPage = () => {
                 description={dataVerdict.description}
             />
             {/* BUTTONS */}
-            {(dataVerdict.status !== 'Грозний Їбака') && (
+            {(dataVerdict.status !== 'Грозний Їбака') && (dataVerdict.blogLink) && (
                 <ButtonTextIcon 
                     caption={'Відкрити відео Макса'} 
                     // icon={IconReset} 
-                    onClick={() => openInNewTab('https://youtu.be/9_RgZdxEwkY') }
+                    onClick={() => openInNewTab(dataVerdict.blogLink) }
                 />
             )}
 

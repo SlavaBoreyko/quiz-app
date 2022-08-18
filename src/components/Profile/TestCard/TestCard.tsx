@@ -4,7 +4,7 @@ import { SimpleBloggerType } from '../../../types/test.types';
 
 export interface TestCardProps {
     onClick: MouseEventHandler<HTMLDivElement>;
-    coverImage: string | any;
+    coverImage: string | any; //React element JSX? Node? 
     // Header
     blogger: SimpleBloggerType;
     // Title
@@ -22,8 +22,6 @@ const TestCard: FC<TestCardProps> = ({
     footerText,
     buttonEl,
 }) => {
-
-
     const refImg = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

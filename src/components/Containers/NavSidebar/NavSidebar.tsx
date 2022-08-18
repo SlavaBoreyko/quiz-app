@@ -10,8 +10,12 @@ import logo from '../../../assets/svg/testroom-logo.svg';
 import TestHeader from '../../Test/TestHeader/TestHeader';
 import BtnRectangle from '../../Profile/BtnRectangle/BtnRectangle';
 
+import useAnalyticsEventTracker from '../../hooks/useAnalyticsEventTracker';
 
 const NavSidebar = () => {
+
+    const gaEventTracker = useAnalyticsEventTracker('Developer');
+
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [shareLinkCopied, setShareLinkCopied] = useState(false);
@@ -50,7 +54,12 @@ const NavSidebar = () => {
                     {(!['/developer'].includes(pathname)) && (
                         <BtnRectangle 
                             caption={`> Розробник. Співпраця`} 
-                            onClick={() => navigate('/developer')} 
+                            onClick={
+                                () => { 
+                                    gaEventTracker('Click on a DevInfo');
+                                    navigate('/developer');
+                                }
+                            } 
                         />
                     )}
                 </div>

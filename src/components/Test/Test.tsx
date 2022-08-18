@@ -45,7 +45,7 @@ const Test: FC<TestProps> = ({
     const [checked, setChecked] = useState([false,false,false]);
     const [trueAnswer, setTrueAnswer] = useState<number | undefined>(undefined);
     
-    
+    // FOR XTIVKA_TEST
     let pointsArray: number[] = []; 
     const maxPointTrue = () => {
         question.answers.forEach((variant) => 
@@ -53,14 +53,12 @@ const Test: FC<TestProps> = ({
         )
         return Math.max.apply(null, pointsArray);
     }
-
+    // FOR XTIVKA_TEST
     useEffect(() => {
         setChecked([false, false, false]);
         const answermaxPointTrue = maxPointTrue();
         setTrueAnswer(answermaxPointTrue);
     },[questionNum])
-
-
 
     // const trueAnswer = maxPointTrue();
 

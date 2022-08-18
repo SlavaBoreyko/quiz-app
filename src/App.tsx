@@ -15,12 +15,23 @@ import TestPage from './pages/TestPage';
 import AuthWrapper from "./components/AuthWrapper/AuthWrapper";
 import AdminPage from "./pages/Admin/AdminPage";
 import SignInPromo from "./pages/SignInPromo";
+import DeveloperPage from "./pages/DeveloperPage";
 
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import DeveloperPage from "./pages/DeveloperPage";
+
+import ReactGA from 'react-ga';
+import { useEffect } from "react";
+const TRACKING_ID = "G-1XBNBWQR5V"; 
+ReactGA.initialize(TRACKING_ID);
+
 
 function App() {
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
   return (
     <Provider store={store}>
       <Router>

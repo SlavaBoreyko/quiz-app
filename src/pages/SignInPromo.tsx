@@ -24,6 +24,7 @@ const SignInPromo = () => {
     const navigate = useNavigate();
     const [oneTest, setOneTest] = useState<any | undefined>(undefined);
     const [oneTest2, setOneTest2] = useState<any | undefined>(undefined);
+    const [oneTest3, setOneTest3] = useState<any | undefined>(undefined);
 
     const onGoogleClick = async () => {
         try {
@@ -52,7 +53,7 @@ const SignInPromo = () => {
 
     useEffect(() => {
         const fetchData = async() => {
-            const docRef = doc(db, 'tests', 'at-home')
+            const docRef = doc(db, 'tests', 'first-date')
             const getOneTest = await getDoc(docRef);
             if(getOneTest.exists()) { 
                 const testData = getOneTest.data();
@@ -60,12 +61,20 @@ const SignInPromo = () => {
             }
 
             // const docRef2 = doc(db, 'tests', 'test-xtivki-one')
-            const docRef2 = doc(db, 'tests', 'relationship-level')
+            const docRef2 = doc(db, 'tests', 'at-home')
             
             const getOneTest2 = await getDoc(docRef2);
             if(getOneTest.exists()) { 
                 const testData2 = getOneTest2.data();
                 setOneTest2(testData2);
+            }
+
+
+            const docRef3 = doc(db, 'tests', 'relationship-level');
+            const getOneTest3 = await getDoc(docRef3);
+            if(getOneTest.exists()) { 
+                const testData3 = getOneTest3.data();
+                setOneTest3(testData3);
             }
         };
         fetchData();
@@ -94,7 +103,7 @@ const SignInPromo = () => {
                     cover={oneTest.cover}
                     blogger={oneTest.blogger}
                     footerText={`Питань: ${oneTest.questions.length}`}
-                    onClick={() => navigate('/test/at-home')}
+                    onClick={() => navigate(`/test/${oneTest.id}`)}
                     button={<ButtonPlay width={'24%'}/>}
                 />
             } 
@@ -112,15 +121,22 @@ const SignInPromo = () => {
                 alt="Mock status screen"
             />
 
-
-
-
             {   (oneTest2) &&
                 <TestCardOpen
                     testName={oneTest2.testName}
                     cover={oneTest2.cover}
                     blogger={oneTest2.blogger}
                     footerText={`Питань: ${oneTest2.questions.length}`}
+                    onClick={onGoogleClick}
+                    button={<BtnGoogleOAuth  width={'24%'}/>}
+                />
+            }   
+            {   (oneTest3) &&
+                <TestCardOpen
+                    testName={oneTest3.testName}
+                    cover={oneTest3.cover}
+                    blogger={oneTest3.blogger}
+                    footerText={`Питань: ${oneTest3.questions.length}`}
                     onClick={onGoogleClick}
                     button={<BtnGoogleOAuth  width={'24%'}/>}
                 />

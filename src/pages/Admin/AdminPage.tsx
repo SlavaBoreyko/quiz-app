@@ -22,6 +22,7 @@ export const InitialStyte = {
     },
     cover: '',
     questions: [],
+    sumPoints: 0,
 }
 
 const QuestionInitState = {

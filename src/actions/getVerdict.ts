@@ -11,6 +11,7 @@ export const getVerdict = (points: number, verdictDoc: any) => {
                 status: verdicts[0].status,
                 description: verdicts[0].description,
                 icon: verdicts[0].icon,
+                blogLink: verdicts[0].blogLink,
             }
         }
         else if (points === verdicts[1].minPoints 
@@ -20,6 +21,7 @@ export const getVerdict = (points: number, verdictDoc: any) => {
                 status: verdicts[1].status,
                 description: verdicts[1].description,
                 icon: verdicts[1].icon,
+                blogLink: verdicts[1].blogLink,
             }
         } 
         else return {
