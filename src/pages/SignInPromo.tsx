@@ -37,11 +37,11 @@ import { useAppSelector } from '../app/hooks';
 
 
 const SignInPromo = () => {
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     const navigate = useNavigate();
     const [oneTest, setOneTest] = useState<any | undefined>(undefined);
     const [oneTest2, setOneTest2] = useState<any | undefined>(undefined);
-    const [oneTest3, setOneTest3] = useState<any | undefined>(undefined);
+    // const [oneTest3, setOneTest3] = useState<any | undefined>(undefined);
     
     const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
     const userState = useAppSelector((state: any) => state.user);
@@ -87,24 +87,19 @@ const SignInPromo = () => {
                 const testData = getOneTest.data();
                 setOneTest(testData);
             }
+        }
+        fetchData();
+    }, [])
 
-            // const docRef2 = doc(db, 'tests', 'test-xtivki-one')
+    useEffect(() => {
+        const fetchData = async() => {
             const docRef2 = doc(db, 'tests', 'at-home')
-            
             const getOneTest2 = await getDoc(docRef2);
-            if(getOneTest.exists()) { 
+            if(getOneTest2.exists()) { 
                 const testData2 = getOneTest2.data();
                 setOneTest2(testData2);
             }
-
-
-            const docRef3 = doc(db, 'tests', 'relationship-level');
-            const getOneTest3 = await getDoc(docRef3);
-            if(getOneTest.exists()) { 
-                const testData3 = getOneTest3.data();
-                setOneTest3(testData3);
-            }
-        };
+        }
         fetchData();
     }, [])
 

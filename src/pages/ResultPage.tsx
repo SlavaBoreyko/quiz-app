@@ -31,6 +31,16 @@ const ResultPage = () => {
     const [resultPoints, setResultPoints] = useState<number | undefined>(undefined);
     const [showResult, setShowResult] = useState(false);
 
+    const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
+    useEffect(() => {
+      const languageSet = localStorage.getItem('i18nextLng');
+      if(userState.language) {
+          setLanguage(userState.language);
+      } else if(languageSet) {
+          setLanguage(languageSet);
+      }
+    },[userState.language])
+
     // Result for an Unregistered User
     useEffect(() => {
         if(!userState.id) {
@@ -67,6 +77,7 @@ const ResultPage = () => {
             <img className={s.IconBigBackgroung} src={dataVerdict.icon} alt='Status icon'/>
         }
         {   (localStorage.getItem('demoTest') && resultPoints) || (answersData && resultPoints) ?
+            // Doesn't rerender % - return to (resultPoints) &&
             <CircleBar 
                 resultPoints={resultPoints}
                 setShowResult={setShowResult}
@@ -78,25 +89,27 @@ const ResultPage = () => {
             <>
             <ResultCard 
                 showText={showResult}
-                status={dataVerdict.status} 
-                description={dataVerdict.description}
+                // status={dataVerdict.status} 
+                // description={dataVerdict.description}
+                status={(language === 'or') ? dataVerdict.status.or : dataVerdict.status.ua}
+                description={(language === 'or') ? dataVerdict.description.or : dataVerdict.description.ua}
             />
             {/* BUTTONS */}
-            {(dataVerdict.status !== 'Грозний Їбака') && (dataVerdict.blogLink) && (
+            {(dataVerdict.status.ua !== 'Грозний Їбака') && (dataVerdict.blogLink) && (
                 <ButtonTextIcon 
-                    caption={'Відкрити відео Макса'} 
+                    caption={(language === 'or') ?  'Открыть видео Макса' : 'Відкрити відео Макса'} 
                     // icon={IconReset} 
                     onClick={() => openInNewTab(dataVerdict.blogLink) }
                 />
             )}
 
             <ButtonTextIcon 
-                caption={'Пройти тест ще раз'} 
+                caption={(language === 'or') ? 'Пройти тест еще раз' : 'Пройти тест ще раз'} 
                 icon={IconReset} 
                 onClick={() => navigate(`/test/${params.id}`) }
             />
             <ButtonTextIcon 
-                caption={'Переглянути свої помилки'} 
+                caption={(language === 'or') ? 'Просмотреть свои ошибки' : 'Переглянути свої помилки'} 
                 // icon={} 
                 onClick={() => navigate(`/test/${params.id}/answers`) }
             />
