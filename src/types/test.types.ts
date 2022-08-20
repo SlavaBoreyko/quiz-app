@@ -1,24 +1,36 @@
 
 // Compound Test Type: 
 export interface AnswerTestType {
-    answer: string;
+    answer: {
+        ua: string;
+        or: string
+    }; 
     points: number;
     reaction?: string;
 
 }
 export interface QuestionTestType {
-    question: string;
+    question: {
+        ua: string;
+        or: string
+    }; 
     img: string;
     answers: AnswerTestType[];
 }
 
 export interface SimpleBloggerType {
     avatar: string;
-    name: string;
+    name: {
+        ua: string;
+        or: string
+    }; 
 }
 export interface TestType {
     id: string;
-    testName: string;
+    testName: {
+        ua: string;
+        or: string
+    }; 
     blogger: SimpleBloggerType;
     cover: string;
     questions: QuestionTestType[];

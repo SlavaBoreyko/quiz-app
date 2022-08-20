@@ -10,7 +10,10 @@ export interface TestCardPassProps {
     id: string;
     testName: string;
     cover: string;
-    blogger: SimpleBloggerType;
+    // blogger: SimpleBloggerType;
+    bloggerName: string; 
+    bloggerAvatar: string;
+    
     points: number;
     onClick: MouseEventHandler<HTMLDivElement>;
 }
@@ -19,7 +22,8 @@ const TestCardPass: FC<TestCardPassProps> = ({
     id,
     points, onClick,
     testName, cover,
-    blogger,
+    bloggerName, 
+    bloggerAvatar,
 }) => {
     // const refImg = useRef<HTMLDivElement>(null);
 
@@ -37,7 +41,8 @@ const TestCardPass: FC<TestCardPassProps> = ({
             onClick={onClick}
             // coverImage={ <div ref={refImg} className={s.coverOpen} /> }
             coverImage={cover}
-            blogger={blogger}
+            bloggerName={bloggerName}
+            bloggerAvatar={bloggerAvatar}
             testName={testName}
             footerText={data && data.status}
             buttonEl={data &&

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Container from '../components/Containers/Container/Container';
 import s from '../components/Profile/TestCard/TestCard.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -20,11 +20,39 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import BtnGoogleOAuth from '../components/Profile/BtnGoogleOAuth/BtnGoogleOAuth';
 import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
 
+// Translation
+import i18n from 'i18next';
+import { useTranslation } from 'react-i18next';
+import { useAppSelector } from '../app/hooks';
+
+// const translationsUA = {
+//     descriptionPlatform: `Дізнайся, наскільки ти засвоїв "матеріал" і які відео рекомендовано передивитись. 
+//     А також отримуй "сертифікацію" своїx навиків:`
+// }
+// const translationsOR = {
+//     descriptionPlatform: `Узнай, насколько ты усвоил "материал" и какие видео рекомендуется посмотреть.
+//     А также получай "сертификацию" своих навыков:`
+// }
+
+
+
 const SignInPromo = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [oneTest, setOneTest] = useState<any | undefined>(undefined);
     const [oneTest2, setOneTest2] = useState<any | undefined>(undefined);
     const [oneTest3, setOneTest3] = useState<any | undefined>(undefined);
+    
+    const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
+    const userState = useAppSelector((state: any) => state.user);
+    useEffect(() => {
+      const languageSet = localStorage.getItem('i18nextLng');
+      if(userState.language) {
+          setLanguage(userState.language);
+      } else if(languageSet) {
+          setLanguage(languageSet);
+      }
+  },[userState.language])
 
     const onGoogleClick = async () => {
         try {
@@ -80,31 +108,34 @@ const SignInPromo = () => {
         fetchData();
     }, [])
 
+    // const onChangeLanguage = (e: any) => {
+    //     i18n.changeLanguage(e.target.value);
+    // }
+
     return (
-        <>
+        <Suspense fallback="Loading...">
         <Container
             justifyContent='flex-start'
             backgroundColor='#212529'
             locked={false}
         > 
-            <ProfileSection title={'YouTube-тести'} 
-                // description={
-                //     `Тести по відео улюблених блогерів. Дізнайся, наскільки ти засвоїв "матеріал", і які відео рекомендовано передивитись. 
-                //     \n А також отримуй "сертифікацію" своїx навиків:`
-                // }
-                description={
+            <ProfileSection title={(language === 'or') ? 'Тесты' : 'Тести'} 
+                // description={t('descriptionPlatform')}
+                description={(language === 'or') ? `Узнай, насколько ты усвоил "материал" и какие видео рекомендуется посмотреть.
+                     А также получай "сертификацию" своих навыков:`:
                     `Дізнайся, наскільки ти засвоїв "матеріал" і які відео рекомендовано передивитись. 
                     А також отримуй "сертифікацію" своїx навиків:`
                 }
             >
             {   (oneTest) &&
                 <TestCardOpen
-                    testName={oneTest.testName}
+                    testName={(language === 'or') ? oneTest.testName.or : oneTest.testName.ua}
                     cover={oneTest.cover}
-                    blogger={oneTest.blogger}
-                    footerText={`Питань: ${oneTest.questions.length}`}
+                    bloggerName={(language === 'or') ? oneTest.blogger.name.or : oneTest.blogger.name.ua}
+                    bloggerAvatar={oneTest.blogger.avatar}
+                    footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${oneTest.questions.length}`}
                     onClick={() => navigate(`/test/${oneTest.id}`)}
-                    button={<ButtonPlay width={'24%'}/>}
+                    button={<ButtonPlay width={'22%'}/>}
                 />
             } 
             
@@ -121,16 +152,18 @@ const SignInPromo = () => {
                 alt="Mock status screen"
             />
 
-            {   (oneTest2) &&
+             {   (oneTest2) &&
                 <TestCardOpen
-                    testName={oneTest2.testName}
+                    testName={(language === 'or') ? oneTest2.testName.or : oneTest2.testName.ua}
                     cover={oneTest2.cover}
-                    blogger={oneTest2.blogger}
-                    footerText={`Питань: ${oneTest2.questions.length}`}
+                    bloggerName={(language === 'or') ? oneTest2.blogger.name.or : oneTest2.blogger.name.ua}
+                    bloggerAvatar={oneTest2.blogger.avatar}
+                    footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${oneTest2.questions.length}`}
                     onClick={onGoogleClick}
-                    button={<BtnGoogleOAuth  width={'24%'}/>}
+                    button={<BtnGoogleOAuth  width={'22%'}/>}
                 />
             }   
+            {/*
             {   (oneTest3) &&
                 <TestCardOpen
                     testName={oneTest3.testName}
@@ -140,7 +173,7 @@ const SignInPromo = () => {
                     onClick={onGoogleClick}
                     button={<BtnGoogleOAuth  width={'24%'}/>}
                 />
-            }   
+            }    */}
 
             {/* <ProfileSection title={'Хтивки-тести'} 
                 description={
@@ -163,7 +196,7 @@ const SignInPromo = () => {
                 <OAuth />
             </div> */}
         </Container>
-        </>
+        </Suspense>
     )
 }
   

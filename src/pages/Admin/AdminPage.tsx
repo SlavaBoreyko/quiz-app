@@ -15,10 +15,16 @@ export interface TestInputsType {
 
 export const InitialStyte = {
     id: '',
-    testName: '',
+    testName: {
+        ua: '',
+        or: '',
+    },
     blogger: {
         avatar: '',
-        name: '',
+        name: {
+            ua: '',
+            or: '',
+        },
     },
     cover: '',
     questions: [],
@@ -26,7 +32,10 @@ export const InitialStyte = {
 }
 
 const QuestionInitState = {
-    question: '',
+    question: {
+        ua: '',
+        or: ''
+    },
     img: '',
     answers: [],
 }
@@ -185,7 +194,7 @@ const AdminPage = () => {
                 <input 
                     type="text" 
                     className={s.styleInput}
-                    value={dataTest.testName} 
+                    value={dataTest.testName.ua} 
                     name='testName'
                     placeholder='Test Name'
                     onChange={handleChangeTestMain}
@@ -222,7 +231,7 @@ const AdminPage = () => {
         <>
             <input 
                 type="text" 
-                value={question.question} 
+                value={question.question.ua} 
                 className={s.styleInput}
                 name='question'
                 placeholder='Question'

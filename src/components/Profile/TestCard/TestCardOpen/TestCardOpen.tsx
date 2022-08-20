@@ -8,7 +8,9 @@ import TestCard from '../TestCard';
 export interface TestCardOpenProps {
     onClick: MouseEventHandler<HTMLDivElement>;
     cover: string;
-    blogger: SimpleBloggerType;
+    // blogger: SimpleBloggerType;
+    bloggerName: string; 
+    bloggerAvatar: string;
     testName: string;
     // length: number;
     button?: any;
@@ -18,26 +20,20 @@ export interface TestCardOpenProps {
 const TestCardOpen: FC<TestCardOpenProps> = ({
     onClick,
     cover,
-    blogger, 
+    bloggerName, 
+    bloggerAvatar,
     testName, 
     // length,
     footerText,
     button
 }) => {
 
-    // const refImg = useRef<HTMLDivElement>(null);
-
-    // useEffect(() => {
-    //     if(refImg.current) {
-    //         refImg.current.style.backgroundImage = `url("${cover}")`;
-    //     }
-    // }, [refImg.current])
-
     return (
         <TestCard 
             onClick={onClick}
             coverImage={cover}
-            blogger={blogger}
+            bloggerName={bloggerName}
+            bloggerAvatar={bloggerAvatar}
             testName={testName}
             footerText={footerText}
             buttonEl={ (button) ? button : <ButtonPlay width={'22%'}/>} 

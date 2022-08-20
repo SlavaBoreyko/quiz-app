@@ -6,7 +6,9 @@ export interface TestCardProps {
     onClick: MouseEventHandler<HTMLDivElement>;
     coverImage: string | any; //React element JSX? Node? 
     // Header
-    blogger: SimpleBloggerType;
+    // blogger: SimpleBloggerType;
+    bloggerName: string; 
+    bloggerAvatar: string;
     // Title
     testName: string;
     //Footer and button
@@ -17,7 +19,10 @@ export interface TestCardProps {
 const TestCard: FC<TestCardProps> = ({
     onClick,
     coverImage,
-    blogger,
+
+    bloggerName, 
+    bloggerAvatar,
+
     testName,
     footerText,
     buttonEl,
@@ -44,8 +49,8 @@ const TestCard: FC<TestCardProps> = ({
                     <div>
                         {/* HEADER */}
                         <div className={s.divCenterBlogger}>
-                            <img className={s.bloggerAvatar} src={blogger?.avatar} alt={`Ава`}/>
-                            <span className={s.bloggerName}>{blogger?.name}</span>
+                            <img className={s.bloggerAvatar} src={bloggerAvatar} alt={`Ава`}/>
+                            <span className={s.bloggerName}>{bloggerName}</span>
                         </div>
 
                         {/* TITLE */}

@@ -49,7 +49,8 @@ const TestCardLock: FC<TestCardLockProps> = ({
                     <div ref={refBlurImg} className={s.coverBlur} />
                 </>
             }
-            blogger={blogger}
+            bloggerName={blogger.name.ua}
+            bloggerAvatar={blogger.avatar}
             testName={testName}
             footerText={`Хтивок: 2${length}`}
             buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 

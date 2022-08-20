@@ -18,12 +18,12 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
     name, 
     description, 
 }) => {
-    // const auth = getAuth();
-    // const navigate = useNavigate();
-    // const onLogout = () => {
-    //     auth.signOut()
-    //     navigate('/')
-    // }
+    const auth = getAuth();
+    const navigate = useNavigate();
+    const onLogout = () => {
+        auth.signOut()
+        navigate('/')
+    }
     
     return (
         <header className={s.headerProfile} 

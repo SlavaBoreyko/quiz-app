@@ -40,7 +40,7 @@ const ResultPage = () => {
                 const points = _.get(demoTestParsed, `${params.id}.points`);
                 setResultPoints(points);
             }
-        }
+        } 
     }, []);
     
     useEffect(() => {
@@ -66,12 +66,12 @@ const ResultPage = () => {
         {(dataVerdict) && (resultPoints) && 
             <img className={s.IconBigBackgroung} src={dataVerdict.icon} alt='Status icon'/>
         }
-        {   (resultPoints) &&
+        {   (localStorage.getItem('demoTest') && resultPoints) || (answersData && resultPoints) ?
             <CircleBar 
                 resultPoints={resultPoints}
                 setShowResult={setShowResult}
                 width={50}
-            />
+            /> : <></>
         }
         {
             (dataVerdict) &&

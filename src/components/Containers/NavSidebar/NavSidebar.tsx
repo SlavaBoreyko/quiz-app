@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './NavSidebar.module.scss';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ButtonNav from '../../Buttons/ButtonNav/ButtonNav';
@@ -11,6 +11,10 @@ import TestHeader from '../../Test/TestHeader/TestHeader';
 import BtnRectangle from '../../Profile/BtnRectangle/BtnRectangle';
 
 import useAnalyticsEventTracker from '../../hooks/useAnalyticsEventTracker';
+import SelectOption from '../../Buttons/SelectOption/SelectOption';
+import i18n from 'i18next';
+import { useAppDispatch } from '../../../app/hooks';
+import { addUserLanguage } from '../../../features/user/userSlice';
 
 const NavSidebar = () => {
 
@@ -24,7 +28,38 @@ const NavSidebar = () => {
         navigator.clipboard.writeText(window.location.href);
         toast.success('Посилання скопійоване')
     }
-    
+
+    const dispatch = useAppDispatch();
+    const [language, setLanguage] = useState('');
+    // const { t } = useTranslation();
+    useEffect(() => {
+        const languageSet = localStorage.getItem('i18nextLng');
+        languageSet && setLanguage(languageSet);
+    },[]);
+  
+    // useEffect(() => {
+    //   language && i18n.changeLanguage(language);
+    // }, [language])
+  
+    const onChangeLanguage = (e: any) => {
+      setLanguage(e.target.value);
+      dispatch(addUserLanguage(e.target.value))
+      localStorage.setItem('i18nextLng', e.target.value);
+    }
+  
+    const languages = [
+        {
+            value: 'ua',
+            icon: '🦁',
+            title: 'УКР',
+        },
+        {
+            value: 'or',
+            icon: '🐷',
+            title: 'ОРК',
+        },
+    ] 
+
     return (
     <>
         {
@@ -53,7 +88,7 @@ const NavSidebar = () => {
                     </Link>
                     {(!['/developer'].includes(pathname)) && (
                         <BtnRectangle 
-                            caption={`> Розробник. Співпраця`} 
+                            caption={(language === 'or') ? `> Разработчик` :`> Розробник. Співпраця`} 
                             onClick={
                                 () => { 
                                     gaEventTracker('Click on a DevInfo');
@@ -66,26 +101,31 @@ const NavSidebar = () => {
             )
         }
 
-        
-    {( !['/profile'].includes(pathname)) && (
-        // <div className={s.divDeveloper}>
-            
-            <div className={s.sideBarNav} >
-                <ButtonNav 
-                    icon={profileIcon}
-                    onClick={() => navigate('/profile')}
-                />
-                {/* Pages for Share Btn */}
-                {(!['/developer'].includes(pathname)) &&
+        <SelectOption 
+            onChange={onChangeLanguage}
+            options={languages}
+            language={language ? language : 'ua'}
+        />
+
+        {( !['/profile'].includes(pathname)) && (
+            // <div className={s.divDeveloper}>
+                
+                <div className={s.sideBarNav} >
                     <ButtonNav 
-                        icon={shareIcon}
-                        onClick={linkCopy}
-                        optionClass={'share'}
+                        icon={profileIcon}
+                        onClick={() => navigate('/profile')}
                     />
-                } 
-            </div>
-        // </div>
-    )}
+                    {/* Pages for Share Btn */}
+                    {(!['/developer', '/', '/sign-in'].includes(pathname)) &&
+                        <ButtonNav 
+                            icon={shareIcon}
+                            onClick={linkCopy}
+                            optionClass={'share'}
+                        />
+                    } 
+                </div>
+            // </div>
+        )}
     </>
   )
 }

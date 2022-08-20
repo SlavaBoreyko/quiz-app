@@ -8,13 +8,14 @@ import { TestType } from '../types/test.types';
 import { db } from '../firebase.config'
 import { doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { useAppSelector } from '../app/hooks';
-import { addDemoAnswer, UserAnswersType } from '../features/user/userSlice';
+
 
 // redux-toolkit
 import { useAppDispatch } from '../app/hooks';
 import { useAddAnswerMutation } from '../features/user/userApi';
 import { useFetchTestQuery } from '../features/test/testApi';
 import { getTotalPoints } from '../actions/getTotalPoints';
+import { addDemoAnswer, UserAnswersType } from '../features/user/userSlice';
 
 export interface TestPageProps {
 }
@@ -47,12 +48,26 @@ const TestPage: FC<TestPageProps> = () => {
 
     const { data: test, isLoading, isError, error }  = useFetchTestQuery(params.id!);
 
+    const [language, setLanguage] = useState('ua');
     useEffect(() => {
         if(localDemoTest) {
             const demoTestParsed = JSON.parse(localDemoTest);
             setDemoAnswers(demoTestParsed)
         }
     },[])
+    console.log('userState.language', userState.language);
+    console.log('language', language);
+
+    useEffect(() => {
+        const languageSet = localStorage.getItem('i18nextLng');
+        if(userState.language) {
+            setLanguage(userState.language);
+        } else if(languageSet) {
+            setLanguage(languageSet);
+        }
+    },[userState.language])
+
+
 
     // Logic for /xtivka
     useEffect(() => {
@@ -160,6 +175,8 @@ const TestPage: FC<TestPageProps> = () => {
             fullScreen={fullScreen}
         >
             <Test 
+                // language={userState.language}
+                language={language}
                 length={test.questions.length}
                 questionNum={questionNum}
                 question={test.questions[questionNum]} 
@@ -175,6 +192,10 @@ const TestPage: FC<TestPageProps> = () => {
                 reactionSrc={reactionSrc}
                 setReactionSrc={setReactionSrc}
                 reactionShow={reactionShow}
+
+
+                bloggerName={test.blogger.name}
+                testName= {test.testName}
             />
         </Container>
         ) : ('API problem')

@@ -18,6 +18,7 @@ export interface UserState {
     email: string | null | undefined;
     photoUrl: string | null | undefined;
     answers: UserAnswersType | undefined; 
+    language?: string;
 }
 
 const userInitState: UserState = {
@@ -26,6 +27,7 @@ const userInitState: UserState = {
         email: undefined,
         photoUrl: undefined,
         answers: undefined,
+        language: undefined,
 }
 
 const userSlice = createSlice({
@@ -38,22 +40,29 @@ const userSlice = createSlice({
             state.name = auth.currentUser?.displayName;
             state.email = auth.currentUser?.email;
             state.photoUrl = auth.currentUser?.photoURL;
+            const UserLanguage = localStorage.getItem('i18nextLng');
+            state.language = (UserLanguage !== null && UserLanguage !== undefined) ? UserLanguage : 'ua';
+            // state.language = localStorage.getItem('i18nextLng') !== null ? localStorage.getItem('i18nextLng') : 'ua';
         },
         addDemoAnswer(state: UserState, action: PayloadAction<UserAnswersType>) {
             localStorage.setItem('demoTest', JSON.stringify(action.payload));
-        }
+        },
+        addUserLanguage(state: UserState, action: PayloadAction<string>) {
+            state.language = action.payload;
+        },
+
     },
     extraReducers: (builder) => {
         builder.addMatcher(
             userApi.endpoints.fetchAnswers.matchFulfilled,
             (state, { payload }) => {
                 state.answers = payload
-            }
+            },
         )
       },
 });
 
-export const { setCurrentUser, addDemoAnswer } = userSlice.actions;
+export const { setCurrentUser, addDemoAnswer, addUserLanguage } = userSlice.actions;
 export default userSlice.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.user;

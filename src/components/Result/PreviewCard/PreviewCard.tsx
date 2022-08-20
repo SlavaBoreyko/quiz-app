@@ -16,9 +16,16 @@ export interface PreviewCardProps {
 
 const PreviewCard: FC<PreviewCardProps> = ({
     showText
-}) => {
+}) => {    
     const navigate = useNavigate();
     const [oneTest, setOneTest] = useState<any | undefined>(undefined);
+
+    const [language, setLanguage] = useState('ua');
+    useEffect(() => {
+        const languageSet = localStorage.getItem('i18nextLng');
+        languageSet && setLanguage(languageSet);
+    },[]);
+
     useEffect(() => {
         const fetchData = async() => {
             const docRef = doc(db, 'tests', 'at-home')
@@ -60,10 +67,11 @@ const PreviewCard: FC<PreviewCardProps> = ({
     <div className={ (showText) ? s.showText : s.hidden}>
         {   (oneTest) &&
                 <TestCardOpen
-                    testName={oneTest.testName}
+                    testName={(language === 'or') ? oneTest.testName.or : oneTest.testName.ua}
                     cover={oneTest.cover}
-                    blogger={oneTest.blogger}
-                    footerText={'Вхід через Gmail'}
+                    bloggerName={(language === 'or') ? oneTest.blogger.name.or : oneTest.blogger.name.ua}
+                    bloggerAvatar={oneTest.blogger.avatar}
+                    footerText={(language === 'or') ? 'Вход через Gmail' : 'Вхід через Gmail'}
                     onClick={onGoogleClick}
                     button={<BtnGoogleOAuth />}
                 />

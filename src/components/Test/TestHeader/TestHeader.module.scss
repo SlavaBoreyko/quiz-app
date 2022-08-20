@@ -3,8 +3,8 @@
 .divHeader {
     display: flex;
     height: 100%;
-    // max-width: 70%;
-    margin-right: 35%;
+    margin-right: 8.5rem;
+    // margin-right: 35%;
 }
 
 .avatarHeader {
@@ -25,9 +25,16 @@
     // }
 }
 
+.bloggerNamePlusLng {
+    display: flex;
+    justify-content: space-between;
+}
+
 .testName {
     display: inline-block;
     color: $colorAccentOrange;
+    margin-right: 25%;
+    margin-bottom: 0.5rem;
 }
 
 .divText {
@@ -37,6 +44,6 @@
     font-size: 1.4rem;
     text-align: left;
     margin-left: 0.5rem;
-
+    width: 100%;
 }
 

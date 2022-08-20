@@ -31,6 +31,12 @@ const ProfilePage = () => {
     
     const userState = useAppSelector((state: RootState) => state.user);
     const [ addAnswer, result ]  = useAddAnswerMutation();
+
+    const [language, setLanguage] = useState('ua');
+    useEffect(() => {
+        const languageSet = localStorage.getItem('i18nextLng');
+        languageSet && setLanguage(languageSet);
+    },[]);
     
     const localDemoTest = localStorage.getItem('demoTest');
     useEffect(() => {
@@ -100,22 +106,24 @@ const ProfilePage = () => {
                             <TestCardPass
                                 id={testItem.id}
                                 key={index}             
-                                testName={testItem.testName}
+                                testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
                                 cover={testItem.cover}
-                                blogger={testItem.blogger}
+                                bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
+                                bloggerAvatar={testItem.blogger.avatar}
                                 points={points}
                                 onClick={() => navigate(`/test/${testItem.id}/result`)}
                             />
                         )
                     } 
-                    else if (testItem.id !== 'test-xtivki-one') {
+                    else if (testItem.id !== 'test-xtivki-one' && testItem.id !== 'relationship-level') {
                         return (
                             <TestCardOpen
                                 key={index}
-                                testName={testItem.testName}
+                                testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
                                 cover={testItem.cover}
-                                blogger={testItem.blogger}
-                                footerText={`Питань: ${testItem.questions.length}`}
+                                bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
+                                bloggerAvatar={testItem.blogger.avatar}
+                                footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${testItem.questions.length}`}
                                 onClick={() => navigate(`/test/${testItem.id}`)}
                             />
                         )
