@@ -1,13 +1,11 @@
 import { Suspense, useEffect, useState } from 'react';
 import Container from '../components/Containers/Container/Container';
 import s from '../components/Profile/TestCard/TestCard.module.scss';
-import { useNavigate } from 'react-router-dom';
-import statusMockImg from '../assets/test-images/status-mock-2.png'
-import MyLogo from '../assets/svg/logo-testroom.svg'
-import MyLogo2 from '../assets/svg/logo-testroom-2.svg'
-import logo from '../assets/test-images/logo-4-message.png';
+import { Link, useNavigate } from 'react-router-dom';
+import statusMockImg from '../assets/test-images/status-mock-2.png';
+import statusMockImgOR from '../assets/test-images/or-status-screen.png';
+// import PolicyPDF from '../assets/pdf/privacy-policy.pdf'; 
 
-// REDUX-TOOLKIT
 
 // FIREBASE
 import { doc, getDoc, setDoc } from 'firebase/firestore'
@@ -143,7 +141,7 @@ const SignInPromo = () => {
                     width: '100%',
                     marginBottom: '4rem',
                 }} 
-                src={statusMockImg} 
+                src={(language === 'or') ? statusMockImgOR : statusMockImg} 
                 alt="Mock status screen"
             />
 
@@ -153,7 +151,8 @@ const SignInPromo = () => {
                     cover={oneTest2.cover}
                     bloggerName={(language === 'or') ? oneTest2.blogger.name.or : oneTest2.blogger.name.ua}
                     bloggerAvatar={oneTest2.blogger.avatar}
-                    footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${oneTest2.questions.length}`}
+                    // footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${oneTest2.questions.length}`}
+                    footerText={`${(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}`}
                     onClick={onGoogleClick}
                     button={<BtnGoogleOAuth  width={'22%'}/>}
                 />
@@ -190,6 +189,32 @@ const SignInPromo = () => {
             {/* <div>
                 <OAuth />
             </div> */}
+            <div 
+                style={{
+                    color: '#adb5bdaa',
+                    fontSize: '1.2rem',
+                    marginTop: '1rem',
+                }}
+            >
+            {(language === 'or') ? 
+            <> 
+                *Пользуясь сайтом, вы принимаете правила
+                <a  href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
+                    style={{
+                        color: '#adb5bdd2',
+                    }}
+                > Политики конфиденциальности.</a>
+            </> :
+            <>
+                *Користуючись сайтом, ви приймаєте правила
+                <a href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
+                    style={{
+                        color: '#adb5bdd2',
+                    }}
+                > Політики конфіденційності.</a>
+            </>
+            }
+            </div>
         </Container>
         </Suspense>
     )

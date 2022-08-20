@@ -25,6 +25,9 @@ body {
 }
 
 a,
-a:-webkit-any-link {
+a:-webkit-any-link
+a:active
+ {
     text-decoration: none;
+    // color: '#adb5bdaa' !important; 
 }

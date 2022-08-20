@@ -22,6 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import ReactGA from 'react-ga';
 import { useEffect } from "react";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 const TRACKING_ID = "G-1XBNBWQR5V"; 
 ReactGA.initialize(TRACKING_ID);
 
@@ -54,6 +55,8 @@ function App() {
             </Route>  
 
             <Route path='/developer' element={<DeveloperPage />}/>
+            {/* <Route path='/privacy' element={<PrivacyPolicy />}/> */}
+            
             {/* <Route path='/admin' element={<AdminPage />}/> */}
           </Route> 
         </Routes>

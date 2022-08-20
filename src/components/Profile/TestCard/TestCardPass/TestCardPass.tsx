@@ -13,8 +13,9 @@ export interface TestCardPassProps {
     // blogger: SimpleBloggerType;
     bloggerName: string; 
     bloggerAvatar: string;
-    
+
     points: number;
+    language: string;
     onClick: MouseEventHandler<HTMLDivElement>;
 }
 
@@ -24,6 +25,8 @@ const TestCardPass: FC<TestCardPassProps> = ({
     testName, cover,
     bloggerName, 
     bloggerAvatar,
+
+    language
 }) => {
     // const refImg = useRef<HTMLDivElement>(null);
 
@@ -44,7 +47,7 @@ const TestCardPass: FC<TestCardPassProps> = ({
             bloggerName={bloggerName}
             bloggerAvatar={bloggerAvatar}
             testName={testName}
-            footerText={data && data.status}
+            footerText={data && (language === 'or' ? data.status.or : data.status.ua)}
             buttonEl={data &&
                 <>
                     <img className={s.statusIcon} src={data.icon} alt='Status icon'/>

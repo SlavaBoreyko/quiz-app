@@ -71,13 +71,38 @@ const PreviewCard: FC<PreviewCardProps> = ({
                     cover={oneTest.cover}
                     bloggerName={(language === 'or') ? oneTest.blogger.name.or : oneTest.blogger.name.ua}
                     bloggerAvatar={oneTest.blogger.avatar}
-                    footerText={(language === 'or') ? 'Вход через Gmail' : 'Вхід через Gmail'}
+                    footerText={(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}
                     onClick={onGoogleClick}
                     button={<BtnGoogleOAuth />}
                 />
         } 
-
         {/* <OAuth /> */}
+        <div 
+            style={{
+                color: '#adb5bdaa',
+                fontSize: '1.2rem',
+                marginTop: '1rem',
+            }}
+        >
+        {(language === 'or') ? 
+        <>  
+            *Пользуясь сайтом, вы принимаете правила
+            <a  href={require('../../../assets/pdf/privacy-policy.pdf')} target='blank'
+                style={{
+                    color: '#adb5bd',
+                }}
+            > Политики конфиденциальности.</a>
+        </> :
+        <>
+            *Користуючись сайтом, ви приймаєте правила
+            <a  href={require('../../../assets/pdf/privacy-policy.pdf')} target='blank'
+                style={{
+                    color: '#adb5bd',
+                }}
+            > Політики конфіденційності.</a>
+        </>
+        }
+        </div>
     </div>
   )
 }

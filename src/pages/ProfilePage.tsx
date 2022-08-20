@@ -32,11 +32,15 @@ const ProfilePage = () => {
     const userState = useAppSelector((state: RootState) => state.user);
     const [ addAnswer, result ]  = useAddAnswerMutation();
 
-    const [language, setLanguage] = useState('ua');
+    const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
     useEffect(() => {
-        const languageSet = localStorage.getItem('i18nextLng');
-        languageSet && setLanguage(languageSet);
-    },[]);
+      const languageSet = localStorage.getItem('i18nextLng');
+      if(userState.language) {
+          setLanguage(userState.language);
+      } else if(languageSet) {
+          setLanguage(languageSet);
+      }
+  },[userState.language])
     
     const localDemoTest = localStorage.getItem('demoTest');
     useEffect(() => {
@@ -105,12 +109,13 @@ const ProfilePage = () => {
                         return (
                             <TestCardPass
                                 id={testItem.id}
-                                key={index}             
+                                key={index}         
                                 testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
                                 cover={testItem.cover}
                                 bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
                                 bloggerAvatar={testItem.blogger.avatar}
                                 points={points}
+                                language={language ? language : 'ua'}
                                 onClick={() => navigate(`/test/${testItem.id}/result`)}
                             />
                         )

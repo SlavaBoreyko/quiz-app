@@ -55,8 +55,8 @@ const TestPage: FC<TestPageProps> = () => {
             setDemoAnswers(demoTestParsed)
         }
     },[])
-    console.log('userState.language', userState.language);
-    console.log('language', language);
+    // console.log('userState.language', userState.language);
+    // console.log('language', language);
 
     useEffect(() => {
         const languageSet = localStorage.getItem('i18nextLng');
