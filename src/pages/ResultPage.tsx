@@ -95,7 +95,9 @@ const ResultPage = () => {
                 description={(language === 'or') ? dataVerdict.description.or : dataVerdict.description.ua}
             />
             {/* BUTTONS */}
-            {(dataVerdict.status.ua !== 'Грозний Їбака') && (dataVerdict.blogLink) && (
+            {
+                // (dataVerdict.status.ua !== 'Грозний Їбака') && 
+                (dataVerdict.blogLink) && (
                 <ButtonTextIcon 
                     caption={(language === 'or') ?  'Открыть видео Макса' : 'Відкрити відео Макса'} 
                     // icon={IconReset} 
@@ -108,11 +110,16 @@ const ResultPage = () => {
                 icon={IconReset} 
                 onClick={() => navigate(`/test/${params.id}`) }
             />
-            <ButtonTextIcon 
-                caption={(language === 'or') ? 'Просмотреть свои ошибки' : 'Переглянути свої помилки'} 
-                // icon={} 
-                onClick={() => navigate(`/test/${params.id}/answers`) }
-            />
+
+            {
+                (!userState.email) && (
+                <ButtonTextIcon 
+                    caption={(language === 'or') ? 'Просмотреть свои ошибки' : 'Переглянути свої помилки'} 
+                    // icon={} 
+                    onClick={() => navigate(`/test/${params.id}/answers`) }
+                />)
+            }
+
             </>
         }
         <div style={{marginTop: '2rem'}}></div>

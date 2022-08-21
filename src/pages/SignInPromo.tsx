@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import statusMockImg from '../assets/test-images/status-mock-2.png';
 import statusMockImgOR from '../assets/test-images/or-status-screen.png';
 // import PolicyPDF from '../assets/pdf/privacy-policy.pdf'; 
-
+import Skeleton from '@mui/material/Skeleton';
 
 // FIREBASE
 import { doc, getDoc, setDoc } from 'firebase/firestore'
@@ -106,7 +106,6 @@ const SignInPromo = () => {
     // }
 
     return (
-        <Suspense fallback="Loading...">
         <Container
             justifyContent='flex-start'
             backgroundColor='#212529'
@@ -120,7 +119,7 @@ const SignInPromo = () => {
                     А також отримуй "сертифікацію" своїx навиків:`
                 }
             >
-            {   (oneTest) &&
+            {   (oneTest) ? (
                 <TestCardOpen
                     testName={(language === 'or') ? oneTest.testName.or : oneTest.testName.ua}
                     cover={oneTest.cover}
@@ -129,7 +128,15 @@ const SignInPromo = () => {
                     footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${oneTest.questions.length}`}
                     onClick={() => navigate(`/test/${oneTest.id}`)}
                     button={<ButtonPlay width={'22%'}/>}
-                />
+                />) : (
+                    <Skeleton 
+                        sx={{ bgcolor: '#2f363c' }}
+                        variant="rounded"  
+                        animation="wave"  
+                        width={'100%'} 
+                        height={'15rem'} 
+                    />
+                )
             } 
             
             </ProfileSection>
@@ -145,7 +152,7 @@ const SignInPromo = () => {
                 alt="Mock status screen"
             />
 
-             {   (oneTest2) &&
+             {   (oneTest2) ? (
                 <TestCardOpen
                     testName={(language === 'or') ? oneTest2.testName.or : oneTest2.testName.ua}
                     cover={oneTest2.cover}
@@ -155,7 +162,15 @@ const SignInPromo = () => {
                     footerText={`${(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}`}
                     onClick={onGoogleClick}
                     button={<BtnGoogleOAuth  width={'22%'}/>}
-                />
+                />) : (
+                    <Skeleton 
+                        sx={{ bgcolor: '#2f363c' }}
+                        variant="rounded"  
+                        animation="wave"  
+                        width={'100%'} 
+                        height={'15rem'} 
+                    />
+                )
             }   
             {/*
             {   (oneTest3) &&
@@ -216,7 +231,6 @@ const SignInPromo = () => {
             }
             </div>
         </Container>
-        </Suspense>
     )
 }
   
