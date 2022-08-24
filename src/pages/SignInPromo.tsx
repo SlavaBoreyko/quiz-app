@@ -71,7 +71,7 @@ const SignInPromo = () => {
                     // timestamp: serverTimestamp()
                 })
             }
-            navigate('/profile');
+            navigate('/');
         } catch (error) {
             console.error('Could not authorize with Google')
         }
@@ -84,12 +84,14 @@ const SignInPromo = () => {
     // ANALYTICS
     // useEffect(() => {
     //     const fetchUsersActivities = async() => {
+    //         const testName = 'first-date';
     //         const q = query(collection(db, "users"), where(`answers`, "!=", null));
     //         let counter = 0;
     //         const querySnapshot = await getDocs(q);
     //         querySnapshot.forEach((doc) => {
     //             const data = doc.data()
-    //             if (data.answers['at-home'] && data.answers['at-home']['points'] >= 51) {
+    //             // if (data.answers[testName] && data.answers[testName]['points'] >= 51) {
+    //             if (data.answers[testName] && data.answers[testName]['points'] >= 0) {
     //             // if (Object.keys(data.answers).length === 3) {
     //                 counter++
     //             }
@@ -120,6 +122,7 @@ const SignInPromo = () => {
                         key={testDemo.id} 
                         testName={(language === 'or') ? testDemo.testName.or : testDemo.testName.ua}
                         cover={testDemo.cover}
+                        bloggerId={testDemo.blogger.id}
                         bloggerName={(language === 'or') ? testDemo.blogger.name.or : testDemo.blogger.name.ua}
                         bloggerAvatar={testDemo.blogger.avatar}
                         footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${testDemo.qLength}` :
@@ -158,6 +161,7 @@ const SignInPromo = () => {
                         key={test.id}
                         testName={(language === 'or') ? test.testName.or : test.testName.ua}
                         cover={test.cover}
+                        bloggerId={test.blogger.id}
                         bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
                         bloggerAvatar={test.blogger.avatar}
                         footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :

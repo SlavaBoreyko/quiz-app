@@ -2,12 +2,14 @@ import React, { FC, MouseEventHandler, useEffect, useRef } from 'react';
 import s from './TestCard.module.scss';
 import { SimpleBloggerType } from '../../../types/test.types';
 import { Skeleton } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 
 export interface TestCardProps {
     onClick: MouseEventHandler<HTMLDivElement>;
     coverImage: string | any; //React element JSX? Node? 
     // Header
     // blogger: SimpleBloggerType;
+    bloggerId: string; 
     bloggerName: string; 
     bloggerAvatar: string;
     // Title
@@ -21,6 +23,7 @@ const TestCard: FC<TestCardProps> = ({
     onClick,
     coverImage,
 
+    bloggerId,
     bloggerName, 
     bloggerAvatar,
 
@@ -28,6 +31,7 @@ const TestCard: FC<TestCardProps> = ({
     footerText,
     buttonEl,
 }) => {
+    const navigate = useNavigate();
     const refImg = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -49,10 +53,18 @@ const TestCard: FC<TestCardProps> = ({
                     <div className={s.textDiv}>
                         <div>
                             {/* HEADER */}
-                            <div className={s.divCenterBlogger}>
-                                <img className={s.bloggerAvatar} src={bloggerAvatar} alt={`Ава`}/>
-                                <span className={s.bloggerName}>{bloggerName}</span>
-                            </div>
+                            {/* <Link to={`/${bloggerId}`}> */}
+                                <div 
+                                    className={s.divCenterBlogger} 
+                                    onClick={(e) => {
+                                        e.stopPropagation(); 
+                                        navigate(`/${bloggerId}`)
+                                    }
+                                }>
+                                    <img className={s.bloggerAvatar} src={bloggerAvatar} alt={`Ава`}/>
+                                    <span className={s.bloggerName}>{bloggerName}</span>
+                                </div>
+                            {/* </Link> */}
 
                             {/* TITLE */}
                             <p className={s.titleTest}>{testName}</p>

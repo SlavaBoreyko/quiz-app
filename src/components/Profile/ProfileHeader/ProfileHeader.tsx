@@ -32,7 +32,7 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
             }}
         >
 
-            <img className={s.avatar} src={photoUrl} alt='Users avatar'/>
+            {(photoUrl) && (<img className={s.avatar} src={photoUrl} alt='Avatar'/>)}
             <div>
                 <h1 className={s.name}>{name}</h1>
                 {/* <p className={s.details}>{email}</p> */}

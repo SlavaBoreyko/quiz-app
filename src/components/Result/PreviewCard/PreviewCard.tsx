@@ -57,7 +57,7 @@ const PreviewCard: FC<PreviewCardProps> = ({
                     // timestamp: serverTimestamp()
                 })
             }
-            navigate('/profile');
+            navigate('/');
         } catch (error) {
             console.error('Could not authorize with Google')
         }
@@ -69,6 +69,7 @@ const PreviewCard: FC<PreviewCardProps> = ({
                 <TestCardOpen
                     testName={(language === 'or') ? oneTest.testName.or : oneTest.testName.ua}
                     cover={oneTest.cover}
+                    bloggerId={oneTest.blogger.id}
                     bloggerName={(language === 'or') ? oneTest.blogger.name.or : oneTest.blogger.name.ua}
                     bloggerAvatar={oneTest.blogger.avatar}
                     footerText={(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}

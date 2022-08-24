@@ -10,6 +10,7 @@ import TestCard from '../TestCard';
 export interface TestCardLockProps {
     onClick: MouseEventHandler<HTMLDivElement>;
     cover: string;
+    bloggerId: string; 
     blogger: SimpleBloggerType;
     testName: string;
     length: number;
@@ -19,6 +20,7 @@ export interface TestCardLockProps {
 const TestCardLock: FC<TestCardLockProps> = ({
     onClick,
     cover,
+    bloggerId,
     blogger, 
     testName, 
     length,
@@ -49,6 +51,7 @@ const TestCardLock: FC<TestCardLockProps> = ({
                     <div ref={refBlurImg} className={s.coverBlur} />
                 </>
             }
+            bloggerId={bloggerId}
             bloggerName={blogger.name.ua}
             bloggerAvatar={blogger.avatar}
             testName={testName}

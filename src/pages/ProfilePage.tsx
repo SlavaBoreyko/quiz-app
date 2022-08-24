@@ -94,6 +94,7 @@ const ProfilePage = () => {
                                 key={index}         
                                 testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
                                 cover={testItem.cover}
+                                bloggerId={testItem.blogger.id}
                                 bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
                                 bloggerAvatar={testItem.blogger.avatar}
                                 points={points}
@@ -102,19 +103,20 @@ const ProfilePage = () => {
                             />
                         )
                     } 
-                    else {
-                        return (
-                            <TestCardOpen
-                                key={index}
-                                testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
-                                cover={testItem.cover}
-                                bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
-                                bloggerAvatar={testItem.blogger.avatar}
-                                footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${testItem.qLength}`}
-                                onClick={() => navigate(`/test/${testItem.id}`)}
-                            />
-                        )
-                    }
+                    // else {
+                    //     return (
+                    //         <TestCardOpen
+                    //             key={index}
+                    //             testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
+                    //             cover={testItem.cover}
+                    //             bloggerId={testItem.blogger.id}
+                    //             bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
+                    //             bloggerAvatar={testItem.blogger.avatar}
+                    //             footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${testItem.qLength}`}
+                    //             onClick={() => navigate(`/test/${testItem.id}`)}
+                    //         />
+                    //     )
+                    // }
                 }
             )} 
             

@@ -11,6 +11,7 @@ export interface TestCardPassProps {
     testName: string;
     cover: string;
     // blogger: SimpleBloggerType;
+    bloggerId: string;
     bloggerName: string; 
     bloggerAvatar: string;
 
@@ -23,6 +24,7 @@ const TestCardPass: FC<TestCardPassProps> = ({
     id,
     points, onClick,
     testName, cover,
+    bloggerId,
     bloggerName, 
     bloggerAvatar,
 
@@ -44,6 +46,7 @@ const TestCardPass: FC<TestCardPassProps> = ({
             onClick={onClick}
             // coverImage={ <div ref={refImg} className={s.coverOpen} /> }
             coverImage={cover}
+            bloggerId={bloggerId}
             bloggerName={bloggerName}
             bloggerAvatar={bloggerAvatar}
             testName={testName}

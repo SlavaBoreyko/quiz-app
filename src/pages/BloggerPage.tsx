@@ -105,6 +105,7 @@ const BloggerPage = () => {
           key={test.id}
           testName={(language === 'or') ? test.testName.or : test.testName.ua}
           cover={test.cover}
+          bloggerId={test.blogger.id}
           bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
           bloggerAvatar={test.blogger.avatar}
           footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :

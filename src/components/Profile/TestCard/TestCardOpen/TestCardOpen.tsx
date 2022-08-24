@@ -10,6 +10,7 @@ export interface TestCardOpenProps {
     onClick: MouseEventHandler<HTMLDivElement>; 
     cover: string;
     // blogger: SimpleBloggerType;
+    bloggerId: string; 
     bloggerName: string; 
     bloggerAvatar: string;
     testName: string;
@@ -21,6 +22,8 @@ export interface TestCardOpenProps {
 const TestCardOpen: FC<TestCardOpenProps> = ({
     onClick,
     cover,
+
+    bloggerId,
     bloggerName, 
     bloggerAvatar,
     testName, 
@@ -33,6 +36,7 @@ const TestCardOpen: FC<TestCardOpenProps> = ({
         <TestCard 
             onClick={onClick}
             coverImage={cover}
+            bloggerId={bloggerId}
             bloggerName={bloggerName}
             bloggerAvatar={bloggerAvatar}
             testName={testName}
