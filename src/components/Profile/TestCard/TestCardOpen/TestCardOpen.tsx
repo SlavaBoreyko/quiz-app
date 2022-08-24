@@ -6,7 +6,8 @@ import ButtonPlay from '../../ButtonPlay/ButtonPlay';
 import TestCard from '../TestCard';
 
 export interface TestCardOpenProps {
-    onClick: MouseEventHandler<HTMLDivElement>;
+    // onClick:  MouseEventHandler<HTMLDivElement>; 
+    onClick: MouseEventHandler<HTMLDivElement>; 
     cover: string;
     // blogger: SimpleBloggerType;
     bloggerName: string; 

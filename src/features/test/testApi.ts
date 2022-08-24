@@ -11,7 +11,7 @@ const _ = require('lodash');
 export const testApi = createApi({
     reducerPath: 'testApi',
     baseQuery: fakeBaseQuery(),
-    tagTypes: ['Test', 'Verdict'],
+    tagTypes: ['Test', 'TestCard', 'Verdict'],
     endpoints: (builder) => ({
         fetchTest: builder.query<any, string>({
             async queryFn(testId) {
@@ -26,6 +26,28 @@ export const testApi = createApi({
                 }
             },
             providesTags: ['Test'],                 
+        }),
+        fetchTestsByBlogger: builder.query<any, string>({
+            async queryFn(bloggerName) {
+                let arrayTests: any[] = [];
+                try {
+                    const q = query(
+                        collection(db, "testsCards"), 
+                        where("blogger.name.ua", "==", bloggerName),
+                        
+                    );
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.forEach((doc) => {
+                        return arrayTests.push(doc.data());
+                    });
+
+                    // setListings((prevState) => [...prevState, ...listingsList])
+                    return { data: arrayTests}
+                } catch(err) {
+                    return { error: err }
+                }
+            },
+            providesTags: ['TestCard'],                 
         }),
         addTest: builder.mutation<any, TestType>({
             async queryFn(data) {
@@ -58,4 +80,4 @@ export const testApi = createApi({
     }),
 });
 
-export const { useFetchTestQuery, useAddTestMutation } = testApi; 
+export const { useFetchTestQuery, useAddTestMutation, useFetchTestsByBloggerQuery } = testApi; 

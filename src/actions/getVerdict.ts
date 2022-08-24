@@ -28,6 +28,7 @@ export const getVerdict = (points: number, verdictDoc: any) => {
             status: verdicts[2].status,
             description: verdicts[2].description,
             icon: verdicts[2].icon,
+            blogLink: verdicts[2].blogLink,
         }
     }
 }

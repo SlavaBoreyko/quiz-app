@@ -120,7 +120,7 @@ const ProfilePage = () => {
                             />
                         )
                     } 
-                    else if (testItem.id !== 'test-xtivki-one' && testItem.id !== 'relationship-level') {
+                    else if (testItem.id !== 'test-xtivki-one') {
                         return (
                             <TestCardOpen
                                 key={index}

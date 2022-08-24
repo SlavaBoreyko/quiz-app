@@ -12,6 +12,10 @@
     margin-left: 0rem;
     transition: all 1000ms;
 
+    @media (min-width: 700px) {
+        height: 12rem;
+    }
+
     & img {
         height: 100%;
         transition: all 500ms;

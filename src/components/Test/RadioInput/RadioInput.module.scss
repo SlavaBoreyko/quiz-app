@@ -26,8 +26,26 @@ input[type="radio"] {
     border-radius: 0.5rem;
 
     & span {
-        font-size: 1.4rem;;
+        font-size: 1.4rem;
         color: #ced4da;
+
+        @media (min-width: 700px) {
+            font-size: 1.3rem;
+        }
+
+        @media only screen 
+        and (device-width: 375px) 
+        and (device-height: 667px) 
+        and (-webkit-device-pixel-ratio : 2) { 
+            font-size: 1.2rem;
+        }
+    
+        @media only screen 
+        and (device-width : 375px) 
+        and (device-height : 812px) 
+        and (-webkit-device-pixel-ratio : 3) { 
+            font-size: 1.2rem;
+        }
     }
 }
 
