@@ -13,7 +13,6 @@ import { db } from '../firebase.config';
 import ProfileSection from '../components/Profile/ProfileSection/ProfileSection';
 import TestCardLock from '../components/Profile/TestCard/TestCardLock/TestCardLock';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
-import OAuth from '../components/Auth/OAuth';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import BtnGoogleOAuth from '../components/Profile/BtnGoogleOAuth/BtnGoogleOAuth';
 import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
@@ -22,32 +21,23 @@ import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../app/hooks';
-import OAuthGoogle from '../actions/OAuthGoogle';
 import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
-
-// const translationsUA = {
-//     descriptionPlatform: `Дізнайся, наскільки ти засвоїв "матеріал" і які відео рекомендовано передивитись. 
-//     А також отримуй "сертифікацію" своїx навиків:`
-// }
-// const translationsOR = {
-//     descriptionPlatform: `Узнай, насколько ты усвоил "материал" и какие видео рекомендуется посмотреть.
-//     А также получай "сертификацию" своих навыков:`
-// }
+import { TestCardType } from '../types/test.types';
 
 const SignInPromo = () => {
     // const { t } = useTranslation();
     const navigate = useNavigate();    
     const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
-    const [testDemo, setTestDemo] = useState<any | undefined>(undefined);
-    const [otherTests, setOtherTests] = useState<any[] | undefined>(undefined);
-
     const userState = useAppSelector((state: any) => state.user);
+
     const { data: allTestsByBlogger, isLoading, isError, error }  = useFetchTestsByBloggerQuery('Фан-клуб Дівертіто');
+    const [testDemo, setTestDemo] = useState<TestCardType | undefined>(undefined);
+    const [otherTests, setOtherTests] = useState<TestCardType[] | undefined>(undefined);
 
     useEffect(() => {
         if(allTestsByBlogger) {
-            const test = allTestsByBlogger.filter((test: any) => test.testId === 'first-date');
-            const otherTests = allTestsByBlogger.filter((test: any) => test.testId !== 'first-date');
+            const test = allTestsByBlogger.filter((test: any) => test.id === 'first-date');
+            const otherTests = allTestsByBlogger.filter((test: any) => test.id !== 'first-date');
             setTestDemo(test[0]);
             setOtherTests(otherTests);
         }
@@ -127,7 +117,7 @@ const SignInPromo = () => {
             { (testDemo) ? (
                 // allTestsByBlogger.slice(0,1).map((test: any) => (
                     <TestCardOpen
-                        key={testDemo.testId} 
+                        key={testDemo.id} 
                         testName={(language === 'or') ? testDemo.testName.or : testDemo.testName.ua}
                         cover={testDemo.cover}
                         bloggerName={(language === 'or') ? testDemo.blogger.name.or : testDemo.blogger.name.ua}
@@ -135,7 +125,7 @@ const SignInPromo = () => {
                         footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${testDemo.qLength}` :
                             `${(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}`
                         }
-                        onClick={(userState.id) ? () => navigate(`/test/${testDemo.testId}`) : onGoogleClick }
+                        onClick={(userState.id) ? () => navigate(`/test/${testDemo.id}`) : onGoogleClick }
                         button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnGoogleOAuth  width={'22%'}/>}
                     />
                 // ))
@@ -165,7 +155,7 @@ const SignInPromo = () => {
             { (otherTests) ? (
                 otherTests.map((test: any) => (
                     <TestCardOpen
-                        key={test.testId}
+                        key={test.id}
                         testName={(language === 'or') ? test.testName.or : test.testName.ua}
                         cover={test.cover}
                         bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
@@ -173,7 +163,7 @@ const SignInPromo = () => {
                         footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
                             `${(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}`
                         }
-                        onClick={(userState.id) ? () => navigate(`/test/${test.testId}`) : onGoogleClick }
+                        onClick={(userState.id) ? () => navigate(`/test/${test.id}`) : onGoogleClick }
                         button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnGoogleOAuth  width={'22%'}/>}
                     />
                 ))) : (

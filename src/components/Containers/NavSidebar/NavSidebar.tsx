@@ -63,7 +63,7 @@ const NavSidebar = () => {
     return (
     <>
         {
-            (!['/', '/profile', '/sign-in', '/developer'].includes(pathname)) ? (
+            (!['/', '/profile', '/sign-in', '/developer', '/divertito'].includes(pathname)) ? (
                 <div
                     style={{
                         position: 'absolute',
@@ -116,7 +116,7 @@ const NavSidebar = () => {
                         onClick={() => navigate('/profile')}
                     />
                     {/* Pages for Share Btn */}
-                    {(!['/developer', '/', '/sign-in'].includes(pathname)) &&
+                    {(!['/developer', '/', '/sign-in', '/divertito'].includes(pathname)) &&
                         <ButtonNav 
                             icon={shareIcon}
                             onClick={linkCopy}

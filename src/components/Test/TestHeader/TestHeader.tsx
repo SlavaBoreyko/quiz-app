@@ -52,7 +52,7 @@ const TestHeader = () => {
         <>
          
             <div className={s.divHeader}>
-              <Link to='/'>
+              <Link to={`/${testData.blogger.id}`}>
                 <img className={s.avatarHeader} src={testData.blogger.avatar} alt={'Avatar'}/>
               </Link> 
               <div className={s.divText}>

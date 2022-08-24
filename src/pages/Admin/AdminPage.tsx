@@ -20,6 +20,7 @@ export const InitialStyte = {
         or: '',
     },
     blogger: {
+        id: '',
         avatar: '',
         name: {
             ua: '',

@@ -19,6 +19,7 @@ export interface QuestionTestType {
 }
 
 export interface SimpleBloggerType {
+    id: string;
     avatar: string;
     name: {
         ua: string;
@@ -36,8 +37,17 @@ export interface TestType {
     questions: QuestionTestType[];
     sumPoints: number;
 }
-// Add 
 
+export interface TestCardType {
+    id: string;
+    testName: {
+        ua: string;
+        or: string
+    }; 
+    blogger: SimpleBloggerType;
+    cover: string;
+    qLength: number;
+}
 
 //
 export interface TestAnswersType {

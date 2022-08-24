@@ -1,38 +1,35 @@
 import { useEffect, useState } from 'react';
 // import Container from '../components/Containers/Container/Container';
 import ProfileHeader from '../components/Profile/ProfileHeader/ProfileHeader';
-import { TestType } from '../types/test.types';
+import { TestCardType } from '../types/test.types';
 import { useNavigate } from 'react-router-dom';
 
 // REDUX-TOOLKIT
-import { useAddAnswerMutation, useFetchAnswersQuery, useFetchVerdictQuery } from '../features/user/userApi'
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-// import { setUser2 } from '../features/user/userSlice'
+import { useAddAnswerMutation, useFetchAnswersQuery } from '../features/user/userApi'
+import { useAppSelector } from '../app/hooks';
 
 // FIREBASE
-import { doc, collection, serverTimestamp, addDoc, getDoc, getDocs, } from 'firebase/firestore'
-import { db } from '../firebase.config';
 import { RootState } from '../app/store';
 import Container from '../components/Containers/Container/Container';
 import TestCardPass from '../components/Profile/TestCard/TestCardPass/TestCardPass';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
-
-const _ = require('lodash');
-
-export interface setDemoTest {
-    idTest: string;
-    points: number;
-}
-
+import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
 
 const ProfilePage = () => {
     const navigate = useNavigate();
-    const [testList, setTestList] = useState<TestType[] | undefined>(undefined);
-    
+    const { data: allTestsByBlogger }  = useFetchTestsByBloggerQuery('Фан-клуб Дівертіто');
+    const [testList, setTestList] = useState<TestCardType[] | undefined>(undefined);
+    // FOR NEXT SORT 
+    useEffect(() => {
+        if(allTestsByBlogger) {
+            setTestList(allTestsByBlogger);
+        }
+    }, [allTestsByBlogger]);
+
     const userState = useAppSelector((state: RootState) => state.user);
     const [ addAnswer, result ]  = useAddAnswerMutation();
-
     const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
+
     useEffect(() => {
       const languageSet = localStorage.getItem('i18nextLng');
       if(userState.language) {
@@ -40,7 +37,7 @@ const ProfilePage = () => {
       } else if(languageSet) {
           setLanguage(languageSet);
       }
-  },[userState.language])
+    },[userState.language])
     
     const localDemoTest = localStorage.getItem('demoTest');
     useEffect(() => {
@@ -51,40 +48,25 @@ const ProfilePage = () => {
         }
     },[])
 
-    useEffect(() => {
-        const fetchData = async() => {
-            //FIREBASE
-            const getList = await getDocs(collection(db, 'tests'),)
-            let testListBase: TestType[] | any = [];
-            getList.forEach((doc) => testListBase.push({id: doc.id, ...doc.data()}));
-            setTestList(testListBase);
-        };
-        fetchData();
-
-
-    }, [])
-
-    useEffect(() => {
-        if(testList) {
-            let maxPointfromEveryQuestion: number[] = [];
-            testList[0].questions.forEach((question) => {
-                // one question 
-                let pointsFromOneAnswer: number[] = [];
-                for (let i = 0; i < question.answers.length; i++) {
-                    pointsFromOneAnswer.push(+question.answers[i].points)
-                }
-                pointsFromOneAnswer.sort();
-                maxPointfromEveryQuestion.push(pointsFromOneAnswer[question.answers.length - 1]);
-            })
-            const totalPoints = maxPointfromEveryQuestion.reduce((totalPoints, maxPoints) => totalPoints + maxPoints);
-            // console.log('>>> maxPointfromEveryQuestion', maxPointfromEveryQuestion);
-            // console.log('>>> totalPoints', totalPoints)
-        }
-    }, [testList])
+    // TOTALPOINT CALC FUNCTION 
+    // useEffect(() => {
+    //     if(testList) {
+    //         let maxPointfromEveryQuestion: number[] = [];
+    //         testList[0].questions.forEach((question) => {
+    //             // one question 
+    //             let pointsFromOneAnswer: number[] = [];
+    //             for (let i = 0; i < question.answers.length; i++) {
+    //                 pointsFromOneAnswer.push(+question.answers[i].points)
+    //             }
+    //             pointsFromOneAnswer.sort();
+    //             maxPointfromEveryQuestion.push(pointsFromOneAnswer[question.answers.length - 1]);
+    //         })
+    //         const totalPoints = maxPointfromEveryQuestion.reduce((totalPoints, maxPoints) => totalPoints + maxPoints);
+    //     }
+    // }, [testList])
 
     const { data, isLoading, isError, error } = useFetchAnswersQuery(userState.id!);
 
-    // console.log('data useFetchAnswersQuery', data);
     return (
         <Container
             justifyContent='flex-start'
@@ -120,7 +102,7 @@ const ProfilePage = () => {
                             />
                         )
                     } 
-                    else if (testItem.id !== 'test-xtivki-one') {
+                    else {
                         return (
                             <TestCardOpen
                                 key={index}
@@ -128,7 +110,7 @@ const ProfilePage = () => {
                                 cover={testItem.cover}
                                 bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
                                 bloggerAvatar={testItem.blogger.avatar}
-                                footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${testItem.questions.length}`}
+                                footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${testItem.qLength}`}
                                 onClick={() => navigate(`/test/${testItem.id}`)}
                             />
                         )

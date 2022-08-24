@@ -23,6 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReactGA from 'react-ga';
 import { useEffect } from "react";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import BloggerPage from "./pages/BloggerPage";
 const TRACKING_ID = "G-X99CC06EWN"; 
 ReactGA.initialize(TRACKING_ID);
 
@@ -39,10 +40,11 @@ function App() {
         <Routes>
           <Route path='/' element={<AuthWrapper />} >
           
-          {["/", "/sign-in"].map((path, index) => 
-            <Route path={path} element={<SignInPromo />} key={index} />
-          )}
+            {["/", "/sign-in"].map((path, index) => 
+              <Route path={path} element={<SignInPromo />} key={index} />
+            )}
 
+            <Route path='/:id' element={<BloggerPage />} />
             <Route path='/test/:id' element={<TestPage />} />
             <Route path='/test/:id/result' element={<ResultPage />}/>
             <Route path='/test/:id/answers' element={<TestPage />} />

@@ -1,0 +1,117 @@
+@import "../../../style/variables.scss";
+
+.headerProfile {
+    // margin from Logo
+    margin-top: 1rem;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    // align-items: flex-end;
+    align-items: flex-end;
+    padding: 1rem 0 2rem 0;
+    // line
+    // border-bottom: 1px solid #adb5bd2b;
+
+}
+
+.containerDiv {
+    width: 100%;
+}
+.avatar {
+    background-color: #adb5bd;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+    object-fit: cover;
+    object-position: center center;
+    flex-shrink: 0;
+}
+.name {
+    text-align: left;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #adb5bd;
+    // margin-bottom: 1rem;
+}
+
+.details {
+    width: 100%;
+    font-size: 1.4rem;
+    color: #adb5bd;
+    // color: $colorAccentOrange;
+}
+
+.fontGold {
+    // margin-top: 0.25rem;
+
+    font-size: 1.4rem;
+    color: $colorAccentOrange;
+    
+    // margin-bottom: 0.5rem;
+}
+
+
+
+.containerNumbers {
+    width: 100%;
+    display: flex;
+    padding-bottom: 1.5rem;
+    // border-bottom: 1px solid #adb5bd1f;
+}
+
+.numberDiv {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    justify-items: center;
+    // modification with numbers 3.3
+    align-items: flex-end; 
+    font-size: 1rem;
+    color: #adb5bd;
+    // color: $colorAccentOrange;
+    text-align: center;
+}
+
+.numberGold,
+.numberGrey {
+    font-size: 3rem;
+    font-weight: 200;
+    color: $colorAccentOrange;
+}
+
+.numberGrey {
+    // color: #edf0f2;
+    font-size: 3.2rem;
+    color: #adb5bd;
+}
+
+
+.socIcon {
+    height: 4rem;
+    // border: 1px solid $colorAccentOrange;
+    border-radius: 0.5rem;
+    margin: -1px;
+    margin-right: 1.5rem;
+}
+
+.socBox {
+    display: flex;
+    width: 14.5rem;
+    border: 1px solid $colorAccentOrange;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+    margin-top: 0.25rem;
+    // margin-bottom: 0.5rem;
+}
+
+.start {
+    // margin-top: 0.5rem;
+    // align-self: flex-start;
+    height: 100%;
+    align-self: center;
+    margin-right: 1rem;
+}
+
+.marginTop {
+    // margin-top: 0.75rem;
+}
