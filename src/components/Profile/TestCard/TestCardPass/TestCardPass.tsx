@@ -10,8 +10,12 @@ export interface TestCardPassProps {
     id: string;
     testName: string;
     cover: string;
-    blogger: SimpleBloggerType;
+    // blogger: SimpleBloggerType;
+    bloggerName: string; 
+    bloggerAvatar: string;
+
     points: number;
+    language: string;
     onClick: MouseEventHandler<HTMLDivElement>;
 }
 
@@ -19,26 +23,31 @@ const TestCardPass: FC<TestCardPassProps> = ({
     id,
     points, onClick,
     testName, cover,
-    blogger,
+    bloggerName, 
+    bloggerAvatar,
+
+    language
 }) => {
-    const refImg = useRef<HTMLDivElement>(null);
+    // const refImg = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if(refImg.current) {
-            refImg.current.style.backgroundImage = `url("${cover}")`;
-        }
+    // useEffect(() => {
+    //     if(refImg.current) {
+    //         refImg.current.style.backgroundImage = `url("${cover}")`;
+    //     }
 
-    }, [refImg.current])
+    // }, [refImg.current])
 
     const { data } = useFetchVerdictQuery({ testId: id, points});
 
     return (
         <TestCard
             onClick={onClick}
-            coverImage={ <div ref={refImg} className={s.coverOpen} /> }
-            blogger={blogger}
+            // coverImage={ <div ref={refImg} className={s.coverOpen} /> }
+            coverImage={cover}
+            bloggerName={bloggerName}
+            bloggerAvatar={bloggerAvatar}
             testName={testName}
-            footerText={data && data.status}
+            footerText={data && (language === 'or' ? data.status.or : data.status.ua)}
             buttonEl={data &&
                 <>
                     <img className={s.statusIcon} src={data.icon} alt='Status icon'/>

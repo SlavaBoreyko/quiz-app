@@ -8,5 +8,14 @@
 
 .sideBarNav {
     align-self: flex-end;
+    z-index: 100;
 }
 
+.divDeveloper {
+    display: flex;
+    flex-direction: column;
+    // align-self: flex-end;
+    position: absolute;
+    top: 2rem;
+    align-self: flex-start;
+}

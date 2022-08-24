@@ -3,17 +3,31 @@
     padding: 0;
     box-sizing: border-box;
     // font-size: 10px;
-
+    &:focus {
+        outline: none;
+    }
 }
 
 html {
     font-size: 62.5%;
+    // font-size: 50%;
+    @media only screen 
+        and (min-device-width: 320px) 
+        and (max-device-width: 360px)
+        and (-webkit-min-device-pixel-ratio: 2)
+        and (orientation: portrait) {
+            font-size: 50%;
+        }
 }
 
 body {
     background: #171a1c;
 }
 
-:root {
-    --toastify-color-success: #F59F00;
+a,
+a:-webkit-any-link
+a:active
+ {
+    text-decoration: none;
+    // color: '#adb5bdaa' !important; 
 }

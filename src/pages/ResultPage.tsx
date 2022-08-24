@@ -8,7 +8,6 @@ import s from '../components/Profile/TestCard/TestCardPass/TestCardPass.module.s
 import testImage from '../assets/test-images/hand-or-not.jpg';
 import IconReset from '../assets/svg/reset-svgrepo-com.svg';
 
-
 // redux-toolkit
 import { useFetchAnswersQuery, useFetchVerdictQuery } from '../features/user/userApi';
 
@@ -32,6 +31,16 @@ const ResultPage = () => {
     const [resultPoints, setResultPoints] = useState<number | undefined>(undefined);
     const [showResult, setShowResult] = useState(false);
 
+    const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
+    useEffect(() => {
+      const languageSet = localStorage.getItem('i18nextLng');
+      if(userState.language) {
+          setLanguage(userState.language);
+      } else if(languageSet) {
+          setLanguage(languageSet);
+      }
+    },[userState.language])
+
     // Result for an Unregistered User
     useEffect(() => {
         if(!userState.id) {
@@ -41,7 +50,7 @@ const ResultPage = () => {
                 const points = _.get(demoTestParsed, `${params.id}.points`);
                 setResultPoints(points);
             }
-        }
+        } 
     }, []);
     
     useEffect(() => {
@@ -54,40 +63,63 @@ const ResultPage = () => {
     // PROPER OR NOT? 
     const testId = params.id!;
     const { data: dataVerdict } = useFetchVerdictQuery({ testId, points: resultPoints!});
-
-    console.log(' >>answersData ', answersData);
-    console.log(' >>resultPoints ', resultPoints);
+    const openInNewTab = (url: string) => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
   return (
     <Container 
         img={testImage} 
         backgroundColor='#000000da'
         justifyContent='flex-start'
+        locked={false}
     >
         {(dataVerdict) && (resultPoints) && 
             <img className={s.IconBigBackgroung} src={dataVerdict.icon} alt='Status icon'/>
         }
-        {   (resultPoints) &&
+        {   (localStorage.getItem('demoTest') && resultPoints) || (answersData && resultPoints) ?
+            // Doesn't rerender % - return to (resultPoints) &&
             <CircleBar 
                 resultPoints={resultPoints}
                 setShowResult={setShowResult}
                 width={50}
-            />
+            /> : <></>
         }
         {
             (dataVerdict) &&
             <>
             <ResultCard 
                 showText={showResult}
-                status={dataVerdict.status} 
-                description={dataVerdict.description}
+                // status={dataVerdict.status} 
+                // description={dataVerdict.description}
+                status={(language === 'or') ? dataVerdict.status.or : dataVerdict.status.ua}
+                description={(language === 'or') ? dataVerdict.description.or : dataVerdict.description.ua}
             />
+            {/* BUTTONS */}
             {
-            (userState.id) && <ButtonTextIcon 
-                caption={'Пройти тест ще раз'} 
+                // (dataVerdict.status.ua !== 'Грозний Їбака') && 
+                (dataVerdict.blogLink) && (
+                <ButtonTextIcon 
+                    caption={(language === 'or') ?  'Открыть видео Макса' : 'Відкрити відео Макса'} 
+                    // icon={IconReset} 
+                    onClick={() => openInNewTab(dataVerdict.blogLink) }
+                />
+            )}
+
+            <ButtonTextIcon 
+                caption={(language === 'or') ? 'Пройти тест еще раз' : 'Пройти тест ще раз'} 
                 icon={IconReset} 
                 onClick={() => navigate(`/test/${params.id}`) }
             />
+
+            {
+                (!userState.email) && (
+                <ButtonTextIcon 
+                    caption={(language === 'or') ? 'Просмотреть свои ошибки' : 'Переглянути свої помилки'} 
+                    // icon={} 
+                    onClick={() => navigate(`/test/${params.id}/answers`) }
+                />)
             }
+
             </>
         }
         <div style={{marginTop: '2rem'}}></div>

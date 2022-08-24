@@ -6,9 +6,12 @@ import ButtonPlay from '../../ButtonPlay/ButtonPlay';
 import TestCard from '../TestCard';
 
 export interface TestCardOpenProps {
-    onClick: MouseEventHandler<HTMLDivElement>;
+    // onClick:  MouseEventHandler<HTMLDivElement>; 
+    onClick: MouseEventHandler<HTMLDivElement>; 
     cover: string;
-    blogger: SimpleBloggerType;
+    // blogger: SimpleBloggerType;
+    bloggerName: string; 
+    bloggerAvatar: string;
     testName: string;
     // length: number;
     button?: any;
@@ -18,30 +21,23 @@ export interface TestCardOpenProps {
 const TestCardOpen: FC<TestCardOpenProps> = ({
     onClick,
     cover,
-    blogger, 
+    bloggerName, 
+    bloggerAvatar,
     testName, 
     // length,
     footerText,
     button
 }) => {
 
-    const refImg = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if(refImg.current) {
-            refImg.current.style.backgroundImage = `url("${cover}")`;
-        }
-    }, [refImg.current])
-
     return (
         <TestCard 
             onClick={onClick}
-            coverImage={ <div ref={refImg} className={s.coverOpen} /> }
-            blogger={blogger}
+            coverImage={cover}
+            bloggerName={bloggerName}
+            bloggerAvatar={bloggerAvatar}
             testName={testName}
-            // footerText={`Питань: ${length}`}
             footerText={footerText}
-            buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 
+            buttonEl={ (button) ? button : <ButtonPlay width={'22%'}/>} 
         />
     )
 }

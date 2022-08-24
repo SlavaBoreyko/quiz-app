@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Container from '../components/Containers/Container/Container';
 import s from '../components/Profile/TestCard/TestCard.module.scss';
 import { useNavigate } from 'react-router-dom';
-import statusMockImg from '../assets/test-images/status-mock-2.png'
-import MyLogo from '../assets/svg/logo-testroom.svg'
-import MyLogo2 from '../assets/svg/logo-testroom-2.svg'
-import logo from '../assets/test-images/logo-4-message.png';
-
-// REDUX-TOOLKIT
+import statusMockImg from '../assets/test-images/status-mock-2.png';
+import statusMockImgOR from '../assets/test-images/or-status-screen.png';
+// import PolicyPDF from '../assets/pdf/privacy-policy.pdf'; 
+import Skeleton from '@mui/material/Skeleton';
 
 // FIREBASE
-import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore'
 import { db } from '../firebase.config';
 import ProfileSection from '../components/Profile/ProfileSection/ProfileSection';
 import TestCardLock from '../components/Profile/TestCard/TestCardLock/TestCardLock';
@@ -18,11 +16,51 @@ import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOp
 import OAuth from '../components/Auth/OAuth';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import BtnGoogleOAuth from '../components/Profile/BtnGoogleOAuth/BtnGoogleOAuth';
+import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
+
+// Translation
+import i18n from 'i18next';
+import { useTranslation } from 'react-i18next';
+import { useAppSelector } from '../app/hooks';
+import OAuthGoogle from '../actions/OAuthGoogle';
+import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
+
+// const translationsUA = {
+//     descriptionPlatform: `Дізнайся, наскільки ти засвоїв "матеріал" і які відео рекомендовано передивитись. 
+//     А також отримуй "сертифікацію" своїx навиків:`
+// }
+// const translationsOR = {
+//     descriptionPlatform: `Узнай, насколько ты усвоил "материал" и какие видео рекомендуется посмотреть.
+//     А также получай "сертификацию" своих навыков:`
+// }
 
 const SignInPromo = () => {
-    const navigate = useNavigate();
-    const [oneTest, setOneTest] = useState<any | undefined>(undefined);
-    const [oneTest2, setOneTest2] = useState<any | undefined>(undefined);
+    // const { t } = useTranslation();
+    const navigate = useNavigate();    
+    const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
+    const [testDemo, setTestDemo] = useState<any | undefined>(undefined);
+    const [otherTests, setOtherTests] = useState<any[] | undefined>(undefined);
+
+    const userState = useAppSelector((state: any) => state.user);
+    const { data: allTestsByBlogger, isLoading, isError, error }  = useFetchTestsByBloggerQuery('Фан-клуб Дівертіто');
+
+    useEffect(() => {
+        if(allTestsByBlogger) {
+            const test = allTestsByBlogger.filter((test: any) => test.testId === 'first-date');
+            const otherTests = allTestsByBlogger.filter((test: any) => test.testId !== 'first-date');
+            setTestDemo(test[0]);
+            setOtherTests(otherTests);
+        }
+    }, [allTestsByBlogger])
+
+    useEffect(() => {
+        const languageSet = localStorage.getItem('i18nextLng');
+        if(userState.language) {
+            setLanguage(userState.language);
+        } else if(languageSet) {
+            setLanguage(languageSet);
+        }
+    },[userState.language])
 
     const onGoogleClick = async () => {
         try {
@@ -49,63 +87,106 @@ const SignInPromo = () => {
         }
     }
 
-    useEffect(() => {
-        const fetchData = async() => {
-            const docRef = doc(db, 'tests', 'first-date')
-            const getOneTest = await getDoc(docRef);
-            if(getOneTest.exists()) { 
-                const testData = getOneTest.data();
-                setOneTest(testData);
-            }
+    // const onChangeLanguage = (e: any) => {
+    //     i18n.changeLanguage(e.target.value);
+    // }
 
-            const docRef2 = doc(db, 'tests', 'test-xtivki-one')
-            const getOneTest2 = await getDoc(docRef2);
-            if(getOneTest.exists()) { 
-                const testData2 = getOneTest2.data();
-                setOneTest2(testData2);
-            }
-        };
-        fetchData();
-    }, [])
-
+    // ANALYTICS
+    // useEffect(() => {
+    //     const fetchUsersActivities = async() => {
+    //         const q = query(collection(db, "users"), where(`answers`, "!=", null));
+    //         let counter = 0;
+    //         const querySnapshot = await getDocs(q);
+    //         querySnapshot.forEach((doc) => {
+    //             const data = doc.data()
+    //             if (data.answers['at-home'] && data.answers['at-home']['points'] >= 51) {
+    //             // if (Object.keys(data.answers).length === 3) {
+    //                 counter++
+    //             }
+    //             // console.log( Object.keys(data.answers).length )
+    //         });
+    //         console.log(counter);
+    //     }
+    //     fetchUsersActivities();
+    // }, [])
+    
     return (
-        <>
         <Container
             justifyContent='flex-start'
             backgroundColor='#212529'
+            locked={false}
         > 
-            <ProfileSection title={'YouTube-тести'} 
-                // description={
-                //     `Тести по відео улюблених блогерів. Дізнайся, наскільки ти засвоїв "матеріал", і які відео рекомендовано передивитись. 
-                //     \n А також отримуй "сертифікацію" своїx навиків:`
-                // }
-                description={
-                    `Дізнайся, наскільки ти засвоїв "матеріал", і які відео рекомендовано передивитись. 
+            <ProfileSection title={(language === 'or') ? 'Тесты' : 'Тести'} 
+                // description={t('descriptionPlatform')}
+                description={(language === 'or') ? `Узнай, насколько ты усвоил "материал" и какие видео рекомендуется посмотреть.
+                     А также получай "сертификацию" своих навыков:`:
+                    `Дізнайся, наскільки ти засвоїв "матеріал" і які відео рекомендовано передивитись. 
                     А також отримуй "сертифікацію" своїx навиків:`
                 }
             >
-            {   (oneTest) &&
-                <TestCardOpen
-                    testName={oneTest.testName}
-                    cover={oneTest.cover}
-                    blogger={oneTest.blogger}
-                    footerText={'Питань: 19'}
-                    onClick={onGoogleClick}
-                    button={<BtnGoogleOAuth />}
-                />
-            } 
-            
+            { (testDemo) ? (
+                // allTestsByBlogger.slice(0,1).map((test: any) => (
+                    <TestCardOpen
+                        key={testDemo.testId} 
+                        testName={(language === 'or') ? testDemo.testName.or : testDemo.testName.ua}
+                        cover={testDemo.cover}
+                        bloggerName={(language === 'or') ? testDemo.blogger.name.or : testDemo.blogger.name.ua}
+                        bloggerAvatar={testDemo.blogger.avatar}
+                        footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${testDemo.qLength}` :
+                            `${(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}`
+                        }
+                        onClick={(userState.id) ? () => navigate(`/test/${testDemo.testId}`) : onGoogleClick }
+                        button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnGoogleOAuth  width={'22%'}/>}
+                    />
+                // ))
+                ) : (
+                    <Skeleton 
+                        sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
+                        variant="rounded"  
+                        animation="wave"  
+                        width={'100%'} 
+                        height={'15rem'} 
+                    />
+                )
+            }  
             </ProfileSection>
             {/* Mock */}
-            <img style={{
-                border: '1px solid #F59F00',
-                borderRadius: '0.5rem',
-                width: '100%',
-                marginBottom: '4rem',
-            }} src={statusMockImg} />
+            <img 
+                style={{
+                    border: '1px solid #F59F00',
+                    borderRadius: '0.5rem',
+                    width: '100%',
+                    marginBottom: '4rem',
+                }} 
+                src={(language === 'or') ? statusMockImgOR : statusMockImg} 
+                alt="Mock status screen"
+            />
 
-
-            <ProfileSection title={'Хтивки-тести'} 
+            { (otherTests) ? (
+                otherTests.map((test: any) => (
+                    <TestCardOpen
+                        key={test.testId}
+                        testName={(language === 'or') ? test.testName.or : test.testName.ua}
+                        cover={test.cover}
+                        bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
+                        bloggerAvatar={test.blogger.avatar}
+                        footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
+                            `${(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}`
+                        }
+                        onClick={(userState.id) ? () => navigate(`/test/${test.testId}`) : onGoogleClick }
+                        button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnGoogleOAuth  width={'22%'}/>}
+                    />
+                ))) : (
+                    <Skeleton 
+                        sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
+                        variant="rounded"  
+                        animation="wave"  
+                        width={'100%'} 
+                        height={'15rem'} 
+                    />
+                )
+            }   
+            {/* <ProfileSection title={'Хтивки-тести'} 
                 description={
                     'Інсайти у флірті, звабленні та технікам сексу у форматі ігрового тесту з хтивками-відкривашками від секс-блогерш.'
                 }
@@ -120,13 +201,34 @@ const SignInPromo = () => {
                     button={<BtnGoogleOAuth  width={'24%'}/>}
                 />
             }   
-            </ProfileSection>
-
-            {/* <div>
-                <OAuth />
-            </div> */}
+            </ProfileSection> */}
+            <div 
+                style={{
+                    color: '#adb5bdaa',
+                    fontSize: '1.2rem',
+                    marginTop: '1rem',
+                }}
+            >
+            {(language === 'or') ? 
+            <> 
+                *Пользуясь сайтом, вы принимаете правила
+                <a  href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
+                    style={{
+                        color: '#adb5bdd2',
+                    }}
+                > Политики конфиденциальности.</a>
+            </> :
+            <>
+                *Користуючись сайтом, ви приймаєте правила
+                <a href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
+                    style={{
+                        color: '#adb5bdd2',
+                    }}
+                > Політики конфіденційності.</a>
+            </>
+            }
+            </div>
         </Container>
-        </>
     )
 }
   

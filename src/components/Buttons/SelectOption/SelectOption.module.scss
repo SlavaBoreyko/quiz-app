@@ -1,0 +1,27 @@
+@import "../../../style/variables.scss";
+
+
+.selectOption,
+.selectOption option {
+    -moz-appearance: none; 
+	-webkit-appearance: none; 
+
+    color: $colorAccentOrange;
+    // color: #ced7df;
+    background-color: transparent;
+    border: none;
+    max-width: 100%;
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: 700;
+    // margin-right: 0.5rem;
+    cursor: pointer;
+
+    align-self: flex-end;
+    margin-bottom: 1rem;
+    z-index: 200;
+}
+
+.selectOption select {
+
+}

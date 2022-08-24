@@ -11,13 +11,16 @@ const ButtonTextIcon: FC<ButtonProps> = ({
     caption, icon, onClick
 }) => {
   return (
-    <div className={s.divButtonActive}>
+    // <div className={s.divButtonActive}>
         <button className={s.transparentBtn} onClick={onClick}>
-            <img className={s.iconBtn} src={icon} alt='icon'/>
+            {
+               (icon) && (<img className={s.iconBtn} src={icon} alt='icon'/>)
+            }
+           
             {caption}
         </button> 
         
-    </div>
+    // </div>
     
   )
 }

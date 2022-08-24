@@ -8,21 +8,39 @@ export interface RadioInputProps {
   setValue: Dispatch<SetStateAction<number>>;
   checked: boolean[];
   setChecked: Dispatch<SetStateAction<boolean[]>>;
+  indicatedAnswer?: number;
+  trueAnswer?: number;
+
+  reaction?: string;
+  setReactionSrc?: Dispatch<SetStateAction<string>>;
+
+  
 }
 
 const RadioInput: FC<RadioInputProps> = ({
   text, value, index, setValue, 
-  checked, setChecked
+  checked, setChecked,
+  reaction, setReactionSrc,
+  indicatedAnswer, trueAnswer
 }) => {
 
   const answerHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // BLOCKED radioinputs AFTER FIRST PRESS 'true' checked
+    // if (checked.includes(true)) return ;
+    
     if (e.target.checked) {
       e.preventDefault();
       setValue(+e.currentTarget.value);
+
       // restart checked inputs 
       let newChecked = [false, false, false];
       newChecked[+e.target.id] = true;
       setChecked(newChecked);
+
+      // STICKER
+      if (reaction && setReactionSrc) {
+        setReactionSrc(reaction);
+      }
     }
   } 
 
@@ -38,9 +56,20 @@ const RadioInput: FC<RadioInputProps> = ({
             onChange={answerHandler} 
             checked={checked[+index]}
           />
-        <div className={checked[+index] ? s.textContainerChecked : s.textContainer }> 
-          <span>{text}</span>
-        </div>
+        { (indicatedAnswer === undefined || trueAnswer === undefined) && (
+            <div className={checked[+index] ? s.textContainerTrue : s.textContainer }> 
+                <span>{text}</span>
+            </div>
+          )
+        }
+        {/* FOR watching my /answers  */}
+        {(indicatedAnswer !== undefined && trueAnswer !== undefined) && (
+            <div className={((value === trueAnswer)) ? s.textContainerTrue : (value === indicatedAnswer) ? s.textContainerFalse : s.textContainer }> 
+              <span>{text}</span>
+            </div>
+          )
+        }
+
       </label>
     </div>
   )

@@ -1,3 +1,5 @@
+
+
 .containerBack {
     position: relative;
     display: flex;
@@ -7,7 +9,7 @@
     min-height: 100vh;
 
     // justify-content: flex-end;
-    padding: 2rem 2rem 6rem 2rem;
+    padding: 2rem;
 
     max-width: 100%;
     margin-left: auto;
@@ -19,14 +21,42 @@
     overflow-y: scroll;
 
     @media (min-width: 700px) {
-        max-width: 36rem;
+        // max-width: 36rem;
+        max-width: 40rem;
         padding: 2rem;
     }
 }
 
-.backImage {
+.backImage, 
+.lockedImage,
+.fullScreen {
     position: absolute;
     top: 0;
     z-index: -10;
     height: 100%;
+}
+
+.lockedImage {
+    filter: blur(6px) ;
+    -webkit-filter: blur(6px);
+}
+
+.fullScreen {
+    z-index: 200;
+}
+
+.iconLock {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 50;
+    opacity: 0.5;
+
+    width: 6rem;
+    height: 6rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('../../../assets/svg/lock.svg');
 }

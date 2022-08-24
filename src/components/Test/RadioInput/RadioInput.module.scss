@@ -12,7 +12,9 @@ input[type="radio"] {
 }
 
 .textContainer,
-.textContainerChecked {
+.textContainerChecked, 
+.textContainerTrue,
+.textContainerFalse {
     cursor: pointer;
     height: 100%;
     min-height: 5rem;
@@ -24,8 +26,26 @@ input[type="radio"] {
     border-radius: 0.5rem;
 
     & span {
-        font-size: 1.4rem;;
+        font-size: 1.4rem;
         color: #ced4da;
+
+        @media (min-width: 700px) {
+            font-size: 1.3rem;
+        }
+
+        @media only screen 
+        and (device-width: 375px) 
+        and (device-height: 667px) 
+        and (-webkit-device-pixel-ratio : 2) { 
+            font-size: 1.2rem;
+        }
+    
+        @media only screen 
+        and (device-width : 375px) 
+        and (device-height : 812px) 
+        and (-webkit-device-pixel-ratio : 3) { 
+            font-size: 1.2rem;
+        }
     }
 }
 
@@ -34,5 +54,21 @@ input[type="radio"] {
     background-color: #2125295a;
     & span {
         color: $colorAccentOrange;
+    }
+}
+
+.textContainerTrue {
+    border: 1px solid $colorAccentOrange;
+    background-color: $colorAccentOrange;
+    & span {
+        color: #212529;
+    }
+}
+
+.textContainerFalse {
+    border: 1px solid rgba(227, 8, 44, 0.416);
+    background-color: rgba(227, 8, 44, 0.416);
+    & span {
+        color: white;
     }
 }

@@ -1,7 +1,11 @@
 @import "../../../style/variables.scss";
 
 .btn,
-.btnShare {
+.btnShare,
+.btnSpinner,
+.btn35 
+{   
+    flex-shrink: 0;
     cursor: pointer;
     background-color: transparent;
     // border: 1px solid #3bc8db89;
@@ -12,9 +16,11 @@
     display: grid;
     place-items: center;
     margin-bottom: 0.5rem;
+   
 
     & .icon {
         width: 55%;
+        
     }
 }
 
@@ -22,13 +28,23 @@
     width: 45%;
 }
 
+.btn35 .icon {
+    width: 35%;
+}
+
+.btnSpinner {
+    display: flex;
+    width: 4rem;
+    // place-items: center;
+}
+
+.btnSpinner .icon {
+    width: 100%;
+}
+
+
+
 .btn:hover,
 .btnShare:hover {
     background-color: $backColorTransparent;
 }
-
-// .btnHomeUnactive {
-//     background-color: #495057;
-//     border: none;
-//     cursor: auto;
-// }

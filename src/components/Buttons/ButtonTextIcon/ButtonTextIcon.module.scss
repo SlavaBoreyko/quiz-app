@@ -1,41 +1,55 @@
 @import "../../../style/variables.scss";
 
-.divButton,
-.divButtonActive {
-    margin-top: 3rem;
+.transparentBtn {
+    // background: none;
+    // width: 100%;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    height: 100%;
 
     display: flex;
     justify-content: center;
     align-items: center;
-    // align-content: center;
-    
-    padding: 1rem 2rem 1rem 2rem;
+
+    border: none;
     border-radius: 3rem;
-
-
-}
-
-.divButtonActive {
+    padding: 1rem 2rem 1rem 2rem;
     background-color: rgba(240, 248, 255, 0.081);
-    // border: 1px solid #3bc9db;
-
+    
+    font-size: 1.6rem;
+    color: $colorAccentOrange;
+    
     &:hover {
         background-color: $backColorTransparent;
     }
 }
 
-.transparentBtn {
-    background: none;
-    width: 100%;
-    cursor: pointer;
-    border: none;
-    color: $colorAccentOrange;
-    font-size: 1.6rem;
-    border-radius: 3rem;
-}
-
 .iconBtn {
     height: 2rem;
     padding-right: 0.5rem;
-    margin-bottom: -4px;
+    margin-bottom: 1px;
 }
+
+// .divButton,
+// .divButtonActive {
+//     cursor: pointer;
+//     margin-top: 1.5rem;
+
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     // align-content: center;
+    
+//     padding: 1rem 2rem 1rem 2rem;
+//     border-radius: 3rem;
+
+
+// }
+
+// .divButtonActive {
+//     background-color: rgba(240, 248, 255, 0.081);
+
+//     &:hover {
+//         background-color: $backColorTransparent;
+//     }
+// }

@@ -15,11 +15,24 @@ import TestPage from './pages/TestPage';
 import AuthWrapper from "./components/AuthWrapper/AuthWrapper";
 import AdminPage from "./pages/Admin/AdminPage";
 import SignInPromo from "./pages/SignInPromo";
+import DeveloperPage from "./pages/DeveloperPage";
 
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import ReactGA from 'react-ga';
+import { useEffect } from "react";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+const TRACKING_ID = "G-X99CC06EWN"; 
+ReactGA.initialize(TRACKING_ID);
+
+
 function App() {
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
   return (
     <Provider store={store}>
       <Router>
@@ -31,16 +44,20 @@ function App() {
           )}
 
             <Route path='/test/:id' element={<TestPage />} />
-            <Route path='/test/:id/result/' element={<ResultPage />}/>
-            {/* <Route path='/sign-in' element={<SignInPromo />}/> */}
+            <Route path='/test/:id/result' element={<ResultPage />}/>
+            <Route path='/test/:id/answers' element={<TestPage />} />
+
+            <Route path='/xtivka/:id' element={<TestPage />} />
            
 
             <Route path='/profile' element={<PrivateRoute />} >
               <Route path='/profile' element={<ProfilePage />} />
             </Route>  
 
-  
-            <Route path='/admin' element={<AdminPage />}/>
+            <Route path='/developer' element={<DeveloperPage />}/>
+            
+            {/* <Route path='/privacy' element={<PrivacyPolicy />}/> */}
+            {/* <Route path='/admin' element={<AdminPage />}/> */}
           </Route> 
         </Routes>
       </Router>

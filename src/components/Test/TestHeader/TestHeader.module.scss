@@ -1,0 +1,51 @@
+@import "../../../style/variables.scss";
+
+.divHeader {
+    display: flex;
+    height: 100%;
+    margin-right: 8.5rem;
+    // margin-right: 35%;
+}
+
+.avatarHeader {
+    cursor: pointer;
+    // border: 1px solid $colorBorderLight;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+}
+
+.bloggerName  {
+    display: inline-block;
+    font-weight: 700;
+    color: #ced7df;
+
+    // @media (min-width: 700px) {
+    //     font-size: 1.2rem;
+    // }
+}
+
+.bloggerNamePlusLng {
+    display: flex;
+    justify-content: space-between;
+}
+
+.testName {
+    display: inline-block;
+    color: $colorAccentOrange;
+    margin-right: 25%;
+    margin-bottom: 0.5rem;
+    // color: #8a8f94;
+}
+
+.divText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.4rem;
+    text-align: left;
+    margin-left: 0.5rem;
+    width: 100%;
+    // color: #adb5bdd2;
+}
+

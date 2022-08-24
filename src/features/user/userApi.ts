@@ -26,6 +26,11 @@ export interface updateAnswersProps {
     data: UserAnswersType;
 }
 
+export interface setLanguage {
+    id: string;
+    language: string;
+}
+
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fakeBaseQuery(),
@@ -64,6 +69,7 @@ export const userApi = createApi({
                     return { error: err }
                 }
             },
+            providesTags: ['UserAnswersType'],  
         }),
         addAnswer: builder.mutation<any, updateAnswersProps>({
             async queryFn({id, data}) {
@@ -84,6 +90,23 @@ export const userApi = createApi({
                    
             },
             invalidatesTags: ['UserAnswersType'],
+        }),
+        addLanguage: builder.mutation<any, setLanguage>({
+            async queryFn({id, language}) {
+                try {
+                    const userDocRef = doc(db, "users", id);
+                    const userDoc = await getDoc(userDocRef);
+                    const userDocData = userDoc.data();
+
+                    await updateDoc(userDocRef, {
+                        language: language
+                    })
+                    return { data: 'addLanguage 200' }
+                } catch(err) {  
+                    return { error: err };
+                } 
+            },
+            // invalidatesTags: ['User'],
         }),
     }),
 });
