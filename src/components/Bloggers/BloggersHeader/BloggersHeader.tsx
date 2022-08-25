@@ -2,24 +2,32 @@ import { FC } from 'react';
 import s from './BloggersHeader.module.scss';
 import TestIcon from '../../../assets/svg/heart-check-1.svg';
 import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
+import { Link } from 'react-router-dom';
 
 
 export interface BloggersHeaderProps {
     id: string;
     avatar: string;
     name: string;
+    mainBlog: string;
+    mainBlogFollowers: number;
     followers: number;
     passedTests: number;
     description: string;
+    language: string | null;
 }
 
 const BloggersHeader: FC<BloggersHeaderProps> = ({
     id,
     avatar,
     name, 
+    mainBlog,
+    mainBlogFollowers,
+
     followers,
     passedTests,
     description, 
+    language,
 }) => {    
     return (
     <>
@@ -38,17 +46,32 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
         <div className={s.containerNumbers}>
             <div className={s.numberDiv}> 
                 <div className={s.start}>
-                    <p className={s.fontGold}>Максим Дівертіто</p> 
+                    <a 
+                        href="https://www.youtube.com/c/%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%D0%94%D0%B8%D0%B2%D0%B5%D1%80%D1%82%D0%B8%D1%82%D0%BE"
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                    >
+                    
+                        <p className={s.fontGold}>{mainBlog}</p> 
+                    </a>
                 </div>
-                <div className={s.marginTop}><p>Підписників в TestRoom</p></div>
-                <div className={s.marginTop}><p>Пройдених <br/> тестів</p></div>
+                <div className={s.marginTop}>
+                    <p>{(language === 'or') ? ['Подписчиков', <br/>, 'в TestRoom'] : ['Підписників', <br/>, 'в TestRoom']}</p>
+                </div>
+                <div className={s.marginTop}>
+                    <p>{(language === 'or') ? ['Пройденных', <br/>, 'тестов'] : ['Пройдених', <br/>, 'тестів']}</p>
+                </div>
 
-                <div>
+                <a 
+                    href="https://www.youtube.com/c/%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%D0%94%D0%B8%D0%B2%D0%B5%D1%80%D1%82%D0%B8%D1%82%D0%BE"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
                     <div className={s.socBox}>
                         <img className={s.socIcon} src={YoutubeIcon} alt={'YouTube'}/>
-                        <span className={s.numberGold}>245 K</span>
+                        <span className={s.numberGold}>{Math.round(mainBlogFollowers/1000)}K</span>
                     </div>
-                </div>
+                </a>
             
                 <div>
                     <span className={s.numberGrey}>{followers}</span>

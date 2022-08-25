@@ -2,6 +2,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
 import './style/index.scss';
 // Redux  
@@ -40,8 +41,12 @@ function App() {
         <Routes>
           <Route path='/' element={<AuthWrapper />} >
           
-            {["/", "/sign-in"].map((path, index) => 
+            {/* {["/", "/sign-in"].map((path, index) => 
               <Route path={path} element={<SignInPromo />} key={index} />
+            )} */}
+
+            {["/", "/sign-in"].map((path, index) => 
+              <Route path={path} element={<Navigate replace to="/divertito" />} key={index} />
             )}
 
             <Route path='/:id' element={<BloggerPage />} />

@@ -62,6 +62,7 @@
 
 .numberDiv {
     display: grid;
+    width: 100%;
     grid-template-columns: 1.5fr 1fr 1fr;
     justify-items: center;
     // modification with numbers 3.3

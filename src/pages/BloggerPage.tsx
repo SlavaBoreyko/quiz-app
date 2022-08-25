@@ -13,12 +13,12 @@ import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOp
 import { useFetchBloggerQuery } from '../features/blogger/bloggerApi';
 import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
 import { db } from '../firebase.config';
-import { TestCardType } from '../types/test.types';
+import { BloggerBigType, TestCardType } from '../types/test.types';
 
 const BloggerPage = () => {
     const params = useParams();
     const navigate = useNavigate();
-    const [blogger, setBlogger] = useState<any | undefined>(undefined)
+    const [blogger, setBlogger] = useState<BloggerBigType | undefined>(undefined)
     const { data: bloggerData, isLoading, isError, error } = useFetchBloggerQuery(params.id!);
 
     const userState = useAppSelector((state: RootState) => state.user);
@@ -70,7 +70,7 @@ const BloggerPage = () => {
                   // timestamp: serverTimestamp()
               })
           }
-          navigate('/profile');
+          navigate('/divertito');
       } catch (error) {
           console.error('Could not authorize with Google')
       }
@@ -86,10 +86,13 @@ const BloggerPage = () => {
         <BloggersHeader 
           id={blogger.id}
           avatar={blogger.avatar}
-          name={blogger.name.ua}
+          name={(language === 'or') ? blogger.name.or  : blogger.name.ua}
+          mainBlog={(language === 'or') ? blogger.mainBlog.or : blogger.mainBlog.ua}
+          mainBlogFollowers={blogger.mainBlog.followers}
           followers={blogger.followers}
           passedTests={blogger.passedTests}
-          description={blogger.description.ua}
+          description={(language === 'or') ? blogger.description.or : blogger.description.ua}
+          language={language}
         /> 
       ) : (
         <Skeleton 
@@ -124,6 +127,32 @@ const BloggerPage = () => {
             />
         )
       }
+      <div 
+          style={{
+              color: '#adb5bdaa',
+              fontSize: '1.2rem',
+              marginTop: '1rem',
+          }}
+      >
+      {(language === 'or') ? 
+      <> 
+          *Пользуясь сайтом, вы принимаете правила
+          <a  href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
+              style={{
+                  color: '#adb5bdd2',
+              }}
+          > Политики конфиденциальности.</a>
+      </> :
+      <>
+          *Користуючись сайтом, ви приймаєте правила
+          <a href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
+              style={{
+                  color: '#adb5bdd2',
+              }}
+          > Політики конфіденційності.</a>
+      </>
+      }
+      </div>
     </Container>
   )
 }

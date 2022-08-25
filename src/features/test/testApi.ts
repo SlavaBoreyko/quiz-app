@@ -1,7 +1,7 @@
 
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { 
-    doc, collection, getDoc, serverTimestamp, addDoc, query, where, getDocs, updateDoc, setDoc 
+    doc, collection, getDoc, serverTimestamp, addDoc, query, where, getDocs, updateDoc, setDoc, orderBy 
 } from 'firebase/firestore'
 import { db } from '../../firebase.config';
 import { TestType, VerdictListType } from '../../types/test.types';
@@ -34,7 +34,7 @@ export const testApi = createApi({
                     const q = query(
                         collection(db, "testsCards"), 
                         where("blogger.name.ua", "==", bloggerName),
-                        
+                        // orderBy("desc"),
                     );
                     const querySnapshot = await getDocs(q);
                     querySnapshot.forEach((doc) => {

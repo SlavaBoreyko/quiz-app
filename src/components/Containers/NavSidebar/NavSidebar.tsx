@@ -88,7 +88,7 @@ const NavSidebar = () => {
                     </Link>
                     {(!['/developer'].includes(pathname)) && (
                         <BtnRectangle 
-                            caption={(language === 'or') ? `> Разработчик` :`> Розробник. Співпраця`} 
+                            caption={(language === 'or') ? `> Разработчик` :`> Розробник`} 
                             onClick={
                                 () => { 
                                     gaEventTracker('Click on a DevInfo');

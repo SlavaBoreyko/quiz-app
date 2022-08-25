@@ -4,12 +4,13 @@ import {
     doc, collection, getDoc, serverTimestamp, addDoc, query, where, getDocs, updateDoc, setDoc 
 } from 'firebase/firestore'
 import { db } from '../../firebase.config';
+import { BloggerBigType } from '../../types/test.types';
 
 export const bloggerApi = createApi({
     reducerPath: 'bloggerApi',
     baseQuery: fakeBaseQuery(),
     endpoints: (builder) => ({
-        fetchBlogger: builder.query<any, string>({
+        fetchBlogger: builder.query<BloggerBigType, string>({
             async queryFn(id) {
                 let blogger: any[] = [];
                 try {

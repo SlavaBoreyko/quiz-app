@@ -26,6 +26,28 @@ export interface SimpleBloggerType {
         or: string
     }; 
 }
+export interface BloggerBigType {
+    id: string;
+    avatar: string;
+    mainBlog: {
+        ua: string;
+        or: string;
+        soc: string; //insta, youtube,tiktok
+        followers: number;
+    }
+    name: {
+        ua: string;
+        or: string;
+    }; 
+    description: {
+        ua: string;
+        or: string;
+    }; 
+    followers: number;
+    passedTests: number;
+}
+
+
 export interface TestType {
     id: string;
     testName: {

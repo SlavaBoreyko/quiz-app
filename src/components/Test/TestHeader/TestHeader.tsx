@@ -28,7 +28,6 @@ const initLang = (lang: string | null) => {
 
 
 const TestHeader = () => {
-  const dispatch = useAppDispatch();
   const params = useParams();
   const navigate = useNavigate();
   const { data: testData, isLoading, isError, error }  = useFetchTestQuery(params.id!);
@@ -58,31 +57,27 @@ const TestHeader = () => {
               <div className={s.divText}>
                 <div className={s.bloggerNamePlusLng}>
                   {/* <span className={s.bloggerName}>{t('bloggerName')}</span> */}
-                  <span className={s.bloggerName}>
-                    {(language && language === 'or') ? testData.blogger.name.or : testData.blogger.name.ua}
-                  </span>
-                  {/* <SelectOption 
-                        onChange={onChangeLanguage}
-                        options={languages}
-                        language={language ? language : 'ua'}
-                    /> */}
+                  <Link to={`/${testData.blogger.id}`}>
+                    <span className={s.bloggerName}>
+                      {(language && language === 'or') ? testData.blogger.name.or : testData.blogger.name.ua}
+                    </span>
+                  </Link>
                 </div>
                 {/* <span className={s.testName}>{t('testName')}</span> */}
                 <span className={s.testName}>
                   {(language && language === 'or') ? testData.testName.or : testData.testName.ua}
                 </span> 
               </div>
-              {/* <NavSidebar /> */}
             </div>
             
           {/* AFTER Max video release */}
-          {/* <div 
+          <div 
             style={{
               marginTop: '0.5rem',
             }}
           >
-            <BtnRectangle caption={`> Розробник`} onClick={() => navigate('/developer')} />
-          </div> */}
+            <BtnRectangle caption={(language && language === 'or') ? `> Разработчик` :`> Розробник`} onClick={() => navigate('/developer')} />
+          </div>
         </>
       )
     }

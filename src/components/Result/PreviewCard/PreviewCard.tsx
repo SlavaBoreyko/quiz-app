@@ -57,7 +57,7 @@ const PreviewCard: FC<PreviewCardProps> = ({
                     // timestamp: serverTimestamp()
                 })
             }
-            navigate('/');
+            navigate('/divertito');
         } catch (error) {
             console.error('Could not authorize with Google')
         }
