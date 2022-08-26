@@ -30,13 +30,34 @@
     object-fit: cover;
     object-position: center center;
     flex-shrink: 0;
+
+    @media (min-width: 700px) {
+        width: 8rem;
+        height: 8rem;
+        margin-right: 1.5rem;
+    }
+
+    @media only screen 
+    and (device-width : 414px) 
+    // and (device-height : 736px) 
+    // and (device-height : 896px) 
+    and (-webkit-device-pixel-ratio : 2),
+    only screen 
+    and (device-width : 414px) 
+    and (-webkit-device-pixel-ratio : 3) { 
+        width: 8rem;
+        height: 8rem;
+        margin-right: 1.5rem;
+    }
+
 }
 .name {
     text-align: left;
     font-size: 1.4rem;
     font-weight: 900;
     color: #adb5bd;
-    margin-bottom: 1rem;
+    // margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .fontGrey {

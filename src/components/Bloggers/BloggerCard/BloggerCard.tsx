@@ -1,8 +1,10 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import s from './BloggerCard.module.scss';
 import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
 import { useNavigate } from 'react-router-dom';
 import HtmlParser from 'html-react-parser'; 
+import ButtonFollow from '../../Buttons/ButtonFollow/ButtonFollow';
+import ButtonFollowLong from '../../Buttons/ButtonFollowLong/ButtonFollowLong';
 
 export interface BloggerCardProps {
     id: string;
@@ -29,15 +31,28 @@ const BloggerCard: FC<BloggerCardProps> = ({
     language,
 }) => {    
     const navigate = useNavigate();
+    const [followingState, setFollowingState] = useState<boolean>(false);
 
     return (
         <header className={s.headerProfile}  onClick={() => navigate(`/${id}`)}
-        >
-            <img className={s.avatar} src={avatar} alt='Avatar'/>
-            <div className={s.containerDiv}>
-                <h1 className={s.name}>{name}</h1>
-                
+        >   
+            {/* <div 
+                style={{ width:'100%', flexShrink: '1',}}
+            > */}
+                <img className={s.avatar} src={avatar} alt='Avatar'/>
+            {/* </div> */}
+            {/* <div style={{ flexGrow: '1',}}></div> */}
+            <div className={s.containerDiv}>        
                 <div className={s.numberDiv}> 
+                    <h1 className={s.name}>{name}</h1>
+                        <ButtonFollowLong
+                            caption={followingState ? 'Following' : '+ Follow'}
+                            onClick={(e: any) => {
+                                e.stopPropagation(); 
+                                setFollowingState((prev) => !prev);
+                            }}
+                        />
+
                     <div className={s.socBox}>
                             <img className={s.socIcon} src={YoutubeIcon} alt={'YouTube'}/>
                             <span className={s.numberGold}>{Math.round(mainBlogFollowers/1000)}K</span>

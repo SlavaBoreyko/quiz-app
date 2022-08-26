@@ -47,7 +47,7 @@ function App() {
             )} */}
 
             {["/", "/sign-in"].map((path, index) => 
-              <Route path={path} element={<Navigate replace to="/divertito" />} key={index} />
+              <Route path={path} element={<Navigate replace to="/explore/men" />} key={index} />
             )}
             <Route path='/:id' element={<BloggerPage />} />
 

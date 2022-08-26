@@ -1,8 +1,9 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import s from './BloggersHeader.module.scss';
 import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
 import HtmlParser from 'html-react-parser'; 
 import BtnRectangle from '../../Profile/BtnRectangle/BtnRectangle';
+import ButtonFollow from '../../Buttons/ButtonFollow/ButtonFollow';
 
 export interface BloggersHeaderProps {
     id: string;
@@ -28,25 +29,48 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
     description, 
     language,
 }) => {    
+
+    const [followingState, setFollowingState] = useState<boolean>(false);
+
     return (
     <>
         <header className={s.headerProfile} 
         >
             <img className={s.avatar} src={avatar} alt='Avatar'/>
-            <div className={s.containerDiv}>
+            {/* <div className={s.containerDiv}>
                 <p className={s.details}>@{id}</p>
                 <h1 className={s.name}>{name}</h1>
-            </div>  
-            <div style={{
-                // width: '100%',
-                // justifySelf: 'flex-end',
-            }}>
-                <BtnRectangle 
-                        caption={'+ Follow'}
-                        onClick={() => {}}
-                />
+            </div>   */}
+            <div
+                style={{
+                    display: 'flex',
+                    width: '100%',
+                    flexDirection: 'column', 
+                }}
+            >
+                <div
+                    style={{
+                        // marginTop: '0.5rem',
+                        // marginBottom: '0.5rem',
+                        display: 'flex',
+                        width: '100%',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-end',
+                    }}
+                >   
+                    <p className={s.details}>@{id}</p>
+                    <ButtonFollow 
+                        caption={followingState ? 'Following' : '+ Follow'}
+                        onClick={() => {
+                            setFollowingState((prev) => !prev)
+                        }}
+                    />
+                </div>
+                
+                <h1 className={s.name}>{name}</h1>
             </div>
-
+            
+                    
         </header>
 
         <div className={s.containerNumbers}>
