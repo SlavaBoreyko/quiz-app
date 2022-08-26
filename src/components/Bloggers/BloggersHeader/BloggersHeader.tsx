@@ -1,9 +1,8 @@
 import { FC } from 'react';
 import s from './BloggersHeader.module.scss';
-import TestIcon from '../../../assets/svg/heart-check-1.svg';
 import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
-import { Link } from 'react-router-dom';
-
+import HtmlParser from 'html-react-parser'; 
+import BtnRectangle from '../../Profile/BtnRectangle/BtnRectangle';
 
 export interface BloggersHeaderProps {
     id: string;
@@ -37,9 +36,16 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
             <div className={s.containerDiv}>
                 <p className={s.details}>@{id}</p>
                 <h1 className={s.name}>{name}</h1>
-
-                {/* <p className={s.details}>YouTube-блог</p>  */}
             </div>  
+            <div style={{
+                // width: '100%',
+                // justifySelf: 'flex-end',
+            }}>
+                <BtnRectangle 
+                        caption={'+ Follow'}
+                        onClick={() => {}}
+                />
+            </div>
 
         </header>
 
@@ -55,11 +61,14 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
                         <p className={s.fontGold}>{mainBlog}</p> 
                     </a>
                 </div>
-                <div className={s.marginTop}>
-                    <p>{(language === 'or') ? ['Подписчиков', <br/>, 'в TestRoom'] : ['Підписників', <br/>, 'в TestRoom']}</p>
+                <div className={s.marginTop} >
+                    {/* Each child in a list should have a unique "key" prop. */}
+                    {/* <p>{(language === 'or') ? ['Подписчиков', <br/>, 'в TestRoom'] : ['Підписників', <br/>, 'в TestRoom']}</p> */}
+                    <p>{(language === 'or') ? HtmlParser('Подписчиков <br/>в TestRoom') : HtmlParser('Підписників <br/>в TestRoom')}</p>
+                    
                 </div>
                 <div className={s.marginTop}>
-                    <p>{(language === 'or') ? ['Пройденных', <br/>, 'тестов'] : ['Пройдених', <br/>, 'тестів']}</p>
+                    <p>{(language === 'or') ? HtmlParser('Пройденных<br/>тестов') : HtmlParser('Пройдених<br/>тестів')}</p>
                 </div>
 
                 <a 

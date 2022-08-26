@@ -43,10 +43,13 @@ export interface BloggerBigType {
         ua: string;
         or: string;
     }; 
+    topics: {
+        ua: string;
+        or: string;
+    }
     followers: number;
     passedTests: number;
 }
-
 
 export interface TestType {
     id: string;

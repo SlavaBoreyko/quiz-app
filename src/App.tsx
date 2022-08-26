@@ -25,6 +25,7 @@ import ReactGA from 'react-ga';
 import { useEffect } from "react";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import BloggerPage from "./pages/BloggerPage";
+import ExplorePage from "./pages/ExplorePage";
 const TRACKING_ID = "G-X99CC06EWN"; 
 ReactGA.initialize(TRACKING_ID);
 
@@ -48,8 +49,13 @@ function App() {
             {["/", "/sign-in"].map((path, index) => 
               <Route path={path} element={<Navigate replace to="/divertito" />} key={index} />
             )}
-
             <Route path='/:id' element={<BloggerPage />} />
+
+            {/* EXPLORE */}
+            <Route path='/explore' element={<Navigate replace to="/explore/men" />} />
+            <Route path='/explore/*' element={<ExplorePage />} />
+
+            {/* TEST */}
             <Route path='/test/:id' element={<TestPage />} />
             <Route path='/test/:id/result' element={<ResultPage />}/>
             <Route path='/test/:id/answers' element={<TestPage />} />

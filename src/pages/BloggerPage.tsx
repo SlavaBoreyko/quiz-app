@@ -1,6 +1,6 @@
 import { Skeleton } from '@mui/material';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from '../app/hooks';
@@ -76,6 +76,33 @@ const BloggerPage = () => {
       }
     }
 
+    // ANALYTICS 
+  //   useEffect(() => {
+  //     const fetchUsersActivities = async() => {
+  //         // const testName = 'first-date';
+
+  //         const q = query(collection(db, "users"), where(`answers`, "!=", null));
+          
+  //         const querySnapshot = await getDocs(q);
+
+  //         ['first-date', 'at-home', 'relationship-level'].forEach((testName) => {
+  //             let counter = 0;
+  //             querySnapshot.forEach((doc) => {
+  //                 const data = doc.data()
+  //                 // if (data.answers[testName] && data.answers[testName]['points'] >= 51) {
+                  
+  //                 if (data.answers[testName] && data.answers[testName]['points'] >= 0) {
+  //                 // if (Object.keys(data.answers).length === 3) {
+  //                     counter++
+  //                 }
+  //             });
+  //             console.log(testName, ' ', counter);
+  //         })
+          
+  //     }
+  //     fetchUsersActivities();
+  // }, [])
+
   return (
     <Container
       justifyContent='flex-start'
@@ -85,6 +112,7 @@ const BloggerPage = () => {
       {(blogger) ? (
         <BloggersHeader 
           id={blogger.id}
+          key={blogger.id}
           avatar={blogger.avatar}
           name={(language === 'or') ? blogger.name.or  : blogger.name.ua}
           mainBlog={(language === 'or') ? blogger.mainBlog.or : blogger.mainBlog.ua}
@@ -119,6 +147,7 @@ const BloggerPage = () => {
         />
         )) : (
             <Skeleton 
+                
                 sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
                 variant="rounded"  
                 animation="wave"  

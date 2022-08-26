@@ -82,25 +82,31 @@ const SignInPromo = () => {
     // }
 
     // ANALYTICS
-    // useEffect(() => {
-    //     const fetchUsersActivities = async() => {
-    //         const testName = 'first-date';
-    //         const q = query(collection(db, "users"), where(`answers`, "!=", null));
-    //         let counter = 0;
-    //         const querySnapshot = await getDocs(q);
-    //         querySnapshot.forEach((doc) => {
-    //             const data = doc.data()
-    //             // if (data.answers[testName] && data.answers[testName]['points'] >= 51) {
-    //             if (data.answers[testName] && data.answers[testName]['points'] >= 0) {
-    //             // if (Object.keys(data.answers).length === 3) {
-    //                 counter++
-    //             }
-    //             // console.log( Object.keys(data.answers).length )
-    //         });
-    //         console.log(counter);
-    //     }
-    //     fetchUsersActivities();
-    // }, [])
+    useEffect(() => {
+        const fetchUsersActivities = async() => {
+            // const testName = 'first-date';
+
+            const q = query(collection(db, "users"), where(`answers`, "!=", null));
+            
+            const querySnapshot = await getDocs(q);
+
+            ['first-date', 'at-home', 'relationship-level'].forEach((testName) => {
+                let counter = 0;
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data()
+                    // if (data.answers[testName] && data.answers[testName]['points'] >= 51) {
+                    
+                    if (data.answers[testName] && data.answers[testName]['points'] >= 0) {
+                    // if (Object.keys(data.answers).length === 3) {
+                        counter++
+                    }
+                });
+                console.log(testName, ' ', counter);
+            })
+            
+        }
+        fetchUsersActivities();
+    }, [])
     
     return (
         <Container

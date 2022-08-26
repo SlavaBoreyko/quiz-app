@@ -1,0 +1,21 @@
+@import "../../../style/variables.scss";
+
+.btnActive,
+.btnUnactive {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #adb5bd;
+    color: $colorAccentOrange;
+    // color: #e2e7eb;
+    font-size: 1.6rem;
+    font-weight: 200;
+    margin: 0 1rem;
+    padding-top: 0.3rem;
+    transition: all 300ms;
+}
+
+.btnUnactive {
+    color: #7c838ab8;
+    transition: all 300ms;
+}

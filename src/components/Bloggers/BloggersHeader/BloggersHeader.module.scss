@@ -15,7 +15,9 @@
 }
 
 .containerDiv {
-    width: 100%;
+    max-width: 100%;
+    margin-right: 1rem;
+    flex-shrink: 1;
 }
 .avatar {
     background-color: #adb5bd;
@@ -56,7 +58,7 @@
 .containerNumbers {
     width: 100%;
     display: flex;
-    padding-bottom: 1.5rem;
+    padding-bottom: 3rem;
     // border-bottom: 1px solid #adb5bd1f;
 }
 
@@ -101,7 +103,7 @@
     border: 1px solid $colorAccentOrange;
     border-radius: 0.5rem;
     margin-right: 1rem;
-    margin-top: 0.25rem;
+    // margin-top: 0.25rem;
     // margin-bottom: 0.5rem;
 }
 
