@@ -15,7 +15,16 @@ export const store = configureStore({
         user: userReducer,
     },
     middleware: (getDefaultMiddleware) => 
-        getDefaultMiddleware().concat(userApi.middleware)
+        getDefaultMiddleware({
+            serializableCheck: {
+              // Ignore these action types
+              ignoredActions: ['userApi.endpoints.fetchFollowingList'],
+              // Ignore these field paths in all actions
+              ignoredActionPaths: ['meta.arg', 'payload.timestamp'],
+              // Ignore these paths in the state
+              ignoredPaths: ['items.dates'],
+            },
+          }).concat(userApi.middleware)
         .concat(testApi.middleware).concat(bloggerApi.middleware),
 });
 

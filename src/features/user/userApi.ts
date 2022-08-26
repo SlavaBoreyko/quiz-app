@@ -26,6 +26,12 @@ export interface updateAnswersProps {
     data: UserAnswersType;
 }
 
+export interface updateFollowingList {
+    id: string;
+    bloggerId: string;
+}
+
+
 export interface setLanguage {
     id: string;
     language: string;
@@ -34,7 +40,7 @@ export interface setLanguage {
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fakeBaseQuery(),
-    tagTypes: ['UserAnswersType'],
+    tagTypes: ['UserAnswersType', 'FollowingList'],
     endpoints: (builder) => ({
         fetchAnswers: builder.query<UserAnswersType, string>({
             async queryFn(userId) {
@@ -49,6 +55,25 @@ export const userApi = createApi({
                 }
             }, 
             providesTags: ['UserAnswersType'],               
+        }),
+
+        fetchFollowingList: builder.query<string[], string>({
+            async queryFn(userId) {
+                try {
+                    const docRef = doc(db, "users", userId);
+                    const userDoc = await getDoc(docRef);
+                    const userData = userDoc.data()
+
+                    let followingList: string[] = [];
+                    if(userData && userData.following) {
+                        followingList = userData.following;
+                    }
+                    return { data: followingList}
+                } catch(err) {
+                    return { error: err }
+                }
+            }, 
+            providesTags: ['FollowingList'],               
         }),
 
         fetchVerdict: builder.query<any, FetchVerdictProps>({
@@ -91,12 +116,82 @@ export const userApi = createApi({
             },
             invalidatesTags: ['UserAnswersType'],
         }),
+        follow: builder.mutation<any, updateFollowingList>({
+            async queryFn({id, bloggerId}) {
+                try {
+                    const userDocRef = doc(db, "users", id);
+                    const userDoc = await getDoc(userDocRef);
+                    if(userDoc.exists()) {
+                        const userDocData = userDoc.data();
+                        if(userDocData.following && 
+                            !userDocData.following.includes(bloggerId)
+                        ) {
+                            await updateDoc(userDocRef, {
+                                following: [
+                                    ...userDocData!.following, bloggerId,
+                                ]
+                            })
+                            console.log('following: [...following, bloggerId]');
+
+                        } else if (userDocData.following === undefined 
+                            || userDocData.following.length < 1
+                        )  {
+                            // create following array
+                            await updateDoc(userDocRef, {
+                                following: [bloggerId]
+                            })
+                            console.log('following: [bloggerId]');
+                        }
+                    }
+                    return { data: 'follow 200' }
+                } catch(err) {  
+                    return { error: err };
+                }
+            },
+            invalidatesTags: ['FollowingList'],  
+        }),
+
+        unfollow: builder.mutation<any, updateFollowingList>({
+            async queryFn({id, bloggerId}) {
+                try {
+                    const userDocRef = doc(db, "users", id);
+                    const userDoc = await getDoc(userDocRef);
+                    
+
+                    console.log('unfollow before userDocData!.following');
+                    
+                    if(userDoc.exists()) {
+                        const userDocData = userDoc.data();
+                        if(userDocData.following 
+                            && userDocData.following.includes(bloggerId)
+                        ) {
+                            const followingList = userDocData!.following;
+                            const index = followingList.indexOf(bloggerId);
+                            if (index !== -1) {
+                                followingList.splice(index, 1);
+                            }
+                            console.log('followingList after Splice', followingList);
+                            await updateDoc(userDocRef, {
+                                following: [
+                                    ...followingList,
+                                ]
+                            })
+                        }
+                    } 
+                    return { data: 'unfollow 200' }
+                } catch(err) {  
+                    return { error: err };
+                }
+            },
+            invalidatesTags: ['FollowingList'],  
+        }),
+
         addLanguage: builder.mutation<any, setLanguage>({
             async queryFn({id, language}) {
                 try {
                     const userDocRef = doc(db, "users", id);
-                    const userDoc = await getDoc(userDocRef);
-                    const userDocData = userDoc.data();
+                    // const userDoc = await getDoc(userDocRef);
+                    // const userDocData = userDoc.data();
 
                     await updateDoc(userDocRef, {
                         language: language
@@ -111,4 +206,11 @@ export const userApi = createApi({
     }),
 });
 
-export const { useFetchAnswersQuery, useFetchVerdictQuery, useAddAnswerMutation } = userApi; 
+export const { 
+    useFetchAnswersQuery, 
+    useFetchVerdictQuery, 
+    useAddAnswerMutation,
+    useFollowMutation,
+    useUnfollowMutation,
+    useFetchFollowingListQuery,
+} = userApi; 

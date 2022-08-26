@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import s from './BloggerCard.module.scss';
 import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,9 @@ export interface BloggerCardProps {
     passedTests: number;
     topics: string;
     language: string | null;
+
+    followHandler: any;
+    followingState: any;
 }
 
 const BloggerCard: FC<BloggerCardProps> = ({
@@ -29,9 +32,16 @@ const BloggerCard: FC<BloggerCardProps> = ({
     passedTests,
     topics,
     language,
+
+    followHandler,
+    followingState,
 }) => {    
     const navigate = useNavigate();
-    const [followingState, setFollowingState] = useState<boolean>(false);
+    const [followingStateLocal, setFollowingStateLocal] = useState<boolean>(false);
+
+    useEffect(() => {
+        setFollowingStateLocal(followingState);
+    }, [followingState])
 
     return (
         <header className={s.headerProfile}  onClick={() => navigate(`/${id}`)}
@@ -46,10 +56,13 @@ const BloggerCard: FC<BloggerCardProps> = ({
                 <div className={s.numberDiv}> 
                     <h1 className={s.name}>{name}</h1>
                         <ButtonFollowLong
-                            caption={followingState ? 'Following' : '+ Follow'}
+                            caption={followingStateLocal ? 'Following' : '+ Follow'}
                             onClick={(e: any) => {
                                 e.stopPropagation(); 
-                                setFollowingState((prev) => !prev);
+                                setFollowingStateLocal((prev) => !prev);
+                                (followingStateLocal) ?
+                                followHandler('unfollow') :
+                                followHandler('follow')
                             }}
                         />
 

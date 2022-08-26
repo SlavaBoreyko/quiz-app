@@ -14,6 +14,7 @@ import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import { useFetchBloggerQuery } from '../features/blogger/bloggerApi';
 import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
+import { useFetchFollowingListQuery, useFollowMutation, useUnfollowMutation } from '../features/user/userApi';
 import { db } from '../firebase.config';
 import { BloggerBigType, TestCardType } from '../types/test.types';
 
@@ -26,6 +27,18 @@ const ExplorePage = () => {
 
     const userState = useAppSelector((state: RootState) => state.user);
     const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
+    const { data: followingList } = useFetchFollowingListQuery(userState.id!);
+    const [followingState, setFollowingState] = useState<boolean>(false);
+
+    // Follow
+    const [ follow ]  = useFollowMutation();
+    const [ unfollow ] = useUnfollowMutation();
+
+    useEffect(() => {
+        if(followingList && blogger && followingList.includes(blogger.id)) {
+          setFollowingState(true);
+        }
+      },[followingList, blogger]);
 
     useEffect(() => {
         if(location.pathname.split('/')[2] === 'men') {
@@ -51,6 +64,18 @@ const ExplorePage = () => {
         }
 
     },[bloggerData])
+
+    const followHandler = (action: 'follow' | 'unfollow') => {
+        if((action === 'follow') && (userState.id) && (blogger)) {
+          follow({id: userState.id, bloggerId: blogger.id});
+          console.log('followHandler: follow');
+        }
+  
+        if((action === 'unfollow') && (userState.id) && (blogger)) {
+          unfollow({id: userState.id, bloggerId: blogger.id});
+          console.log('followHandler: UNFOLLOW');
+        } 
+      }
 
   return (
     <Container
@@ -103,6 +128,8 @@ const ExplorePage = () => {
                         passedTests={blogger.passedTests}
                         topics={(language === 'or') ? blogger.topics.or  : blogger.topics.ua}
                         language={language}
+                        followHandler={followHandler}
+                        followingState={followingState}
                     /> 
                 ) : (
                     <Skeleton 
@@ -129,6 +156,8 @@ const ExplorePage = () => {
                         passedTests={3433}
                         topics={(language === 'or') ? blogger.topics.or  : blogger.topics.ua}
                         language={language}
+                        followHandler={followHandler}
+                        followingState={followingState}
                     /> 
                 ) : (
                     <Skeleton 

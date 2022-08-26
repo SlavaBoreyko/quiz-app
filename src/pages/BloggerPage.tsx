@@ -12,6 +12,7 @@ import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import { useFetchBloggerQuery } from '../features/blogger/bloggerApi';
 import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
+import { useFetchFollowingListQuery, useFollowMutation, useUnfollowMutation } from '../features/user/userApi';
 import { db } from '../firebase.config';
 import { BloggerBigType, TestCardType } from '../types/test.types';
 
@@ -23,9 +24,21 @@ const BloggerPage = () => {
 
     const userState = useAppSelector((state: RootState) => state.user);
     const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
-    
+    const { data: followingList } = useFetchFollowingListQuery(userState.id!);
+    const [followingState, setFollowingState] = useState<boolean>(false);
+    // console.log('followingList', followingList)
     const { data: allTestsByBlogger }  = useFetchTestsByBloggerQuery('Фан-клуб Дівертіто');
     const [testList, setTestList] = useState<TestCardType[] | undefined>(undefined);
+
+    // Follow
+    const [ follow ]  = useFollowMutation();
+    const [ unfollow ] = useUnfollowMutation();
+
+    useEffect(() => {
+      if(followingList && blogger && followingList.includes(blogger.id)) {
+        setFollowingState(true);
+      }
+    },[followingList, blogger]);
 
     useEffect(() => {
       const languageSet = localStorage.getItem('i18nextLng');
@@ -50,6 +63,19 @@ const BloggerPage = () => {
         }
     }, [allTestsByBlogger]);
 
+    const followHandler = (action: 'follow' | 'unfollow') => {
+      if((action === 'follow') && (userState.id) && (blogger)) {
+        follow({id: userState.id, bloggerId: blogger.id});
+        console.log('followHandler: follow');
+      }
+
+      if((action === 'unfollow') && (userState.id) && (blogger)) {
+        unfollow({id: userState.id, bloggerId: blogger.id});
+        console.log('followHandler: UNFOLLOW');
+      } 
+    }
+    // (userState) && 
+    // console.log('userState.following', userState);
 
     const onGoogleClick = async () => {
       try {
@@ -121,6 +147,8 @@ const BloggerPage = () => {
           passedTests={blogger.passedTests}
           description={(language === 'or') ? blogger.description.or : blogger.description.ua}
           language={language}
+          followHandler={followHandler}
+          followingState={followingState}
         /> 
       ) : (
         <Skeleton 

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import s from './BloggersHeader.module.scss';
 import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
 import HtmlParser from 'html-react-parser'; 
@@ -15,6 +15,9 @@ export interface BloggersHeaderProps {
     passedTests: number;
     description: string;
     language: string | null;
+
+    followHandler: any;
+    followingState: boolean;
 }
 
 const BloggersHeader: FC<BloggersHeaderProps> = ({
@@ -28,9 +31,15 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
     passedTests,
     description, 
     language,
-}) => {    
 
-    const [followingState, setFollowingState] = useState<boolean>(false);
+    followHandler,
+    followingState,
+}) => {    
+    const [followingStateLocal, setFollowingStateLocal] = useState<boolean>(false);
+
+    useEffect(() => {
+        setFollowingStateLocal(followingState);
+    }, [followingState])
 
     return (
     <>
@@ -60,9 +69,12 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
                 >   
                     <p className={s.details}>@{id}</p>
                     <ButtonFollow 
-                        caption={followingState ? 'Following' : '+ Follow'}
+                        caption={followingStateLocal ? 'Following' : '+ Follow'}
                         onClick={() => {
-                            setFollowingState((prev) => !prev)
+                            setFollowingStateLocal((prev) => !prev);
+                            (followingState) ?
+                            followHandler('unfollow') :
+                            followHandler('follow')
                         }}
                     />
                 </div>

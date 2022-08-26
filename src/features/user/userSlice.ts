@@ -19,6 +19,7 @@ export interface UserState {
     photoUrl: string | null | undefined;
     answers: UserAnswersType | undefined; 
     language?: string;
+    following?: string[];
 }
 
 const userInitState: UserState = {
@@ -28,6 +29,7 @@ const userInitState: UserState = {
         photoUrl: undefined,
         answers: undefined,
         language: undefined,
+        following: undefined,
 }
 
 const userSlice = createSlice({
@@ -42,6 +44,7 @@ const userSlice = createSlice({
             state.photoUrl = auth.currentUser?.photoURL;
             const UserLanguage = localStorage.getItem('i18nextLng');
             state.language = (UserLanguage !== null && UserLanguage !== undefined) ? UserLanguage : 'ua';
+            // state.following =auth.currentUser?.following
             // state.language = localStorage.getItem('i18nextLng') !== null ? localStorage.getItem('i18nextLng') : 'ua';
         },
         addDemoAnswer(state: UserState, action: PayloadAction<UserAnswersType>) {
@@ -55,11 +58,25 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         builder.addMatcher(
             userApi.endpoints.fetchAnswers.matchFulfilled,
-            (state, { payload }) => {
+            (state, { type, payload }) => {
                 state.answers = payload
             },
-        )
-      },
+        );
+        builder.addMatcher(
+            userApi.endpoints.fetchFollowingList.matchFulfilled,
+            (state, { type, payload }) => {
+                state.following = payload
+            },
+        );
+    }
+    // (builder) => {
+    //     builder.addMatcher(
+    //         userApi.endpoints.fetchAnswers.matchFulfilled,
+    //         (state, { payload }) => {
+    //             state.answers = payload
+    //         },
+    //     )
+    // },
 });
 
 export const { setCurrentUser, addDemoAnswer, addUserLanguage } = userSlice.actions;
