@@ -8,17 +8,14 @@ export interface ResultCardProps {
 }
 
 const ResultCard: FC<ResultCardProps> = ({
-    status, description, showText
-}) => {
+  status, description, showText
+}) => (
+  <>
+    <div className={ (showText) ? s.showText : s.hidden}>
+      <h1 className={s.h1Title}>{status}</h1>
+      <p className={s.description}>{description}</p>
+    </div>
+  </>
+);
 
-  return (
-    <>
-        <div className={ (showText) ? s.showText : s.hidden}>
-            <h1 className={s.h1Title}>{status}</h1>
-            <p className={s.description}>{description}</p>
-        </div>
-    </>
-  )
-}
-
-export default ResultCard
+export default ResultCard;

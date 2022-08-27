@@ -8,13 +8,11 @@ export interface ButtonLabelProps {
 }
 
 const ButtonLabel:FC<ButtonLabelProps> = ({
-    label,
-    onClick,
-    active,
-}) => {
-  return (
-    <button className={active ? s.btnActive : s.btnUnactive} onClick={onClick}>{label}</button>
-  )
-}
+  label,
+  onClick,
+  active,
+}) => (
+  <button className={active ? s.btnActive : s.btnUnactive} onClick={onClick}>{label}</button>
+);
 
-export default ButtonLabel
+export default ButtonLabel;

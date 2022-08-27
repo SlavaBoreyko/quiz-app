@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useRef } from 'react';
+import React, { FC } from 'react';
 import s from './ButtonPlay.module.scss';
 import playIcon from '../../../assets/svg/playIcon.svg';
 
@@ -8,16 +8,16 @@ export interface ButtonPlayProps {
 }
 
 const ButtonPlay: FC<ButtonPlayProps> = ({
-    width
+  width
 }) => {
-    (width) && document.documentElement.style.setProperty('--sizeBtnPlay', `${width}`);
-    return (
-        <button className={s.btn}>
-        <div className={s.circularProgress} >
-                <img className={s.icon} src={playIcon} alt='icon' />
-        </div>
-        </button>
-  )
-}
+  (width) && document.documentElement.style.setProperty('--sizeBtnPlay', `${width}`);
+  return (
+    <button className={s.btn}>
+      <div className={s.circularProgress} >
+        <img className={s.icon} src={playIcon} alt='icon' />
+      </div>
+    </button>
+  );
+};
 
 export default ButtonPlay;

@@ -1,0 +1,5 @@
+src/serviceWorker.js
+public/*
+/**/*.d.ts
+/**/*.test.ts
+/*.test.ts

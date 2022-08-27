@@ -1,5 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react'
-import TestHeader from '../../Test/TestHeader/TestHeader';
+import React, { FC } from 'react';
 import NavSidebar from '../NavSidebar/NavSidebar';
 import s from './Container.module.scss';
 
@@ -17,30 +16,28 @@ const Container:FC<PropsChildren> = ({
   backgroundColor,
   locked,
   fullScreen
-}) => {
-  return (
-    <div className={s.containerBack} 
-        style={{ 
-          justifyContent: `${justifyContent}`,
-          backgroundColor: `${locked ? '#000000cb' : backgroundColor}`,
-        }} 
-    >
-      {/* <TestHeader /> */}
-      <NavSidebar />
-      {
-        locked && ( <div className={s.iconLock} />) 
-      }
-      {children}
-      {(img) && 
+}) => (
+  <div className={s.containerBack} 
+    style={{ 
+      justifyContent: `${justifyContent}`,
+      backgroundColor: `${locked ? '#000000cb' : backgroundColor}`,
+    }} 
+  >
+    {/* <TestHeader /> */}
+    <NavSidebar />
+    {
+      locked && ( <div className={s.iconLock} />) 
+    }
+    {children}
+    {(img) && 
           <img className={locked ? s.lockedImage :
             fullScreen ? s.fullScreen : 
-            s.backImage} 
+              s.backImage} 
           src={img} 
           alt='Background illustration'
           />
-      }
-    </div>
-  )
-}
+    }
+  </div>
+);
 
 export default Container;

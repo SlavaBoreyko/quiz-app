@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import s from './ButtonFollow.module.scss'
+import s from './ButtonFollow.module.scss';
 
 export interface ButtonFollowProps {
     caption: string;
@@ -7,17 +7,15 @@ export interface ButtonFollowProps {
 }
 
 const ButtonFollow:FC<ButtonFollowProps> = ({
-    caption,
-    onClick
-}) => {
-  return (
-    <button 
-      className={(caption === '+ Follow') ? s.btnFollow : s.btnFollowing} 
-      onClick={onClick}
-    >
+  caption,
+  onClick
+}) => (
+  <button 
+    className={(caption === '+ Follow') ? s.btnFollow : s.btnFollowing} 
+    onClick={onClick}
+  >
     {caption}
-    </button>
-  )
-}
+  </button>
+);
 
-export default ButtonFollow
+export default ButtonFollow;

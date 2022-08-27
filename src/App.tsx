@@ -14,8 +14,8 @@ import ProfilePage from './pages/ProfilePage';
 import PrivateRoute from './components/Private/PrivateRoute';
 import TestPage from './pages/TestPage';
 import AuthWrapper from "./components/AuthWrapper/AuthWrapper";
-import AdminPage from "./pages/Admin/AdminPage";
-import SignInPromo from "./pages/SignInPromo";
+// import AdminPage from "./pages/Admin/AdminPage";
+// import SignInPromo from "./pages/SignInPromo";
 import DeveloperPage from "./pages/DeveloperPage";
 
 import {ToastContainer} from 'react-toastify';
@@ -23,7 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import ReactGA from 'react-ga';
 import { useEffect } from "react";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
+// import PrivacyPolicy from "./pages/PrivacyPolicy";
 import BloggerPage from "./pages/BloggerPage";
 import ExplorePage from "./pages/ExplorePage";
 const TRACKING_ID = "G-X99CC06EWN"; 
