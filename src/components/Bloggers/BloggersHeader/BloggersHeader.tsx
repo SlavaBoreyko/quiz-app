@@ -68,7 +68,11 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
                     }}
                 >   
                     <p className={s.details}>@{id}</p>
-                    <ButtonFollow 
+    
+                </div>
+                
+                <h1 className={s.name}>{name}</h1>
+                <ButtonFollow 
                         caption={followingStateLocal ? 'Following' : '+ Follow'}
                         onClick={() => {
                             setFollowingStateLocal((prev) => !prev);
@@ -77,9 +81,6 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
                             followHandler('follow')
                         }}
                     />
-                </div>
-                
-                <h1 className={s.name}>{name}</h1>
             </div>
             
                     
