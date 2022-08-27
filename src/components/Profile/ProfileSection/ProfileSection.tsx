@@ -1,4 +1,4 @@
-import React, { Children, FC } from 'react';
+import React, { FC } from 'react';
 import s from './ProfileSection.module.scss';
 
 interface ProfileSectionProps {
@@ -8,17 +8,15 @@ interface ProfileSectionProps {
 }
 
 const ProfileSection: FC<ProfileSectionProps> = ({
-    title, description, children
-}) => {
-  return (
-    <div className={s.profileSection}>
-        <p className={s.title}>{title}</p>
-        {children}
-        {(description) && 
+  title, description, children
+}) => (
+  <div className={s.profileSection}>
+    <p className={s.title}>{title}</p>
+    {children}
+    {(description) && 
           <p className={s.description}>{description}</p>
-        }
-    </div>
-  )
-}
+    }
+  </div>
+);
 
-export default ProfileSection
+export default ProfileSection;

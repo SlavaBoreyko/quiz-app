@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 import s from './ButtonTextIcon.module.scss';
 
 export interface ButtonProps {
@@ -8,21 +8,19 @@ export interface ButtonProps {
 }
 
 const ButtonTextIcon: FC<ButtonProps> = ({
-    caption, icon, onClick
-}) => {
-  return (
-    // <div className={s.divButtonActive}>
-        <button className={s.transparentBtn} onClick={onClick}>
-            {
-               (icon) && (<img className={s.iconBtn} src={icon} alt='icon'/>)
-            }
+  caption, icon, onClick
+}) => (
+  // <div className={s.divButtonActive}>
+  <button className={s.transparentBtn} onClick={onClick}>
+    {
+      (icon) && (<img className={s.iconBtn} src={icon} alt='icon'/>)
+    }
            
-            {caption}
-        </button> 
+    {caption}
+  </button> 
         
-    // </div>
+  // </div>
     
-  )
-}
+);
 
-export default ButtonTextIcon
+export default ButtonTextIcon;

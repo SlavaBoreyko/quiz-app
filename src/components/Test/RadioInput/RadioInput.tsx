@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from 'react'
+import React, { Dispatch, FC, SetStateAction } from 'react';
 import s from './RadioInput.module.scss';
 
 export interface RadioInputProps {
@@ -13,8 +13,6 @@ export interface RadioInputProps {
 
   reaction?: string;
   setReactionSrc?: Dispatch<SetStateAction<string>>;
-
-  
 }
 
 const RadioInput: FC<RadioInputProps> = ({
@@ -42,37 +40,41 @@ const RadioInput: FC<RadioInputProps> = ({
         setReactionSrc(reaction);
       }
     }
-  } 
+  }; 
 
   return (
     <div className={s.radioContainer}>
       <label htmlFor={`${index}`} >
         <input 
           className={s.textContainer}
-            type="radio" 
-            id={`${index}`}
-            name="select" 
-            value={value} 
-            onChange={answerHandler} 
-            checked={checked[+index]}
-          />
+          type="radio" 
+          id={`${index}`}
+          name="select" 
+          value={value} 
+          onChange={answerHandler} 
+          checked={checked[+index]}
+        />
         { (indicatedAnswer === undefined || trueAnswer === undefined) && (
-            <div className={checked[+index] ? s.textContainerTrue : s.textContainer }> 
-                <span>{text}</span>
-            </div>
-          )
+          <div className={checked[+index] ? s.textContainerTrue : s.textContainer }> 
+            <span>{text}</span>
+          </div>
+        )
         }
         {/* FOR watching my /answers  */}
         {(indicatedAnswer !== undefined && trueAnswer !== undefined) && (
-            <div className={((value === trueAnswer)) ? s.textContainerTrue : (value === indicatedAnswer) ? s.textContainerFalse : s.textContainer }> 
-              <span>{text}</span>
-            </div>
-          )
+          <div className={((value === trueAnswer)) 
+            ? s.textContainerTrue 
+            : (value === indicatedAnswer) 
+              ? s.textContainerFalse 
+              : s.textContainer }> 
+            <span>{text}</span>
+          </div>
+        )
         }
 
       </label>
     </div>
-  )
-}
+  );
+};
 
 export default RadioInput;

@@ -1,8 +1,5 @@
 import React, { FC } from 'react';
-import { ReactI18NextChild } from 'react-i18next';
 import s from './SelectOption.module.scss';
-
-
 
 export interface SelectOptionParams {
     onChange: React.ChangeEventHandler<HTMLSelectElement>;
@@ -16,23 +13,20 @@ export interface SelectOptionParams {
 }
 
 const SelectOption: FC<SelectOptionParams> = ({
-    onChange,
-    options,
-    language
-}) => {
+  onChange,
+  options,
+  language
+}) => (
+  <select className={s.selectOption} name="language" onChange={onChange} value={language}>
+    {   
+      options.map((option) => 
+        (<option key={option.value} value={option.value} > 
+          {/* selected={language === option.value}  */}
+          {`${option.icon} ${option.title}`}
+        </option>)
+      )
+    }
+  </select>
+);
 
-  return (
-    <select className={s.selectOption} name="language" onChange={onChange} value={language}>
-        {   
-            options.map((option) => 
-                 (<option key={option.value} value={option.value} > 
-                 {/* selected={language === option.value}  */}
-                    {`${option.icon} ${option.title}`}
-                </option>)
-            )
-        }
-    </select>
-  )
-}
-
-export default SelectOption
+export default SelectOption;

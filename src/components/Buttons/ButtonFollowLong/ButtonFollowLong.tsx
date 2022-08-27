@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import s from './ButtonFollowLong.module.scss'
+import s from './ButtonFollowLong.module.scss';
 
 export interface ButtonFollowLongProps {
     caption: string;
@@ -7,17 +7,15 @@ export interface ButtonFollowLongProps {
 }
 
 const ButtonFollowLong:FC<ButtonFollowLongProps> = ({
-    caption,
-    onClick
-}) => {
-  return (
-    <button 
-      className={(caption === '+ Follow') ? s.btnFollow : s.btnFollowing} 
-      onClick={onClick}
-    >
+  caption,
+  onClick
+}) => (
+  <button 
+    className={(caption === '+ Follow') ? s.btnFollow : s.btnFollowing} 
+    onClick={onClick}
+  >
     {caption}
-    </button>
-  )
-}
+  </button>
+);
 
-export default ButtonFollowLong
+export default ButtonFollowLong;

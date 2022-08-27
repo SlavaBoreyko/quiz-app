@@ -2,54 +2,31 @@ import s from './TestHeader.module.scss';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useFetchTestQuery } from '../../../features/test/testApi';
-import SelectOption from '../../Buttons/SelectOption/SelectOption';
 //After video add DevButton: 
 import BtnRectangle from '../../Profile/BtnRectangle/BtnRectangle';
-
-import i18n from 'i18next';
-import { initReactI18next, useTranslation } from 'react-i18next';
-import detector from "i18next-browser-languagedetector";
-
-// redux-toolkit
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { addUserLanguage } from '../../../features/user/userSlice';
-import NavSidebar from '../../Containers/NavSidebar/NavSidebar';
-
-const initLang = (lang: string | null) => {
-  i18n
-  .use(detector)
-  .use(initReactI18next)
-  .init({
-      lng: lang ? lang : 'ua',
-      fallbackLng: 'ua',
-      interpolation: { escapeValue: false },
-  });
-}
+import { useAppSelector } from '../../../app/hooks';
 
 
 const TestHeader = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { data: testData, isLoading, isError, error }  = useFetchTestQuery(params.id!);
+  const { data: testData }  = useFetchTestQuery(params.id!);
   const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
-  // const { t } = useTranslation();
   const userState = useAppSelector((state: any) => state.user);
   useEffect(() => {
     const languageSet = localStorage.getItem('i18nextLng');
     if(userState.language) {
-        setLanguage(userState.language);
+      setLanguage(userState.language);
     } else if(languageSet) {
-        setLanguage(languageSet);
+      setLanguage(languageSet);
     }
-},[userState.language])
-
+  },[userState.language]);
 
   return (
     <>
-    {
-      (testData) && (
-        <>
-         
+      {
+        (testData) && (
+          <>
             <div className={s.divHeader}>
               <Link to={`/${testData.blogger.id}`}>
                 <img className={s.avatarHeader} src={testData.blogger.avatar} alt={'Avatar'}/>
@@ -70,19 +47,21 @@ const TestHeader = () => {
               </div>
             </div>
             
-          {/* AFTER Max video release */}
-          <div 
-            style={{
-              marginTop: '0.5rem',
-            }}
-          >
-            <BtnRectangle caption={(language && language === 'or') ? `> Разработчик` :`> Розробник`} onClick={() => navigate('/developer')} />
-          </div>
-        </>
-      )
-    }
+            {/* AFTER Max video release */}
+            <div 
+              style={{
+                marginTop: '0.5rem',
+              }}
+            >
+              <BtnRectangle 
+                caption={(language && language === 'or') ? `> Разработчик` :`> Розробник`} 
+                onClick={() => navigate('/developer')} />
+            </div>
+          </>
+        )
+      }
     </>
-  )
-}
+  );
+};
 
-export default TestHeader
+export default TestHeader;
