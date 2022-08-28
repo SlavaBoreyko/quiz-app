@@ -111,6 +111,10 @@
     font-size: 2.2rem;
     font-weight: 200;
     color: $colorAccentOrange;
+
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
 .numberGrey {
@@ -125,7 +129,7 @@
     // border: 1px solid $colorAccentOrange;
     border-radius: 0.5rem;
     margin: -1px;
-    margin-right: 1.5rem;
+    // margin-right: 1.5rem;
 }
 
 .socBox {

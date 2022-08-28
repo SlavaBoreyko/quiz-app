@@ -127,11 +127,11 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
           </a>
             
           <div>
-            <span className={s.numberGrey}>{followers}</span>
+            <span className={s.numberGrey}>{(followers > 10) ? followers : '--'}</span>
           </div>
           <div>
             {/* <img className={s.iconForNumber} src={TestIcon} alt={'test'}/> */}
-            <span className={s.numberGrey}>{passedTests}</span>
+            <span className={s.numberGrey}>{(passedTests > 1) ? passedTests : '--'}</span>
           </div>
         </div>
             

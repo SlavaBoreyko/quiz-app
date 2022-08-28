@@ -48,6 +48,7 @@ export interface BloggerBigType {
         ua: string;
         or: string;
     }
+    audience: string[];
     followers: number;
     passedTests: number;
 }

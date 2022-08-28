@@ -6,7 +6,7 @@ import { RootState } from '../app/store';
 import BloggerCard from '../components/Bloggers/BloggerCard/BloggerCard';
 import ButtonLabel from '../components/Buttons/ButtonLabel/ButtonLabel';
 import Container from '../components/Containers/Container/Container';
-import { useFetchBloggerQuery } from '../features/blogger/bloggerApi';
+import { useFetchBloggerListByAudienceQuery, useFetchBloggerQuery } from '../features/blogger/bloggerApi';
 import { useFetchFollowingListQuery, useFollowMutation, useUnfollowMutation } from '../features/user/userApi';
 import { BloggerBigType } from '../types/test.types';
 
@@ -14,10 +14,10 @@ const ExplorePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [toggleBtn, setToggleBtn] = useState<boolean>(true);
-  const [blogger, setBlogger] = useState<BloggerBigType | undefined>(undefined);
-  const [blogger2, setBlogger2] = useState<BloggerBigType | undefined>(undefined);
-  const { data: bloggerData } = useFetchBloggerQuery('divertito');
-  const { data: blogger2Data } = useFetchBloggerQuery('apostol');
+  const [bloggerForMen, setBloggerForMen] = useState<BloggerBigType[] | undefined>(undefined);
+  const [bloggerForGirls, setBloggerForGirls] = useState<BloggerBigType[] | undefined>(undefined);
+  const { data: bloggerDataForMen } = useFetchBloggerListByAudienceQuery('men');
+  const { data: bloggerDataForGirls } = useFetchBloggerListByAudienceQuery('girls');
 
   const userState = useAppSelector((state: RootState) => state.user);
   const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
@@ -28,11 +28,11 @@ const ExplorePage = () => {
   const [ follow ]  = useFollowMutation();
   const [ unfollow ] = useUnfollowMutation();
 
-  useEffect(() => {
-    if(followingList && blogger && followingList.includes(blogger.id)) {
-      setFollowingState(true);
-    }
-  },[followingList, blogger]);
+  // useEffect(() => {
+  //   if(followingList && bloggerForMen && followingList.includes(blogger.id)) {
+  //     setFollowingState(true);
+  //   }
+  // },[followingList, blogger]);
 
   useEffect(() => {
     if(location.pathname.split('/')[2] === 'men') {
@@ -52,26 +52,26 @@ const ExplorePage = () => {
   },[userState.language]);
 
   useEffect(() => {
-    if(bloggerData) {
-      setBlogger(bloggerData);
+    if(bloggerDataForMen) {
+      setBloggerForMen(bloggerDataForMen);
     }
-  },[bloggerData]);
+  },[bloggerDataForMen]);
 
   useEffect(() => {
-    if(blogger2Data) {
-      setBlogger2(blogger2Data);
+    if(bloggerDataForGirls) {
+      setBloggerForGirls(bloggerDataForGirls);
     }
-  },[blogger2Data]);
+  },[bloggerDataForGirls]);
 
-  const followHandler = (action: 'follow' | 'unfollow') => {
-    if((action === 'follow') && (userState.id) && (blogger)) {
-      follow({id: userState.id, bloggerId: blogger.id});
-    }
+  // const followHandler = (action: 'follow' | 'unfollow') => {
+  //   if((action === 'follow') && (userState.id) && (blogger)) {
+  //     follow({id: userState.id, bloggerId: blogger.id});
+  //   }
   
-    if((action === 'unfollow') && (userState.id) && (blogger)) {
-      unfollow({id: userState.id, bloggerId: blogger.id});
-    } 
-  };
+  //   if((action === 'unfollow') && (userState.id) && (blogger)) {
+  //     unfollow({id: userState.id, bloggerId: blogger.id});
+  //   } 
+  // };
 
   return (
     <Container
@@ -112,7 +112,7 @@ const ExplorePage = () => {
       <Routes>
         <Route path="/men" element={
           <>
-            {(blogger) ? (
+            {(bloggerForMen) ? bloggerForMen.map((blogger) => (
               <BloggerCard
                 key={blogger.id}
                 id={blogger.id}
@@ -127,10 +127,11 @@ const ExplorePage = () => {
                 topics={(language === 'or') ? blogger.topics.or  : blogger.topics.ua}
                 language={language}
 
-                followHandler={followHandler}
+                // followHandler={followHandler}
+                followHandler={()=>{}}
                 followingState={followingState}
               /> 
-            ) : (
+            )) : (
               <Skeleton 
                 sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
                 variant="rounded"  
@@ -143,25 +144,26 @@ const ExplorePage = () => {
         }/>
         <Route path="/girls" element={
           <>
-            {(blogger2) ? (
+            {(bloggerForGirls) ? bloggerForGirls.map((blogger) => (
               <BloggerCard
-                key={blogger2.id}
-                id={blogger2.id}
-                avatar={blogger2.avatar}
-                name={(language === 'or') ? blogger2.name.or  : blogger2.name.ua}
+                key={blogger.id}
+                id={blogger.id}
+                avatar={blogger.avatar}
+                name={(language === 'or') ? blogger.name.or  : blogger.name.ua}
                 
-                mainBlogFollowers={blogger2.mainBlog.followers}
-                mainBlogSoc={blogger2.mainBlog.soc}
+                mainBlogFollowers={blogger.mainBlog.followers}
+                mainBlogSoc={blogger.mainBlog.soc}
 
-                followers={1254}
-                passedTests={3433}
-                topics={(language === 'or') ? blogger2.topics.or  : blogger2.topics.ua}
+                followers={blogger.followers}
+                passedTests={blogger.passedTests}
+                topics={(language === 'or') ? blogger.topics.or  : blogger.topics.ua}
                 language={language}
 
-                followHandler={followHandler}
+                // followHandler={followHandler}
+                followHandler={() => {}}
                 followingState={followingState}
               /> 
-            ) : (
+            )) : (
               <Skeleton 
                 sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
                 variant="rounded"  

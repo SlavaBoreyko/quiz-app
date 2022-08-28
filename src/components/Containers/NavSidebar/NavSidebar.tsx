@@ -62,7 +62,7 @@ const NavSidebar = () => {
   return (
     <>
       {
-        (!['/', '/profile', '/sign-in', '/developer', '/divertito',  '/explore/', '/explore/men', '/explore/girls'].includes(pathname)) ? (
+        (pathname.split('/')[1] === 'test') ? (
           <div
             style={{
               position: 'absolute',
@@ -107,23 +107,20 @@ const NavSidebar = () => {
       />
 
       {( !['/profile'].includes(pathname)) && (
-      // <div className={s.divDeveloper}>
-                
         <div className={s.sideBarNav} >
           <ButtonNav 
             icon={profileIcon}
             onClick={() => navigate('/profile')}
           />
           {/* Pages for Share Btn */}
-          {(!['/developer', '/', '/sign-in', '/divertito', '/explore/', '/explore/men', '/explore/girls'].includes(pathname)) &&
-                        <ButtonNav 
-                          icon={shareIcon}
-                          onClick={linkCopy}
-                          optionClass={'share'}
-                        />
+          {(pathname.split('/')[1] === 'test') &&
+            <ButtonNav 
+              icon={shareIcon}
+              onClick={linkCopy}
+              optionClass={'share'}
+            />
           } 
         </div>
-      // </div>
       )}
     </>
   );

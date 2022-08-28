@@ -27,7 +27,28 @@ export const bloggerApi = createApi({
         }
       },              
     }),
+    fetchBloggerListByAudience: builder.query<BloggerBigType[], string>({
+      async queryFn(audienceType) {
+        let bloggersList: any[] = [];
+        try {
+          const q = query(
+            collection(db, "bloggers"), 
+            where("audience", "array-contains", audienceType),
+          );
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => 
+            bloggersList.push(doc.data())
+          );
+          return { data:  bloggersList};
+        } catch(err) {
+          return { error: err };
+        }
+      },              
+    }),
   }),
 });
 
-export const { useFetchBloggerQuery } = bloggerApi; 
+export const { 
+  useFetchBloggerQuery,
+  useFetchBloggerListByAudienceQuery,
+} = bloggerApi; 
