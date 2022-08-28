@@ -34,6 +34,7 @@ export interface BloggerBigType {
         or: string;
         soc: string; //insta, youtube,tiktok
         followers: number;
+        link: string; 
     }
     name: {
         ua: string;

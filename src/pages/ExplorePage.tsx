@@ -15,7 +15,9 @@ const ExplorePage = () => {
   const navigate = useNavigate();
   const [toggleBtn, setToggleBtn] = useState<boolean>(true);
   const [blogger, setBlogger] = useState<BloggerBigType | undefined>(undefined);
+  const [blogger2, setBlogger2] = useState<BloggerBigType | undefined>(undefined);
   const { data: bloggerData } = useFetchBloggerQuery('divertito');
+  const { data: blogger2Data } = useFetchBloggerQuery('apostol');
 
   const userState = useAppSelector((state: RootState) => state.user);
   const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
@@ -49,23 +51,25 @@ const ExplorePage = () => {
     }
   },[userState.language]);
 
-  // console.log(bloggerData)
   useEffect(() => {
     if(bloggerData) {
       setBlogger(bloggerData);
     }
-
   },[bloggerData]);
+
+  useEffect(() => {
+    if(blogger2Data) {
+      setBlogger2(blogger2Data);
+    }
+  },[blogger2Data]);
 
   const followHandler = (action: 'follow' | 'unfollow') => {
     if((action === 'follow') && (userState.id) && (blogger)) {
       follow({id: userState.id, bloggerId: blogger.id});
-      console.log('followHandler: follow');
     }
   
     if((action === 'unfollow') && (userState.id) && (blogger)) {
       unfollow({id: userState.id, bloggerId: blogger.id});
-      console.log('followHandler: UNFOLLOW');
     } 
   };
 
@@ -114,12 +118,15 @@ const ExplorePage = () => {
                 id={blogger.id}
                 avatar={blogger.avatar}
                 name={(language === 'or') ? blogger.name.or  : blogger.name.ua}
-                mainBlog={(language === 'or') ? blogger.mainBlog.or : blogger.mainBlog.ua}
+                
                 mainBlogFollowers={blogger.mainBlog.followers}
+                mainBlogSoc={blogger.mainBlog.soc}
+
                 followers={blogger.followers}
                 passedTests={blogger.passedTests}
                 topics={(language === 'or') ? blogger.topics.or  : blogger.topics.ua}
                 language={language}
+
                 followHandler={followHandler}
                 followingState={followingState}
               /> 
@@ -136,18 +143,21 @@ const ExplorePage = () => {
         }/>
         <Route path="/girls" element={
           <>
-            {(blogger) ? (
+            {(blogger2) ? (
               <BloggerCard
-                key={blogger.id}
-                id={blogger.id}
-                avatar={blogger.avatar}
-                name={(language === 'or') ? blogger.name.or  : "Новий блогер"}
-                mainBlog={(language === 'or') ? blogger.mainBlog.or : blogger.mainBlog.ua}
-                mainBlogFollowers={945000}
+                key={blogger2.id}
+                id={blogger2.id}
+                avatar={blogger2.avatar}
+                name={(language === 'or') ? blogger2.name.or  : blogger2.name.ua}
+                
+                mainBlogFollowers={blogger2.mainBlog.followers}
+                mainBlogSoc={blogger2.mainBlog.soc}
+
                 followers={1254}
                 passedTests={3433}
-                topics={(language === 'or') ? blogger.topics.or  : blogger.topics.ua}
+                topics={(language === 'or') ? blogger2.topics.or  : blogger2.topics.ua}
                 language={language}
+
                 followHandler={followHandler}
                 followingState={followingState}
               /> 

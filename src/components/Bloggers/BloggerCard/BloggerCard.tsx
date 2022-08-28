@@ -1,16 +1,19 @@
 import { FC, useEffect, useState } from 'react';
 import s from './BloggerCard.module.scss';
-import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
+// import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
 import { useNavigate } from 'react-router-dom';
 import HtmlParser from 'html-react-parser'; 
 import ButtonFollowLong from '../../Buttons/ButtonFollowLong/ButtonFollowLong';
+import convertFollowersToK from '../../../utils/convertFollowersToK';
 
 export interface BloggerCardProps {
     id: string;
     avatar: string;
     name: string;
-    mainBlog: string;
+
     mainBlogFollowers: number;
+    mainBlogSoc: string;
+
     followers: number;
     passedTests: number;
     topics: string;
@@ -24,8 +27,9 @@ const BloggerCard: FC<BloggerCardProps> = ({
   id,
   avatar,
   name, 
-  //   mainBlog,
+
   mainBlogFollowers,
+  mainBlogSoc,
 
   //   followers,
   passedTests,
@@ -45,12 +49,7 @@ const BloggerCard: FC<BloggerCardProps> = ({
   return (
     <header className={s.headerProfile}  onClick={() => navigate(`/${id}`)}
     >   
-      {/* <div 
-                style={{ width:'100%', flexShrink: '1',}}
-            > */}
       <img className={s.avatar} src={avatar} alt='Avatar'/>
-      {/* </div> */}
-      {/* <div style={{ flexGrow: '1',}}></div> */}
       <div className={s.containerDiv}>        
         <div className={s.numberDiv}> 
           <h1 className={s.name}>{name}</h1>
@@ -66,18 +65,24 @@ const BloggerCard: FC<BloggerCardProps> = ({
           />
 
           <div className={s.socBox}>
-            <img className={s.socIcon} src={YoutubeIcon} alt={'YouTube'}/>
-            <span className={s.numberGold}>{Math.round(mainBlogFollowers/1000)}K</span>
+            <img 
+              className={s.socIcon} 
+              src={require(`../../../assets/svg/socIcon/${mainBlogSoc}.svg`)} 
+              alt={'YouTube'}
+            />
+            <span className={s.numberGold}>{convertFollowersToK(mainBlogFollowers)}K</span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center'}}>
+          <p className={s.fontGrey}> {topics}</p>
+
+          {/* <div style={{ display: 'flex', alignItems: 'center'}}>
             <span className={s.numberGrey}>{passedTests}</span>
             <p className={s.marginLeft}>
               {(language === 'or') ? HtmlParser('Пройденных<br/>тестов') : HtmlParser('Пройдених<br/>тестів')}
             </p>
           </div>
-          <p className={s.fontGold}>{(language === 'or') ? 'Тематика тестов:' : 'Тематика тестів:'}</p>
-          <p className={s.fontGrey}> {topics}</p>
+          <p className={s.fontGold}>{(language === 'or') ? 'Тематика тестов:' : 'Тематика тестів:'}</p> */}
+          
         </div>
       </div>  
     </header>

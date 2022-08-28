@@ -85,6 +85,10 @@
 
 .numberGold,
 .numberGrey {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    
     font-size: 3rem;
     font-weight: 200;
     color: $colorAccentOrange;
@@ -102,7 +106,7 @@
     // border: 1px solid $colorAccentOrange;
     border-radius: 0.5rem;
     margin: -1px;
-    margin-right: 1.5rem;
+    // margin-right: 1.5rem;
 }
 
 .socBox {

@@ -9,7 +9,7 @@
     width: 100%;
     justify-content: flex-start;
     // align-items: flex-end;
-    align-items: flex-start;
+    align-items: center;
     padding: 1rem;
     background-color: #181b1e;
     border-radius: 0.5rem;
@@ -53,10 +53,9 @@
 }
 .name {
     text-align: left;
-    font-size: 1.4rem;
     font-weight: 900;
-    color: #adb5bd;
-    // margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: #c6cfd7;
     margin-bottom: 0.5rem;
 }
 
@@ -101,7 +100,6 @@
     color: #adb5bd;
     // color: $colorAccentOrange;
     text-align: left;
-    margin-bottom: 1rem;
 }
 
 // .topicsDiv {

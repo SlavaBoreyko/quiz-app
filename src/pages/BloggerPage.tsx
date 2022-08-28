@@ -142,8 +142,12 @@ const BloggerPage = () => {
           key={blogger.id}
           avatar={blogger.avatar}
           name={(language === 'or') ? blogger.name.or  : blogger.name.ua}
-          mainBlog={(language === 'or') ? blogger.mainBlog.or : blogger.mainBlog.ua}
+          
+          mainBlogSoc={blogger.mainBlog.soc} 
+          mainBlogName={(language === 'or') ? blogger.mainBlog.or : blogger.mainBlog.ua}
           mainBlogFollowers={blogger.mainBlog.followers}
+          mainBlogLink={blogger.mainBlog.link}
+
           followers={blogger.followers}
           passedTests={blogger.passedTests}
           description={(language === 'or') ? blogger.description.or : blogger.description.ua}
