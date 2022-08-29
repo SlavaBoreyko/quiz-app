@@ -229,6 +229,34 @@ const ExplorePage = () => {
             ))}
           </>
         }/>
+        <Route path='/girls/tests' element={
+          <>
+            { (testsListForGirls) ? testsListForGirls.map((test) => (
+              <TestCardOpen
+                key={test.id}
+                testName={(language === 'or') ? test.testName.or : test.testName.ua}
+                cover={test.cover}
+                bloggerId={test.blogger.id}
+                bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
+                bloggerAvatar={test.blogger.avatar}
+                footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
+                  `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
+                }
+                onClick={(userState.id) ? () => navigate(`/test/${test.id}`) : onGoogleClick }
+                button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnGoogleOAuth  width={'22%'}/>} 
+              />
+            )) : Array.apply(null, Array(4)).map((item, index) => (
+              <Skeleton 
+                key={index}
+                sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
+                variant="rounded"  
+                animation="wave"  
+                width={'100%'} 
+                height={'15rem'} 
+              />
+            ))}
+          </>
+        }/>
       </Routes>
     </Container>
   );

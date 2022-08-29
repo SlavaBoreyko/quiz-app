@@ -3,6 +3,7 @@ import s from './BloggerCard.module.scss';
 import { useNavigate } from 'react-router-dom';
 import ButtonFollowLong from '../../Buttons/ButtonFollowLong/ButtonFollowLong';
 import convertFollowersToK from '../../../utils/convertFollowersToK';
+import ButtonPlay from '../../Profile/ButtonPlay/ButtonPlay';
 
 export interface BloggerCardProps {
     id: string;
@@ -47,6 +48,28 @@ const BloggerCard: FC<BloggerCardProps> = ({
       <div className={s.containerDiv}>        
         <div className={s.numberDiv}> 
           <h1 className={s.name}>{name}</h1>
+          {/* <ButtonPlay width={'28%'}/> */}
+
+
+
+          {/* <div className={s.socBox}>
+            <span className={s.numberGold}>{convertFollowersToK(mainBlogFollowers)}K</span>
+            <img 
+              className={s.socIcon} 
+              src={require(`../../../assets/svg/socIcon/${mainBlogSoc}.svg`)} 
+              alt={'YouTube'}
+            />
+          </div> */}
+          <p className={s.fontGrey}> {topics}</p>
+
+          <div className={s.socBox}>
+            <img 
+              className={s.socIcon} 
+              src={require(`../../../assets/svg/socIcon/${mainBlogSoc}.svg`)} 
+              alt={'YouTube'}
+            />
+            <span className={s.numberGold}>{convertFollowersToK(mainBlogFollowers)}K</span>
+          </div>
           <ButtonFollowLong
             caption={followingStateLocal ? 'Following' : '+ Follow'}
             onClick={(e: any) => {
@@ -57,18 +80,8 @@ const BloggerCard: FC<BloggerCardProps> = ({
                 followHandler('follow');
             }}
           />
-
-          <div className={s.socBox}>
-            <img 
-              className={s.socIcon} 
-              src={require(`../../../assets/svg/socIcon/${mainBlogSoc}.svg`)} 
-              alt={'YouTube'}
-            />
-            <span className={s.numberGold}>{convertFollowersToK(mainBlogFollowers)}K</span>
-          </div>
-
-          <p className={s.fontGrey}> {topics}</p>
         </div>
+        
       </div>  
     </header>
   );

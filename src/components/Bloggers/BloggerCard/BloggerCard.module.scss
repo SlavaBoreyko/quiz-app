@@ -8,8 +8,8 @@
     display: flex;
     width: 100%;
     justify-content: flex-start;
-    // align-items: flex-end;
-    align-items: center;
+    align-items: flex-start;
+    // align-items: center;
     padding: 1rem;
     background-color: #181b1e;
     border-radius: 0.5rem;
@@ -20,7 +20,10 @@
 
 .containerDiv {
     width: 100%;
+    // new
+    align-self: flex-end;
 }
+
 .avatar {
     background-color: #adb5bd;
     width: 6rem;
@@ -31,32 +34,34 @@
     object-position: center center;
     flex-shrink: 0;
 
-    @media (min-width: 700px) {
-        width: 8rem;
-        height: 8rem;
-        margin-right: 1.5rem;
-    }
+    // @media (min-width: 700px) {
+    //     width: 8rem;
+    //     height: 8rem;
+    //     margin-right: 1.5rem;
+    // }
 
-    @media only screen 
-    and (device-width : 414px) 
-    // and (device-height : 736px) 
-    // and (device-height : 896px) 
-    and (-webkit-device-pixel-ratio : 2),
-    only screen 
-    and (device-width : 414px) 
-    and (-webkit-device-pixel-ratio : 3) { 
-        width: 8rem;
-        height: 8rem;
-        margin-right: 1.5rem;
-    }
+    // @media only screen 
+    // and (device-width : 414px) 
+    // // and (device-height : 736px) 
+    // // and (device-height : 896px) 
+    // and (-webkit-device-pixel-ratio : 2),
+    // only screen 
+    // and (device-width : 414px) 
+    // and (-webkit-device-pixel-ratio : 3) { 
+    //     width: 8rem;
+    //     height: 8rem;
+    //     margin-right: 1.5rem;
+    // }
 
 }
 .name {
     text-align: left;
     font-weight: 900;
     font-size: 1.4rem;
+    line-height: 1.1;
     color: #c6cfd7;
-    margin-bottom: 0.5rem;
+    align-self: flex-end;
+    margin-left: 1rem;
 }
 
 .fontGrey {
@@ -89,7 +94,8 @@
 .topicsDiv {
     // width: 100%;
     display: grid;
-    grid-template-columns: 0.8fr 1fr;
+    // grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: 1fr 1fr;
     row-gap: 0.5rem;
     column-gap: 0.5rem;
     // display: flex;
@@ -100,6 +106,7 @@
     color: #adb5bd;
     // color: $colorAccentOrange;
     text-align: left;
+   
 }
 
 // .topicsDiv {
@@ -108,13 +115,16 @@
 
 .numberGold,
 .numberGrey {
-    font-size: 2.2rem;
-    font-weight: 200;
+    font-size: 1.8rem;
+    font-weight: 300;
     color: $colorAccentOrange;
 
     display: flex;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    // margin-right: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .numberGrey {
@@ -125,19 +135,21 @@
 
 
 .socIcon {
-    height: 3.1rem;
+    height: 2.4rem;
+    border-radius: 2rem;
+    margin-right: 0.5rem;
     // border: 1px solid $colorAccentOrange;
-    border-radius: 0.5rem;
-    margin: -1px;
-    // margin-right: 1.5rem;
 }
 
 .socBox {
     display: flex;
-    width: 11rem;
-    border: 1px solid $colorAccentOrange;
-    border-radius: 0.5rem;
-    margin-right: 1rem;
+    // width: 7rem;
+    // border: 1px solid $colorAccentOrange;
+    // border-radius: 0.5rem;
+
+    justify-self: flex-start;
+    margin-left: -2.5rem;
+
 }
 
 .start {
