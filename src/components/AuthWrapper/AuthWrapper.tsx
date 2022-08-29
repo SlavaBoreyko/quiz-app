@@ -1,12 +1,10 @@
 import { Outlet } from 'react-router-dom';
-// import { useAuthStatus } from '../hooks/useAuthStatus';
+import { useAuthStatus } from '../hooks/useAuthStatus';
 
-const AuthWrapper = () => 
-// const { loggedIn, checkingStatus } = useAuthStatus();
+const AuthWrapper = () => {
+  useAuthStatus();
 
-  <Outlet /> 
-;
+  return <Outlet />;
+};
 
 export default AuthWrapper;
-
-

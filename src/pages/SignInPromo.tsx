@@ -20,7 +20,7 @@ import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
 // Translation
 import { TestCardType } from '../types/test.types';
 import { useAppSelector } from '../app/hooks';
-import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
+import { useFetchTestsByBloggerIdQuery } from '../features/test/testApi';
 
 const SignInPromo = () => {
   // const { t } = useTranslation();
@@ -28,7 +28,7 @@ const SignInPromo = () => {
   const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
   const userState = useAppSelector((state: any) => state.user);
 
-  const { data: allTestsByBlogger }  = useFetchTestsByBloggerQuery('Фан-клуб Дівертіто');
+  const { data: allTestsByBlogger }  = useFetchTestsByBloggerIdQuery('divertito');
   const [testDemo, setTestDemo] = useState<TestCardType | undefined>(undefined);
   const [otherTests, setOtherTests] = useState<TestCardType[] | undefined>(undefined);
 

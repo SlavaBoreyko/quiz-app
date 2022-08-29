@@ -6,7 +6,7 @@ import {
   getDocs, setDoc 
 } from 'firebase/firestore';
 import { db } from '../../firebase.config';
-import { TestType, VerdictListType } from '../../types/test.types';
+import { TestCardType, TestType, VerdictListType } from '../../types/test.types';
 
 
 export const testApi = createApi({
@@ -28,13 +28,31 @@ export const testApi = createApi({
       },
       providesTags: ['Test'],                 
     }),
-    fetchTestsByBlogger: builder.query<any, string>({
-      async queryFn(bloggerName) {
+    fetchTestsCardByAudience: builder.query<TestCardType[], string>({
+      async queryFn(audienceType) {
+        let TestsCardList: any[] = [];
+        try {
+          const q = query(
+            collection(db, "testsCards"), 
+            where("audience", "array-contains", audienceType),
+          );
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => 
+            TestsCardList.push(doc.data())
+          );
+          return { data: TestsCardList};
+        } catch(err) {
+          return { error: err };
+        }
+      },              
+    }),
+    fetchTestsByBloggerId: builder.query<any, string>({
+      async queryFn(bloggerId) {
         let arrayTests: any[] = [];
         try {
           const q = query(
             collection(db, "testsCards"), 
-            where("blogger.name.ua", "==", bloggerName),
+            where("blogger.id", "==", bloggerId),
             // orderBy("desc"),
           );
           const querySnapshot = await getDocs(q);
@@ -79,4 +97,9 @@ export const testApi = createApi({
   }),
 });
 
-export const { useFetchTestQuery, useAddTestMutation, useFetchTestsByBloggerQuery } = testApi; 
+export const { 
+  useFetchTestQuery, 
+  useAddTestMutation, 
+  useFetchTestsCardByAudienceQuery,
+  useFetchTestsByBloggerIdQuery,
+} = testApi; 

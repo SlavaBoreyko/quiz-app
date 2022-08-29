@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import s from './BloggerCard.module.scss';
-// import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
 import { useNavigate } from 'react-router-dom';
-import HtmlParser from 'html-react-parser'; 
 import ButtonFollowLong from '../../Buttons/ButtonFollowLong/ButtonFollowLong';
 import convertFollowersToK from '../../../utils/convertFollowersToK';
 
@@ -30,11 +28,7 @@ const BloggerCard: FC<BloggerCardProps> = ({
 
   mainBlogFollowers,
   mainBlogSoc,
-
-  //   followers,
-  passedTests,
   topics,
-  language,
 
   followHandler,
   followingState,
@@ -74,15 +68,6 @@ const BloggerCard: FC<BloggerCardProps> = ({
           </div>
 
           <p className={s.fontGrey}> {topics}</p>
-
-          {/* <div style={{ display: 'flex', alignItems: 'center'}}>
-            <span className={s.numberGrey}>{passedTests}</span>
-            <p className={s.marginLeft}>
-              {(language === 'or') ? HtmlParser('Пройденных<br/>тестов') : HtmlParser('Пройдених<br/>тестів')}
-            </p>
-          </div>
-          <p className={s.fontGold}>{(language === 'or') ? 'Тематика тестов:' : 'Тематика тестів:'}</p> */}
-          
         </div>
       </div>  
     </header>

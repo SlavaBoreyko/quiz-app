@@ -12,7 +12,7 @@ import BtnGoogleOAuth from '../components/Profile/BtnGoogleOAuth/BtnGoogleOAuth'
 import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import { useFetchBloggerQuery } from '../features/blogger/bloggerApi';
-import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
+import { useFetchTestsByBloggerIdQuery } from '../features/test/testApi';
 import { useFetchFollowingListQuery, useFollowMutation, useUnfollowMutation } from '../features/user/userApi';
 import { db } from '../firebase.config';
 import { BloggerBigType, TestCardType } from '../types/test.types';
@@ -28,7 +28,7 @@ const BloggerPage = () => {
   const { data: followingList } = useFetchFollowingListQuery(userState.id!);
   const [followingState, setFollowingState] = useState<boolean>(false);
   // console.log('followingList', followingList)
-  const { data: allTestsByBlogger }  = useFetchTestsByBloggerQuery('Фан-клуб Дівертіто');
+  const { data: allTestsByBlogger }  = useFetchTestsByBloggerIdQuery(params.id!);
   const [testList, setTestList] = useState<TestCardType[] | undefined>(undefined);
 
   // Follow

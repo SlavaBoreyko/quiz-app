@@ -71,6 +71,7 @@ export interface TestCardType {
         ua: string;
         or: string
     }; 
+    audience: string[];
     blogger: SimpleBloggerType;
     cover: string;
     qLength: number;

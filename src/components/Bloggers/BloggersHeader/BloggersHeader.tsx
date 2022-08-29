@@ -136,7 +136,7 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
         </div>
             
       </div>
-      <p className={s.details}>{description}</p>
+      {(description !== '') && (<p className={s.details}>{description}</p>)}
       <div
         style={{
           marginBottom: '1rem',
