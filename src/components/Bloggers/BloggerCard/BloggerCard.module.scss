@@ -61,7 +61,8 @@
     line-height: 1.1;
     color: #c6cfd7;
     align-self: flex-end;
-    margin-left: 1rem;
+    // margin-left: 1.5rem;
+    margin-left: 0.5rem;
 }
 
 .fontGrey {
@@ -124,7 +125,7 @@
     justify-content: flex-start;
     align-items: center;
     // margin-right: 0.5rem;
-    margin-left: 0.5rem;
+    // margin-left: 1rem;
 }
 
 .numberGrey {
@@ -135,7 +136,8 @@
 
 
 .socIcon {
-    height: 2.4rem;
+    // height: 2.4rem;
+    height: 2.2rem;
     border-radius: 2rem;
     margin-right: 0.5rem;
     // border: 1px solid $colorAccentOrange;
@@ -148,7 +150,9 @@
     // border-radius: 0.5rem;
 
     justify-self: flex-start;
-    margin-left: -2.5rem;
+    // margin-left: -2.5rem;
+    margin-left: 0.5rem;
+
 
 }
 

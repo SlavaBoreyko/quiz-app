@@ -30,8 +30,10 @@
 }
 
 .btnFollowing {
-    background-color: transparent;
-    color: $colorAccentOrange;
+    // background-color: transparent;
+    // color: $colorAccentOrange;
+    background-color: $colorAccentOrange;
+    color: #212529;
 
     &:hover {
         // background-color: $backColorTransparent;
