@@ -3,7 +3,6 @@ import s from './BloggerCard.module.scss';
 import { useNavigate } from 'react-router-dom';
 import ButtonFollowLong from '../../Buttons/ButtonFollowLong/ButtonFollowLong';
 import convertFollowersToK from '../../../utils/convertFollowersToK';
-import ButtonPlay from '../../Profile/ButtonPlay/ButtonPlay';
 
 export interface BloggerCardProps {
     id: string;

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useFetchTestQuery } from '../../../features/test/testApi';
 //After video add DevButton: 
-import BtnRectangle from '../../Profile/BtnRectangle/BtnRectangle';
+import BtnRectangle from '../../Buttons/BtnRectangle/BtnRectangle';
 import { useAppSelector } from '../../../app/hooks';
 
 

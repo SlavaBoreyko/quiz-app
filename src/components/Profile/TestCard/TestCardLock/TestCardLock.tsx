@@ -2,7 +2,7 @@ import React, { FC, MouseEventHandler, useEffect, useRef } from 'react';
 import s from './TestCardLock.module.scss';
 
 import { SimpleBloggerType } from '../../../../types/test.types';
-import ButtonPlay from '../../ButtonPlay/ButtonPlay';
+import ButtonPlay from '../../../Buttons/ButtonPlay/ButtonPlay';
 import iconLock from '../../../../assets/svg/lock.svg';
 import TestCard from '../TestCard';
 

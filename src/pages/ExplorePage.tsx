@@ -1,6 +1,6 @@
 import { Skeleton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import BloggerCard from '../components/Bloggers/BloggerCard/BloggerCard';
@@ -10,12 +10,16 @@ import { useFetchBloggerListByAudienceQuery } from '../features/blogger/bloggerA
 import { BloggerBigType, TestCardType } from '../types/test.types';
 import { useFetchTestsCardByAudienceQuery } from '../features/test/testApi';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
-import BtnGoogleOAuth from '../components/Profile/BtnGoogleOAuth/BtnGoogleOAuth';
-import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
+import BtnGoogleOAuth from '../components/Buttons/BtnGoogleOAuth/BtnGoogleOAuth';
+import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import ExploreNavbar from '../components/Explore/ExploreNavbar/ExploreNavbar';
+import BtnEmail from '../components/Buttons/BtnEmail/BtnEmail';
+import openInNewTab from '../utils/openInNewTab';
+import ButtonPrice from '../components/Buttons/ButtonPrice/ButtonPrice';
+import FooterPolicy from '../components/Footers/FooterPolicy';
 
 const ExplorePage = () => {
   const location = useLocation();
@@ -178,11 +182,29 @@ const ExplorePage = () => {
                 bloggerId={test.blogger.id}
                 bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
                 bloggerAvatar={test.blogger.avatar}
-                footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
-                  `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
+                footerText={
+                  (test.payment === 'free' && userState.id) ? 
+                    `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
+                    (test.payment !== 'free' && userState.id) ? 
+                      `${(language === 'or') ? 'Платный тест ' : 'Платний тест '}` :
+                      `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
                 }
-                onClick={(userState.id) ? () => navigate(`/test/${test.id}`) : onGoogleClick }
-                button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnGoogleOAuth  width={'22%'}/>} 
+                onClick={
+                  (test.payment === 'free' && userState.id) ? () => navigate(`/test/${test.id}`) : 
+                    (test.payment !== 'free' && userState.id) ? (() => openInNewTab(test.payment)) :
+                      onGoogleClick 
+                }
+                button={(test.payment === 'free' && userState.id) ? <ButtonPlay width={'22%'}/> : 
+                  (test.payment !== 'free' && userState.id) ? 
+                    <ButtonPrice 
+                      price={test.price} 
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        openInNewTab(test.payment);
+                      }}
+                    /> : 
+                    <BtnEmail />
+                }
               />
             )) : Array.apply(null, Array(4)).map((item, index) => (
               <Skeleton 
@@ -224,12 +246,12 @@ const ExplorePage = () => {
                 variant="rounded"  
                 animation="wave"  
                 width={'100%'} 
-                height={'12rem'} 
+                height={'9rem'} 
               />
             ))}
           </>
         }/>
-        <Route path='/girls/tests' element={
+        {/* <Route path='/girls/tests' element={
           <>
             { (testsListForGirls) ? testsListForGirls.map((test) => (
               <TestCardOpen
@@ -243,7 +265,7 @@ const ExplorePage = () => {
                   `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
                 }
                 onClick={(userState.id) ? () => navigate(`/test/${test.id}`) : onGoogleClick }
-                button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnGoogleOAuth  width={'22%'}/>} 
+                button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnEmail />} 
               />
             )) : Array.apply(null, Array(4)).map((item, index) => (
               <Skeleton 
@@ -256,8 +278,9 @@ const ExplorePage = () => {
               />
             ))}
           </>
-        }/>
+        }/> */}
       </Routes>
+      <FooterPolicy language={language} />
     </Container>
   );
 };

@@ -8,14 +8,18 @@ import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import BloggersHeader from '../components/Bloggers/BloggersHeader/BloggersHeader';
 import Container from '../components/Containers/Container/Container';
-import BtnGoogleOAuth from '../components/Profile/BtnGoogleOAuth/BtnGoogleOAuth';
-import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
+import BtnGoogleOAuth from '../components/Buttons/BtnGoogleOAuth/BtnGoogleOAuth';
+import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import { useFetchBloggerQuery } from '../features/blogger/bloggerApi';
 import { useFetchTestsByBloggerIdQuery } from '../features/test/testApi';
 import { useFetchFollowingListQuery, useFollowMutation, useUnfollowMutation } from '../features/user/userApi';
 import { db } from '../firebase.config';
 import { BloggerBigType, TestCardType } from '../types/test.types';
+import ButtonPrice from '../components/Buttons/ButtonPrice/ButtonPrice';
+import openInNewTab from '../utils/openInNewTab';
+import BtnEmail from '../components/Buttons/BtnEmail/BtnEmail';
+import FooterPolicy from '../components/Footers/FooterPolicy';
 
 const BloggerPage = () => {
   const params = useParams();
@@ -137,7 +141,7 @@ const BloggerPage = () => {
           height={'15rem'} 
         />
       )}
-      { testList ? testList.map((test) => (
+      { testList ? testList.map((test, index) => (
         <TestCardOpen
           key={test.id}
           testName={(language === 'or') ? test.testName.or : test.testName.ua}
@@ -145,11 +149,29 @@ const BloggerPage = () => {
           bloggerId={test.blogger.id}
           bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
           bloggerAvatar={test.blogger.avatar}
-          footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
-            `${(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}`
+          footerText={
+            (test.payment === 'free' && userState.id) ? 
+              `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
+              (test.payment !== 'free' && userState.id) ? 
+                `${(language === 'or') ? 'Платный тест ' : 'Платний тест '}` :
+                `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
           }
-          onClick={(userState.id) ? () => navigate(`/test/${test.id}`) : onGoogleClick }
-          button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnGoogleOAuth  width={'22%'}/>}
+          onClick={
+            (test.payment === 'free' && userState.id) ? () => navigate(`/test/${test.id}`) : 
+              (test.payment !== 'free' && userState.id) ? (() => openInNewTab(test.payment)) :
+                onGoogleClick 
+          }
+          button={(test.payment === 'free' && userState.id) ? <ButtonPlay width={'22%'}/> : 
+            (test.payment !== 'free' && userState.id) ? 
+              <ButtonPrice 
+                price={test.price} 
+                onClick={(e: any) => {
+                  e.stopPropagation();
+                  openInNewTab(test.payment);
+                }}
+              /> : 
+              <BtnEmail />
+          }
         />
       )) : (
         <Skeleton 
@@ -162,32 +184,7 @@ const BloggerPage = () => {
         />
       )
       }
-      <div 
-        style={{
-          color: '#adb5bdaa',
-          fontSize: '1.2rem',
-          marginTop: '1rem',
-        }}
-      >
-        {(language === 'or') ? 
-          <> 
-          *Пользуясь сайтом, вы принимаете правила
-            <a  href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
-              style={{
-                color: '#adb5bdd2',
-              }}
-            > Политики конфиденциальности.</a>
-          </> :
-          <>
-          *Користуючись сайтом, ви приймаєте правила
-            <a href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
-              style={{
-                color: '#adb5bdd2',
-              }}
-            > Політики конфіденційності.</a>
-          </>
-        }
-      </div>
+      <FooterPolicy language={language} />
     </Container>
   );
 };

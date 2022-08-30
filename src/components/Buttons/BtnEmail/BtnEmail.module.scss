@@ -1,0 +1,51 @@
+@import "../../../style/variables";
+// $colorAccentOrange;
+:root {
+    --sizeBtnPlay: 100%;
+}
+:root {
+    --sizeBtnPlay: 100%;
+}
+
+.btn {
+    // background: none;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    
+    width: var(--sizeBtnPlay);
+    padding-top: var(--sizeBtnPlay);
+
+    border-radius: 50%; 
+    display: grid;
+    place-items: center;
+    background-color: #343a40;
+    flex-shrink: 0;
+
+    &:hover,
+    &:active {
+        // background-color: #3bc8db8f;
+        background-color: $colorAccentOrange;
+    }
+    
+    &:before {
+        content: '';
+        position: absolute;
+        height: 95%;
+        width: 95%;
+        background-color: #1a1e21;
+        border-radius: 50%;
+    }
+
+    .icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        // transform: translate(-40%,-50%);
+        transform: translate(-50%,-50%);
+        height: calc(var(--sizeBtnPlay)*1.8);
+        color: #3bc9db;
+        z-index: 10;
+    }
+}
+

@@ -21,7 +21,8 @@
 .containerDiv {
     width: 100%;
     // new
-    align-self: flex-end;
+    // align-self: flex-end;
+    align-self: center;
 }
 
 .avatar {
@@ -97,7 +98,7 @@
     display: grid;
     // grid-template-columns: 1.4fr 1fr;
     grid-template-columns: 1fr 1fr;
-    row-gap: 0.5rem;
+    row-gap: 1rem;
     column-gap: 0.5rem;
     // display: flex;
     justify-items: flex-start;

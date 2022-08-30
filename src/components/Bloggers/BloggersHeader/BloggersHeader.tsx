@@ -119,6 +119,9 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
             href={mainBlogLink}
             target="_blank" 
             rel="noopener noreferrer"
+            style={{
+              justifySelf: 'flex-start',
+            }}
           >
             <div className={s.socBox}>
               <img className={s.socIcon} src={require(`../../../assets/svg/socIcon/${mainBlogSoc}.svg`)} alt={'YouTube'}/>

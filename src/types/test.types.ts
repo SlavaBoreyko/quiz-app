@@ -63,6 +63,8 @@ export interface TestType {
     cover: string;
     questions: QuestionTestType[];
     sumPoints: number;
+    payment: string;
+    price: string;
 }
 
 export interface TestCardType {
@@ -75,6 +77,8 @@ export interface TestCardType {
     blogger: SimpleBloggerType;
     cover: string;
     qLength: number;
+    payment: string;
+    price: string;
 }
 
 //

@@ -9,7 +9,7 @@ import profileIcon from '../../../assets/svg/personIconActive.svg';
 import shareIcon from '../../../assets/svg/share-like-tik.svg';
 import logo from '../../../assets/svg/testroom-logo.svg';
 import TestHeader from '../../Test/TestHeader/TestHeader';
-import BtnRectangle from '../../Profile/BtnRectangle/BtnRectangle';
+import BtnRectangle from '../../Buttons/BtnRectangle/BtnRectangle';
 
 import useAnalyticsEventTracker from '../../hooks/useAnalyticsEventTracker';
 import SelectOption from '../../Buttons/SelectOption/SelectOption';

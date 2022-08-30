@@ -52,6 +52,7 @@ function App() {
             {/* EXPLORE */}
             <Route path='/explore' element={<Navigate replace to="/explore/men/tests" />} />
             <Route path='/explore/*' element={<ExplorePage />} />
+            <Route path='/explore/girls/tests' element={<Navigate replace to="/explore/girls/bloggers" />} />
 
             {/* TEST & RESULT PAGES */}
             <Route path='/test/:id' element={<TestPage />} />

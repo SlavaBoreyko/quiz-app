@@ -4,7 +4,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../firebase.config';
-import BtnGoogleOAuth from '../../Profile/BtnGoogleOAuth/BtnGoogleOAuth';
+import BtnGoogleOAuth from '../../Buttons/BtnGoogleOAuth/BtnGoogleOAuth';
 import TestCardOpen from '../../Profile/TestCard/TestCardOpen/TestCardOpen';
 import s from './PreviewCard.module.scss';
 
