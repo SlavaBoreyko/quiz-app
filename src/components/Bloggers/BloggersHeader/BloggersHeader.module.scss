@@ -41,12 +41,13 @@
     font-size: 1.8rem;
     font-weight: 900;
     color: #adb5bd;
+    line-height: 1.1;
     // margin-bottom: 1rem;
 }
 
 .details {
     // width: 100%;
-
+    margin-top: 3rem;
     font-size: 1.4rem;
     color: #adb5bd;
     // color: $colorAccentOrange;
@@ -66,14 +67,15 @@
 .containerNumbers {
     width: 100%;
     display: flex;
-    padding-bottom: 3rem;
+    // padding-bottom: 3rem;
     // border-bottom: 1px solid #adb5bd1f;
 }
 
 .numberDiv {
     display: grid;
     width: 100%;
-    grid-template-columns: 1.5fr 1fr 1fr;
+    // grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
     // modification with numbers 3.3
     align-items: flex-end; 
@@ -85,6 +87,10 @@
 
 .numberGold,
 .numberGrey {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
     font-size: 3rem;
     font-weight: 200;
     color: $colorAccentOrange;
@@ -102,7 +108,7 @@
     // border: 1px solid $colorAccentOrange;
     border-radius: 0.5rem;
     margin: -1px;
-    margin-right: 1.5rem;
+    // margin-right: 1.5rem;
 }
 
 .socBox {

@@ -10,7 +10,7 @@ const PrivateRoute = () => {
     return <h1>Downloading...</h1>;
   }
 
-  return loggedIn ? <Outlet /> : <Navigate to='/sign-in' />;
+  return loggedIn ? <Outlet /> : <Navigate to='/' />;
 };
 
 export default PrivateRoute;

@@ -9,7 +9,7 @@ import profileIcon from '../../../assets/svg/personIconActive.svg';
 import shareIcon from '../../../assets/svg/share-like-tik.svg';
 import logo from '../../../assets/svg/testroom-logo.svg';
 import TestHeader from '../../Test/TestHeader/TestHeader';
-import BtnRectangle from '../../Profile/BtnRectangle/BtnRectangle';
+import BtnRectangle from '../../Buttons/BtnRectangle/BtnRectangle';
 
 import useAnalyticsEventTracker from '../../hooks/useAnalyticsEventTracker';
 import SelectOption from '../../Buttons/SelectOption/SelectOption';
@@ -62,7 +62,7 @@ const NavSidebar = () => {
   return (
     <>
       {
-        (!['/', '/profile', '/sign-in', '/developer', '/divertito',  '/explore/', '/explore/men', '/explore/girls'].includes(pathname)) ? (
+        (pathname.split('/')[1] === 'test') ? (
           <div
             style={{
               position: 'absolute',
@@ -87,7 +87,7 @@ const NavSidebar = () => {
             </Link>
             {(!['/developer'].includes(pathname)) && (
               <BtnRectangle 
-                caption={(language === 'or') ? `> Разработчик` :`> Розробник`} 
+                caption={(language === 'or') ? `> Для блогеров` :`> Для блогерів`} 
                 onClick={
                   () => { 
                     gaEventTracker('Click on a DevInfo');
@@ -107,23 +107,20 @@ const NavSidebar = () => {
       />
 
       {( !['/profile'].includes(pathname)) && (
-      // <div className={s.divDeveloper}>
-                
         <div className={s.sideBarNav} >
           <ButtonNav 
             icon={profileIcon}
             onClick={() => navigate('/profile')}
           />
           {/* Pages for Share Btn */}
-          {(!['/developer', '/', '/sign-in', '/divertito', '/explore/', '/explore/men', '/explore/girls'].includes(pathname)) &&
-                        <ButtonNav 
-                          icon={shareIcon}
-                          onClick={linkCopy}
-                          optionClass={'share'}
-                        />
+          {(pathname.split('/')[1] === 'test') &&
+            <ButtonNav 
+              icon={shareIcon}
+              onClick={linkCopy}
+              optionClass={'share'}
+            />
           } 
         </div>
-      // </div>
       )}
     </>
   );

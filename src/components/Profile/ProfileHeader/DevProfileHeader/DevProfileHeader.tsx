@@ -29,7 +29,8 @@ const DevProfileHeader: FC<DevProfileHeaderProps> = ({
       name={name} 
       description={
         <>
-          {story}
+          {'Автор і розробник.'}
+          <p></p>
           {instagram && (
             <div 
             // className={s.socLink} 
@@ -47,6 +48,8 @@ const DevProfileHeader: FC<DevProfileHeaderProps> = ({
               Telegram: <span>@{telegram.split('/')[3]}</span>
             </div>
           )}
+          <p></p>
+          {story}
         </>
       }
     />

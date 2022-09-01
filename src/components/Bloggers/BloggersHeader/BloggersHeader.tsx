@@ -1,16 +1,20 @@
 /* eslint-disable max-len */
 import { FC, useEffect, useState } from 'react';
 import s from './BloggersHeader.module.scss';
-import YoutubeIcon from '../../../assets/svg/youtube-01.svg';
 import HtmlParser from 'html-react-parser'; 
 import ButtonFollow from '../../Buttons/ButtonFollow/ButtonFollow';
+import convertFollowersToK from '../../../utils/convertFollowersToK';
 
 export interface BloggersHeaderProps {
     id: string;
     avatar: string;
     name: string;
-    mainBlog: string;
+
+    mainBlogSoc: string;
+    mainBlogName: string;
     mainBlogFollowers: number;
+    mainBlogLink: string;
+
     followers: number;
     passedTests: number;
     description: string;
@@ -24,8 +28,11 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
   id,
   avatar,
   name, 
-  mainBlog,
+
+  mainBlogSoc,
+  mainBlogName,
   mainBlogFollowers,
+  mainBlogLink,
 
   followers,
   passedTests,
@@ -90,12 +97,12 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
         <div className={s.numberDiv}> 
           <div className={s.start}>
             <a 
-              href="https://www.youtube.com/c/%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%D0%94%D0%B8%D0%B2%D0%B5%D1%80%D1%82%D0%B8%D1%82%D0%BE"
+              href={mainBlogLink}
               target="_blank" 
               rel="noopener noreferrer"
             >
                     
-              <p className={s.fontGold}>{mainBlog}</p> 
+              <p className={s.fontGold}>{mainBlogName}</p> 
             </a>
           </div>
           <div className={s.marginTop} >
@@ -109,27 +116,30 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
           </div>
 
           <a 
-            href="https://www.youtube.com/c/%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%D0%94%D0%B8%D0%B2%D0%B5%D1%80%D1%82%D0%B8%D1%82%D0%BE"
+            href={mainBlogLink}
             target="_blank" 
             rel="noopener noreferrer"
+            style={{
+              justifySelf: 'flex-start',
+            }}
           >
             <div className={s.socBox}>
-              <img className={s.socIcon} src={YoutubeIcon} alt={'YouTube'}/>
-              <span className={s.numberGold}>{Math.round(mainBlogFollowers/1000)}K</span>
+              <img className={s.socIcon} src={require(`../../../assets/svg/socIcon/${mainBlogSoc}.svg`)} alt={'YouTube'}/>
+              <span className={s.numberGold}>{convertFollowersToK(mainBlogFollowers)}K</span>
             </div>
           </a>
             
           <div>
-            <span className={s.numberGrey}>{followers}</span>
+            <span className={s.numberGrey}>{(followers > 10) ? followers : '--'}</span>
           </div>
           <div>
             {/* <img className={s.iconForNumber} src={TestIcon} alt={'test'}/> */}
-            <span className={s.numberGrey}>{passedTests}</span>
+            <span className={s.numberGrey}>{(passedTests > 1) ? passedTests : '--'}</span>
           </div>
         </div>
             
       </div>
-      <p className={s.details}>{description}</p>
+      {(description !== '') && (<p className={s.details}>{description}</p>)}
       <div
         style={{
           marginBottom: '1rem',

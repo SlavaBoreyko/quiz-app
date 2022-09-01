@@ -30,15 +30,33 @@ export const bloggerApi = createApi({
         }
       },              
     }),
+    fetchBloggerListByAudience: builder.query<BloggerBigType[], string>({
+      async queryFn(audienceType) {
+        let bloggersList: any[] = [];
+        try {
+          const q = query(
+            collection(db, "bloggers"), 
+            where("audience", "array-contains", audienceType),
+          );
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => 
+            bloggersList.push(doc.data())
+          );
+          return { data:  bloggersList};
+        } catch(err) {
+          return { error: err };
+        }
+      },
+    }),
     following: builder.mutation<any, any>({
       async query ({ id, value }) {
         try {
           const q = query(
             collection(db, "bloggers"), 
             where("id", "==", id),
-          );          
+          );
           const findBlogerDocs = await getDocs(q);
-          const blogerRef = doc(db, "bloggers", findBlogerDocs.docs[0].id);          
+          const blogerRef = doc(db, "bloggers", findBlogerDocs.docs[0].id);
           const blogerDoc = await getDoc(blogerRef);
           if(blogerDoc.exists()) {
             await updateDoc(blogerRef, {
@@ -53,14 +71,14 @@ export const bloggerApi = createApi({
       }
     }),
     testComplete: builder.mutation<any, any>({
-      async query ({ id }) {        
+      async query ({ id }) {
         try {
           const q = query(
             collection(db, "bloggers"), 
             where("id", "==", id),
-          );          
+          );
           const findBlogerDocs = await getDocs(q);
-          const blogerRef = doc(db, "bloggers", findBlogerDocs.docs[0].id);          
+          const blogerRef = doc(db, "bloggers", findBlogerDocs.docs[0].id);
           const blogerDoc = await getDoc(blogerRef);
 
           if(blogerDoc.exists()) {
@@ -81,5 +99,6 @@ export const bloggerApi = createApi({
 export const { 
   useFetchBloggerQuery,
   useFollowingMutation,
-  useTestCompleteMutation
+  useTestCompleteMutation,
+  useFetchBloggerListByAudienceQuery
 } = bloggerApi; 

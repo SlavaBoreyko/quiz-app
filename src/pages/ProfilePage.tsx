@@ -12,11 +12,11 @@ import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import Container from '../components/Containers/Container/Container';
 import TestCardPass from '../components/Profile/TestCard/TestCardPass/TestCardPass';
-import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
+import { useFetchTestsByBloggerIdQuery } from '../features/test/testApi';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const { data: allTestsByBlogger }  = useFetchTestsByBloggerQuery('Фан-клуб Дівертіто');
+  const { data: allTestsByBlogger }  = useFetchTestsByBloggerIdQuery('divertito');
   const [testList, setTestList] = useState<TestCardType[] | undefined>(undefined);
   // FOR NEXT SORT 
   useEffect(() => {

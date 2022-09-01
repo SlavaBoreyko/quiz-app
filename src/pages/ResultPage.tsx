@@ -15,6 +15,7 @@ import { useFetchAnswersQuery, useFetchVerdictQuery } from '../features/user/use
 import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import ButtonTextIcon from '../components/Buttons/ButtonTextIcon/ButtonTextIcon';
+import openInNewTab from '../utils/openInNewTab';
 
 // lodash for objects
 const _ = require('lodash');
@@ -63,9 +64,7 @@ const ResultPage = () => {
   // PROPER OR NOT? 
   const testId = params.id!;
   const { data: dataVerdict } = useFetchVerdictQuery({ testId, points: resultPoints!});
-  const openInNewTab = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
+
   return (
     <Container 
       img={testImage} 

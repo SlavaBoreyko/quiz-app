@@ -1,6 +1,6 @@
 import React, { FC, MouseEventHandler } from 'react';
 
-import ButtonPlay from '../../ButtonPlay/ButtonPlay';
+import ButtonPlay from '../../../Buttons/ButtonPlay/ButtonPlay';
 import TestCard from '../TestCard';
 
 export interface TestCardOpenProps {

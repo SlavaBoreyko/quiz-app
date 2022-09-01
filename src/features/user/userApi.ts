@@ -129,14 +129,12 @@ export const userApi = createApi({
                   ...userDocData!.following, bloggerId,
                 ]
               });
-              console.log('following: [...following, bloggerId]');
 
             } else if (userDocData.following === undefined || userDocData.following.length < 1)  {
               // create following array
               await updateDoc(userDocRef, {
                 following: [bloggerId]
               });
-              console.log('following: [bloggerId]');
             }
           }
           return { data: 'follow 200' };
@@ -153,9 +151,6 @@ export const userApi = createApi({
           const userDocRef = doc(db, "users", id);
           const userDoc = await getDoc(userDocRef);
                     
-
-          console.log('unfollow before userDocData!.following');
-                    
           if(userDoc.exists()) {
             const userDocData = userDoc.data();
             if(userDocData.following 
@@ -166,7 +161,6 @@ export const userApi = createApi({
               if (index !== -1) {
                 followingList.splice(index, 1);
               }
-              console.log('followingList after Splice', followingList);
               await updateDoc(userDocRef, {
                 following: [
                   ...followingList,
@@ -186,8 +180,6 @@ export const userApi = createApi({
       async queryFn({id, language}) {
         try {
           const userDocRef = doc(db, "users", id);
-          // const userDoc = await getDoc(userDocRef);
-          // const userDocData = userDoc.data();
 
           await updateDoc(userDocRef, {
             language: language

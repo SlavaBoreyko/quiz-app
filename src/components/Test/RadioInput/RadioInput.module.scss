@@ -17,13 +17,18 @@ input[type="radio"] {
 .textContainerFalse {
     cursor: pointer;
     height: 100%;
-    min-height: 5rem;
+    // min-height: 5rem;
+    min-height: 4rem;
     width: 100%;
     padding: 1rem;
-    // background-color: #343a40;
-    background-color: #212529;
-    border: 1px solid #212529;
+    // background-color: #1f2224;
+    background-color: #181b1e;
+    border: 1px solid #52585e57;
     border-radius: 0.5rem;
+
+    // NEW
+    display: flex;
+    align-items: center;
 
     & span {
         font-size: 1.4rem;

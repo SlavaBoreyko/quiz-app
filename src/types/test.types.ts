@@ -34,6 +34,7 @@ export interface BloggerBigType {
         or: string;
         soc: string; //insta, youtube,tiktok
         followers: number;
+        link: string; 
     }
     name: {
         ua: string;
@@ -47,6 +48,7 @@ export interface BloggerBigType {
         ua: string;
         or: string;
     }
+    audience: string[];
     followers: number;
     passedTests: number;
 }
@@ -61,6 +63,8 @@ export interface TestType {
     cover: string;
     questions: QuestionTestType[];
     sumPoints: number;
+    payment: string;
+    price: string;
 }
 
 export interface TestCardType {
@@ -69,9 +73,12 @@ export interface TestCardType {
         ua: string;
         or: string
     }; 
+    audience: string[];
     blogger: SimpleBloggerType;
     cover: string;
     qLength: number;
+    payment: string;
+    price: string;
 }
 
 //

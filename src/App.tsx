@@ -41,28 +41,26 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<AuthWrapper />} >
-          
-            {/* {["/", "/sign-in"].map((path, index) => 
-              <Route path={path} element={<SignInPromo />} key={index} />
-            )} */}
 
             {["/", "/sign-in"].map((path, index) => 
-              <Route path={path} element={<Navigate replace to="/explore/men" />} key={index} />
+              <Route path={path} element={<Navigate replace to="/explore/men/tests" />} key={index} />
             )}
+
+            {/* BLOGGER PAGES */}
             <Route path='/:id' element={<BloggerPage />} />
 
             {/* EXPLORE */}
-            <Route path='/explore' element={<Navigate replace to="/explore/men" />} />
+            <Route path='/explore' element={<Navigate replace to="/explore/men/tests" />} />
             <Route path='/explore/*' element={<ExplorePage />} />
+            <Route path='/explore/girls/tests' element={<Navigate replace to="/explore/girls/bloggers" />} />
 
-            {/* TEST */}
+            {/* TEST & RESULT PAGES */}
             <Route path='/test/:id' element={<TestPage />} />
             <Route path='/test/:id/result' element={<ResultPage />}/>
             <Route path='/test/:id/answers' element={<TestPage />} />
 
             <Route path='/xtivka/:id' element={<TestPage />} />
            
-
             <Route path='/profile' element={<PrivateRoute />} >
               <Route path='/profile' element={<ProfilePage />} />
             </Route>  

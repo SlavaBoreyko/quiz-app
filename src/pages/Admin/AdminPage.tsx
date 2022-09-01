@@ -29,6 +29,8 @@ export const InitialStyte = {
   cover: '',
   questions: [],
   sumPoints: 0,
+  payment: 'free',
+  price: '',
 };
 
 const QuestionInitState = {

@@ -14,13 +14,14 @@ import { db } from '../firebase.config';
 import ProfileSection from '../components/Profile/ProfileSection/ProfileSection';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import BtnGoogleOAuth from '../components/Profile/BtnGoogleOAuth/BtnGoogleOAuth';
-import ButtonPlay from '../components/Profile/ButtonPlay/ButtonPlay';
+import BtnGoogleOAuth from '../components/Buttons/BtnGoogleOAuth/BtnGoogleOAuth';
+import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
 
 // Translation
 import { TestCardType } from '../types/test.types';
 import { useAppSelector } from '../app/hooks';
-import { useFetchTestsByBloggerQuery } from '../features/test/testApi';
+import { useFetchTestsByBloggerIdQuery } from '../features/test/testApi';
+import FooterPolicy from '../components/Footers/FooterPolicy';
 
 const SignInPromo = () => {
   // const { t } = useTranslation();
@@ -28,7 +29,7 @@ const SignInPromo = () => {
   const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
   const userState = useAppSelector((state: any) => state.user);
 
-  const { data: allTestsByBlogger }  = useFetchTestsByBloggerQuery('Фан-клуб Дівертіто');
+  const { data: allTestsByBlogger }  = useFetchTestsByBloggerIdQuery('divertito');
   const [testDemo, setTestDemo] = useState<TestCardType | undefined>(undefined);
   const [otherTests, setOtherTests] = useState<TestCardType[] | undefined>(undefined);
 
@@ -200,32 +201,7 @@ const SignInPromo = () => {
                 />
             }   
             </ProfileSection> */}
-      <div 
-        style={{
-          color: '#adb5bdaa',
-          fontSize: '1.2rem',
-          marginTop: '1rem',
-        }}
-      >
-        {(language === 'or') ? 
-          <> 
-                *Пользуясь сайтом, вы принимаете правила
-            <a  href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
-              style={{
-                color: '#adb5bdd2',
-              }}
-            > Политики конфиденциальности.</a>
-          </> :
-          <>
-            <span> *Користуючись сайтом, ви приймаєте правила</span>
-            <a href={require('../assets/pdf/privacy-policy.pdf')} target='blank'
-              style={{
-                color: '#adb5bdd2',
-              }}
-            > Політики конфіденційності.</a>
-          </>
-        }
-      </div>
+      <FooterPolicy language={language} />
     </Container>
   );
 };
