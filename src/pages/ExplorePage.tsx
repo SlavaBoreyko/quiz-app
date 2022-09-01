@@ -6,7 +6,7 @@ import { RootState } from '../app/store';
 import BloggerCard from '../components/Bloggers/BloggerCard/BloggerCard';
 import ButtonLabel from '../components/Buttons/ButtonLabel/ButtonLabel';
 import Container from '../components/Containers/Container/Container';
-import { useFetchBloggerQuery } from '../features/blogger/bloggerApi';
+import { useFetchBloggerQuery, useFollowingMutation } from '../features/blogger/bloggerApi';
 import { useFetchFollowingListQuery, useFollowMutation, useUnfollowMutation } from '../features/user/userApi';
 import { BloggerBigType } from '../types/test.types';
 
@@ -25,6 +25,7 @@ const ExplorePage = () => {
   // Follow
   const [ follow ]  = useFollowMutation();
   const [ unfollow ] = useUnfollowMutation();
+  const [ following ] = useFollowingMutation();
 
   useEffect(() => {
     if(followingList && blogger && followingList.includes(blogger.id)) {
@@ -60,11 +61,13 @@ const ExplorePage = () => {
   const followHandler = (action: 'follow' | 'unfollow') => {
     if((action === 'follow') && (userState.id) && (blogger)) {
       follow({id: userState.id, bloggerId: blogger.id});
+      following({ id: blogger.id, value: 1 });
       console.log('followHandler: follow');
     }
   
     if((action === 'unfollow') && (userState.id) && (blogger)) {
       unfollow({id: userState.id, bloggerId: blogger.id});
+      following({ id: blogger.id, value: -1 });
       console.log('followHandler: UNFOLLOW');
     } 
   };
