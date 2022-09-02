@@ -1,0 +1,81 @@
+@import "../../../../style/variables.scss";
+
+.testCardContainter {
+    position: relative;
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+    cursor: pointer;
+    width: 100%;
+    height: 6rem;
+    // height: 100%; //have bug in Safari
+
+    background-color: #181b1e;
+    border-radius: 0.5rem;
+}
+
+.divPaddingContainer {
+    display: flex;
+    align-items: flex-end;
+    // width: 100%;
+    height: 100%;
+    // padding: 1rem  1rem  0.5rem 1.5rem;
+    // new
+    padding: 1rem 1rem 1rem 1.5rem;
+}
+
+.coverFrame {
+    position: relative;
+    height: 6rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+    color: $colorAccentOrange;
+    // border-right: 1px solid #30363b;
+    background-color: #121517;
+    
+    font-size: 1.2rem;
+    line-height: 1;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem 2.5rem;
+}
+
+.icon {
+    height: 2.5rem;
+    margin-right: -0.75rem;
+}
+
+.iconGift {
+    height: 2rem;
+    margin-right: 0.5rem;
+}
+
+.iconDiv {
+    display: flex;
+    // width: 100%;
+    justify-content: flex-end;
+}
+
+.textDiv {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+}
+
+
+.divResult {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: #adb5bd;
+    font-size: 1.2rem;
+
+    // padding-top: 1rem;
+    // height: 6rem;
+}

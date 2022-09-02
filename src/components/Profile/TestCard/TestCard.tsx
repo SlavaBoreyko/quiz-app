@@ -3,7 +3,7 @@ import s from './TestCard.module.scss';
 import { useNavigate } from 'react-router-dom';
 
 export interface TestCardProps {
-  onClick: MouseEventHandler<HTMLDivElement>;
+  onClick: MouseEventHandler<HTMLDivElement> | undefined;
   coverImage: string | any; //React element JSX? Node? 
     // Header
     // blogger: SimpleBloggerType;
@@ -49,7 +49,7 @@ const TestCard: FC<TestCardProps> = ({
           </div>
           <div className={s.divPaddingContainer}>
             <div className={s.textDiv}>
-              <div>
+              <div className={s.centerTitle}>
                 {/* HEADER */}
                 {/* <Link to={`/${bloggerId}`}> */}
                 <div 
@@ -65,7 +65,9 @@ const TestCard: FC<TestCardProps> = ({
                 {/* </Link> */}
 
                 {/* TITLE */}
-                <p className={s.titleTest}>{testName}</p>
+                <div className={s.titleTest}>
+                  <p>{testName}</p>
+                </div>
               </div>
 
               {/* FOOTER */}

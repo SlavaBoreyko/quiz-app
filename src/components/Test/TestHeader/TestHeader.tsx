@@ -48,15 +48,16 @@ const TestHeader = () => {
             </div>
             
             {/* AFTER Max video release */}
-            <div 
+            {/* <div 
               style={{
                 marginTop: '0.5rem',
               }}
             >
               <BtnRectangle 
                 caption={(language && language === 'or') ? `> Разработчик` :`> Розробник`} 
-                onClick={() => navigate('/developer')} />
-            </div>
+                onClick={() => navigate('/developer')} 
+              />
+            </div> */}
           </>
         )
       }

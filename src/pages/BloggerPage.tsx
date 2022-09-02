@@ -8,7 +8,6 @@ import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import BloggersHeader from '../components/Bloggers/BloggersHeader/BloggersHeader';
 import Container from '../components/Containers/Container/Container';
-import BtnGoogleOAuth from '../components/Buttons/BtnGoogleOAuth/BtnGoogleOAuth';
 import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import { useFetchBloggerQuery } from '../features/blogger/bloggerApi';
@@ -20,6 +19,7 @@ import ButtonPrice from '../components/Buttons/ButtonPrice/ButtonPrice';
 import openInNewTab from '../utils/openInNewTab';
 import BtnEmail from '../components/Buttons/BtnEmail/BtnEmail';
 import FooterPolicy from '../components/Footers/FooterPolicy';
+import SubcriptionCard from '../components/Profile/TestCard/SubcriptionCard/SubcriptionCard';
 
 const BloggerPage = () => {
   const params = useParams();
@@ -71,12 +71,12 @@ const BloggerPage = () => {
   const followHandler = (action: 'follow' | 'unfollow') => {
     if((action === 'follow') && (userState.id) && (blogger)) {
       follow({id: userState.id, bloggerId: blogger.id});
-      console.log('followHandler: follow');
+      // console.log('followHandler: follow');
     }
 
     if((action === 'unfollow') && (userState.id) && (blogger)) {
       unfollow({id: userState.id, bloggerId: blogger.id});
-      console.log('followHandler: UNFOLLOW');
+      // console.log('followHandler: UNFOLLOW');
     } 
   };
   // (userState) && 
@@ -141,6 +141,37 @@ const BloggerPage = () => {
           height={'15rem'} 
         />
       )}
+      {/* DEMO SubcriptionCard */}
+      {/* {(blogger) ? (
+        <>
+          <SubcriptionCard
+            option={'donation'}
+            footerText={(language === 'or') ? 
+              '<p>- От $1</p><p>- Месседж блогеру</p>' : 
+              '<p>- Від $1</p><p>- Меседж блогеру</p>'
+            }
+            onClick={(userState.id) && (() => openInNewTab('subscritption.link'))}
+            price={'$'} 
+          />
+          <SubcriptionCard
+            option={'subscription'}
+            footerText={(language === 'or') ? 
+              '<p>- 4 тесты в месяц</p><p>- Флирт-тренажер</p>' : 
+              '<p>- 4 тести в місяць</p><p>- Флірт-тренажер</p>'
+            }
+            onClick={(userState.id) && (() => openInNewTab('subscritption.link'))}
+            price={'5$'} 
+          />
+        </>
+      ) : (
+        <Skeleton     
+          sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
+          variant="rounded"  
+          animation="wave"  
+          width={'100%'} 
+          height={'8rem'} 
+        />
+      )} */}
       { testList ? testList.map((test, index) => (
         <TestCardOpen
           key={test.id}
@@ -174,16 +205,14 @@ const BloggerPage = () => {
           }
         />
       )) : (
-        <Skeleton 
-                
+        <Skeleton     
           sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
           variant="rounded"  
           animation="wave"  
           width={'100%'} 
           height={'15rem'} 
         />
-      )
-      }
+      )}
       <FooterPolicy language={language} />
     </Container>
   );
