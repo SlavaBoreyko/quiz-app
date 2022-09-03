@@ -69,13 +69,14 @@ export interface TestType {
 
 export interface TestCardType {
     id: string;
+    published: boolean;
+    audience: string[];
+    cover: string;
+    blogger: SimpleBloggerType;
     testName: {
         ua: string;
         or: string
     }; 
-    audience: string[];
-    blogger: SimpleBloggerType;
-    cover: string;
     qLength: number;
     payment: string;
     price: string;

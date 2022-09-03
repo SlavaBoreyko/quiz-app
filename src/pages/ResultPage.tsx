@@ -121,10 +121,10 @@ const ResultPage = () => {
 
             </>
       }
-      <div style={{marginTop: '2rem'}}></div>
+      {/* <div style={{marginTop: '2rem'}}></div>
       {   (!userState.id) && 
             (<PreviewCard showText={true}/> )
-      } 
+      }  */}
     </Container>
   );
 };

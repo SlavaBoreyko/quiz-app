@@ -79,13 +79,14 @@ const NavSidebar = () => {
             <Link to="/">
               <img 
                 style={{
-                  height: '3rem',
+                  // height: '3rem',
+                  width: '14.5rem',
                 }}
                 src={logo} 
                 alt='TestRoom'
               />
             </Link>
-            {(!['/developer'].includes(pathname)) && (
+            {/* {(!['/developer'].includes(pathname)) && (
               <BtnRectangle 
                 caption={(language === 'or') ? `> Для блогеров` :`> Для блогерів`} 
                 onClick={
@@ -95,7 +96,7 @@ const NavSidebar = () => {
                   }
                 } 
               />
-            )}
+            )} */}
           </div>
         )
       }
@@ -106,20 +107,22 @@ const NavSidebar = () => {
         language={language ? language : 'ua'}
       />
 
-      {( !['/profile'].includes(pathname)) && (
+      {(!['/profile'].includes(pathname)) && (
         <div className={s.sideBarNav} >
           <ButtonNav 
             icon={profileIcon}
             onClick={() => navigate('/profile')}
           />
           {/* Pages for Share Btn */}
-          {(pathname.split('/')[1] === 'test') &&
+          
+          {/* {(pathname.split('/')[1] === 'test') && */}
+          {( !['profile', 'explore'].includes(pathname.split('/')[1]) ) && (
             <ButtonNav 
               icon={shareIcon}
               onClick={linkCopy}
               optionClass={'share'}
             />
-          } 
+          )} 
         </div>
       )}
     </>

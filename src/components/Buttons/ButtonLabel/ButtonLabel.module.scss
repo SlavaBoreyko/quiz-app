@@ -8,10 +8,15 @@
     color: #adb5bd;
     color: $colorAccentOrange;
     // color: #e2e7eb;
-    font-size: 1.8rem;
+    
     font-weight: 300;
-    padding: 0 0 0.5rem 1rem;
+    padding: 0 0 0.35rem 1rem;
     transition: all 300ms;
+    font-size: 2.2rem;
+
+    @media (min-width: 700px) {
+        font-size: 1.8rem;
+    }
 }
 
 .btnUnactive {

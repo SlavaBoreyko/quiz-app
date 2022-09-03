@@ -3,8 +3,9 @@
 .btn,
 .btnShare,
 .btnSpinner,
-.btn35 
-{   
+.btn35,
+.btn35Back,
+.btnBack {   
     flex-shrink: 0;
     cursor: pointer;
     background-color: transparent;
@@ -16,11 +17,9 @@
     display: grid;
     place-items: center;
     margin-bottom: 0.5rem;
-   
 
     & .icon {
-        width: 55%;
-        
+        width: 50%;
     }
 }
 
@@ -28,23 +27,17 @@
     width: 45%;
 }
 
-.btn35 .icon {
-    width: 35%;
-}
-
-.btnSpinner {
-    display: flex;
-    width: 4rem;
-    // place-items: center;
-}
-
-.btnSpinner .icon {
-    width: 100%;
-}
-
-
-
 .btn:hover,
 .btnShare:hover {
     background-color: $backColorTransparent;
+}
+
+.btn35 .icon,
+.btn35Back .icon {
+    width: 35%;
+}
+
+.btn35Back,
+.btnBack  {
+    background-color: #16181b91;
 }

@@ -1,4 +1,5 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
+import { useLocation } from 'react-router-dom';
 import s from './RadioInput.module.scss';
 
 export interface RadioInputProps {
@@ -21,10 +22,11 @@ const RadioInput: FC<RadioInputProps> = ({
   reaction, setReactionSrc,
   indicatedAnswer, trueAnswer
 }) => {
+  const { pathname } = useLocation();
 
   const answerHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     // BLOCKED radioinputs AFTER FIRST PRESS 'true' checked
-    // if (checked.includes(true)) return ;
+    if ((pathname.split('/')[1] === 'xtivka') && checked.includes(true)) return ;
     
     if (e.target.checked) {
       e.preventDefault();

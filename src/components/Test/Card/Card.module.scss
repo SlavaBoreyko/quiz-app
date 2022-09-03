@@ -24,6 +24,13 @@
     }
 }
 
+.lockFullScreenBtn {
+    position: absolute;
+    z-index: 300;
+    top: 43%;
+    align-self: flex-end;
+}
+
 .reactionDiv  {
     align-self: flex-start;
     margin-bottom: 1rem;

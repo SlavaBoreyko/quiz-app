@@ -37,7 +37,6 @@ const TestPage: FC<TestPageProps> = () => {
   const [reactionSrc, setReactionSrc] = useState<string>('');
   const [demoAnswers, setDemoAnswers] = useState<any | undefined>(undefined);
   const [indecatedAnswer, setIndecatedAnswer] = useState<number | undefined>(undefined);
-  const [isNext, setIsNext] = useState<boolean>(false);
 
   // XTIVKA
   const [locked, setLocked] = useState<boolean>(false);
@@ -66,8 +65,6 @@ const TestPage: FC<TestPageProps> = () => {
     }
   },[userState.language]);
 
-
-
   // Logic for /xtivka
   useEffect(() => {
     if (location.pathname.split('/')[1] === 'xtivka') {
@@ -90,22 +87,18 @@ const TestPage: FC<TestPageProps> = () => {
         setIndecatedAnswer(demoAnswers[params.id].answersArray[questionNum]);
       }
     }
-
   }, [questionNum, demoAnswers, location.pathname]);
-  // console.log(indecatedAnswer);
-  // console.log('demoAnswers', demoAnswers[params.id!].answersArray);
 
   // FOR ADMIN PAGE
   const calcResultPoints = () => {
     // sumPoints has to calculate when add addTest from Admin 
     if(test) {
       const resultPoints = Math.round(100*
-                (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/test.sumPoints);
+        (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/test.sumPoints);
       return resultPoints;
     }
     return 0;
   };
-  // console.log('test.sumPoints', test.sumPoints);
 
   const [ addAnswer ]  = useAddAnswerMutation();
 
@@ -116,14 +109,12 @@ const TestPage: FC<TestPageProps> = () => {
     setValue(0);
     setReactionShow(false);
     setReactionSrc('');
-    setIsNext(false);
   };
 
   const nextHandler = async() => {
     if (test && location.pathname.split('/')[3] !== 'answers') {
       if (questionNum < test.questions.length - 1) {
         // 1 === true, 0 === false in database fields
-        setIsNext(true);
         setReactionShow(false);
         saveAnswerNextQuestion();
       } 
@@ -189,7 +180,9 @@ const TestPage: FC<TestPageProps> = () => {
               indicatedAnswer={indecatedAnswer}
               nextHandler={nextHandler}
               fullScreenBtnHandle={fullScreenBtnHandle}
-              isNext={isNext}
+              locked={locked}
+              backBtnToggle={fullScreen}
+
 
               reactionSrc={reactionSrc}
               setReactionSrc={setReactionSrc}
