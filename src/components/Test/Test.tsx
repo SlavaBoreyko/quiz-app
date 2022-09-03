@@ -14,13 +14,14 @@ export interface TestProps {
   indicatedAnswer?: number;
 
   nextHandler: () => void;
-  isNext: boolean;
 
   reactionSrc?: string;
   setReactionSrc?: Dispatch<SetStateAction<string>>;
   reactionShow?: boolean;
 
   fullScreenBtnHandle: () => void;
+  locked: boolean;
+  backBtnToggle: boolean;
 
   bloggerName: {
     ua: string;
@@ -43,16 +44,14 @@ const Test: FC<TestProps> = ({
   setValue, 
   indicatedAnswer,
   nextHandler,
-  isNext,
 
   reactionSrc,
   setReactionSrc,
   reactionShow,
 
   fullScreenBtnHandle,
-
-  // bloggerName,
-  // testName,
+  locked,
+  backBtnToggle,
 
   language
 }) => {
@@ -117,16 +116,14 @@ const Test: FC<TestProps> = ({
     setTrueAnswer(answermaxPointTrue);
   },[questionNum]);
 
-  // const trueAnswer = maxPointTrue();
-
-  // console.log('trueAnswer', trueAnswer);
-  // console.log('{indicatedAnswer === variant.points}', indicatedAnswer === +question.answers[1].points)
-
   return (
     <>
       <Card 
         reactionSrc={reactionSrc}
         reactionShow={reactionShow}
+        fullScreenBtnHandle={fullScreenBtnHandle}
+        locked={locked}
+        backBtnToggle={backBtnToggle}
       />
       <ProgressBar 
         // question={t('question')}
@@ -134,8 +131,6 @@ const Test: FC<TestProps> = ({
         amountQA={length}
         current={questionNum + 1} 
         nextHandler={nextHandler}
-        isNext={isNext}
-        fullScreenBtnHandle={fullScreenBtnHandle}
       />
       {question.answers.map((variant, index: number) => (
         <RadioInput 
