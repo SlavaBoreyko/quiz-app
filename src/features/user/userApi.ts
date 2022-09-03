@@ -123,18 +123,14 @@ export const userApi = createApi({
           const userDoc = await getDoc(userDocRef);
           if(userDoc.exists()) {
             const userDocData = userDoc.data();
-            if(userDocData.following && 
-                            !userDocData.following.includes(bloggerId)
-            ) {
+            if(userDocData.following && !userDocData.following.includes(bloggerId)) {
               await updateDoc(userDocRef, {
                 following: [
                   ...userDocData!.following, bloggerId,
                 ]
               });
 
-            } else if (userDocData.following === undefined 
-                            || userDocData.following.length < 1
-            )  {
+            } else if (userDocData.following === undefined || userDocData.following.length < 1)  {
               // create following array
               await updateDoc(userDocRef, {
                 following: [bloggerId]

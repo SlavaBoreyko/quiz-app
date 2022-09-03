@@ -5,7 +5,7 @@ import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import BloggerCard from '../components/Bloggers/BloggerCard/BloggerCard';
 import Container from '../components/Containers/Container/Container';
-import { useFetchBloggerListByAudienceQuery } from '../features/blogger/bloggerApi';
+import { useFetchBloggerListByAudienceQuery, useFollowingMutation } from '../features/blogger/bloggerApi';
 // import { useFetchFollowingListQuery, useFollowMutation, useUnfollowMutation } from '../features/user/userApi';
 import { BloggerBigType, TestCardType } from '../types/test.types';
 import { useFetchTestsCardByAudienceQuery } from '../features/test/testApi';
@@ -48,6 +48,8 @@ const ExplorePage = () => {
   // Follow
   // const [ follow ]  = useFollowMutation();
   // const [ unfollow ] = useUnfollowMutation();
+  // const [ following ] = useFollowingMutation();
+
 
   // useEffect(() => {
   //   if(followingList && bloggerForMen && followingList.includes(blogger.id)) {
@@ -95,10 +97,12 @@ const ExplorePage = () => {
   // const followHandler = (action: 'follow' | 'unfollow') => {
   //   if((action === 'follow') && (userState.id) && (blogger)) {
   //     follow({id: userState.id, bloggerId: blogger.id});
+  //     following({ id: blogger.id, value: 1 });
   //   }
   
   //   if((action === 'unfollow') && (userState.id) && (blogger)) {
   //     unfollow({id: userState.id, bloggerId: blogger.id});
+  //     following({ id: blogger.id, value: -1 });
   //   } 
   // };
 

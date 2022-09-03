@@ -12,6 +12,7 @@ import { useAppDispatch } from '../app/hooks';
 import { useAddAnswerMutation } from '../features/user/userApi';
 import { useFetchTestQuery } from '../features/test/testApi';
 import { addDemoAnswer, UserAnswersType } from '../features/user/userSlice';
+import { useTestCompleteMutation } from '../features/blogger/bloggerApi';
 
 export interface TestPageProps {
 }
@@ -40,6 +41,8 @@ const TestPage: FC<TestPageProps> = () => {
   // XTIVKA
   const [locked, setLocked] = useState<boolean>(false);
   const [ fullScreen, setFullScreen] = useState<boolean>(false);
+
+  const [testComplete] = useTestCompleteMutation();
 
   const { data: test }  = useFetchTestQuery(params.id!);
 
@@ -137,6 +140,8 @@ const TestPage: FC<TestPageProps> = () => {
         default:
           addAnswer({id: userState.id, data: ObjectWithTestId});
         }
+        
+        await testComplete({ id: test.blogger.id });
         return navigate(`/test/${params.id}/result`);
       }
     } else if (test && location.pathname.split('/')[3] === 'answers') {
@@ -144,6 +149,7 @@ const TestPage: FC<TestPageProps> = () => {
         setReactionShow(false);
         setQuestion((prev) => prev + 1);
       } else  if (questionNum === test.questions.length - 1 && params.id) {
+        await testComplete({ id: test.blogger.id });
         return navigate(`/test/${params.id}/result`);
       }
     }

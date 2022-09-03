@@ -10,7 +10,7 @@ import BloggersHeader from '../components/Bloggers/BloggersHeader/BloggersHeader
 import Container from '../components/Containers/Container/Container';
 import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
-import { useFetchBloggerQuery } from '../features/blogger/bloggerApi';
+import { useFetchBloggerQuery, useFollowingMutation } from '../features/blogger/bloggerApi';
 import { useFetchTestsByBloggerIdQuery } from '../features/test/testApi';
 import { useFetchFollowingListQuery, useFollowMutation, useUnfollowMutation } from '../features/user/userApi';
 import { db } from '../firebase.config';
@@ -38,6 +38,8 @@ const BloggerPage = () => {
   // Follow
   const [ follow ]  = useFollowMutation();
   const [ unfollow ] = useUnfollowMutation();
+
+  const [ following ] = useFollowingMutation();
 
   useEffect(() => {
     if(followingList && blogger && followingList.includes(blogger.id)) {
@@ -71,12 +73,14 @@ const BloggerPage = () => {
   const followHandler = (action: 'follow' | 'unfollow') => {
     if((action === 'follow') && (userState.id) && (blogger)) {
       follow({id: userState.id, bloggerId: blogger.id});
-      // console.log('followHandler: follow');
+      following({ id: blogger.id, value: 1 });
+      console.log('followHandler: follow');
     }
 
     if((action === 'unfollow') && (userState.id) && (blogger)) {
       unfollow({id: userState.id, bloggerId: blogger.id});
-      // console.log('followHandler: UNFOLLOW');
+      following({ id: blogger.id, value: -1 });
+      console.log('followHandler: UNFOLLOW');
     } 
   };
   // (userState) && 
