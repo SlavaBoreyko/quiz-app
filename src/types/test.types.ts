@@ -80,6 +80,8 @@ export interface TestCardType {
     qLength: number;
     payment: string;
     price: string;
+
+    type?: 'game' | 'test';
 }
 
 //

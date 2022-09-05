@@ -2,6 +2,8 @@ import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Container from '../components/Containers/Container/Container';
 import Test from '../components/Test/Test';
+import galleryIcon from '../assets/svg/navigation/gallery-2-1.svg';
+import arrowIcon from '../assets/svg/arrow-right.svg';
 
 // import { addDoc, collection, serverTimestamp, getDoc, doc } from 'firebase/firestore'
 import { useAppSelector } from '../app/hooks';
@@ -31,6 +33,20 @@ const TestPage: FC<TestPageProps> = () => {
   const [questionNum, setQuestion] = useState(0);
   const [value, setValue] = useState(-1);
   const [answersArr, setAnswersArr] = useState<number[]>([]);
+  const [answersArrayPrev, setAnswersArrayPrev] = useState<number[] | undefined>(undefined);
+
+  // NEW NAVIGATION
+  // useEffect(() => {
+  //   setQuestion(+location.pathname.substring(location.pathname.lastIndexOf('/') + 1));
+  // },[location.pathname]);
+  useEffect(() => {
+    params.numPage && setQuestion(+params.numPage-1);
+  },[params.numPage]);
+  
+  useEffect(() => {
+    const state: any = location.state;
+    state && state.answersArray && setAnswersArrayPrev(state.answersArray);
+  },[location.state]);
 
   // REACTION
   const [reactionShow, setReactionShow] = useState(false);
@@ -67,7 +83,7 @@ const TestPage: FC<TestPageProps> = () => {
 
   // Logic for /xtivka
   useEffect(() => {
-    if (location.pathname.split('/')[1] === 'xtivka') {
+    if (location.pathname.split('/')[1] === 'game') {
       setLocked(true);
     }
     if(value !== -1) setReactionShow(true);
@@ -105,6 +121,12 @@ const TestPage: FC<TestPageProps> = () => {
   const saveAnswerNextQuestion = () => {
     setQuestion((prev) => prev + 1);
     setAnswersArr((prev) => [...prev, value]);
+    history.pushState(
+      null, 
+      `Question ${questionNum + 1}`, 
+      `${window.location.href.substring(0,window.location.href.lastIndexOf("/"))}/${questionNum + 2}`
+    );
+
     //clear for next answer:
     setValue(0);
     setReactionShow(false);
@@ -119,16 +141,28 @@ const TestPage: FC<TestPageProps> = () => {
         saveAnswerNextQuestion();
       } 
 
-      if (questionNum === test.questions.length - 1 && params.id) {
-        // const calcPoints = 
-        const testId = params.id;
+      if ((questionNum === test.questions.length - 1 && params.id)
+        || answersArrayPrev 
+      ) {
+        const testId = params.id!;
         let ObjectWithTestId: UserAnswersType = {};
-        ObjectWithTestId[testId] = {
-          answersArray: [...answersArr, value],
-          points: calcResultPoints(),
-          // timestamp: serverTimestamp(),
-        };
-                
+
+        // XT: SECOND ATTEMT  
+        if(answersArrayPrev && answersArrayPrev.length > 0) {
+          let array = answersArrayPrev;
+          array[questionNum] = value;
+          ObjectWithTestId[testId] = {
+            answersArray: [...array],
+            points: calcResultPoints(),
+            // timestamp: serverTimestamp(),
+          };
+        } else {
+          ObjectWithTestId[testId] = {
+            answersArray: [...answersArr, value],
+            points: calcResultPoints(),
+            // timestamp: serverTimestamp(),
+          };
+        }      
         switch (userState.id) {
         // 1. If  user finished first demo test without auth
         // we have to localStorage.setItem()
@@ -141,15 +175,19 @@ const TestPage: FC<TestPageProps> = () => {
           addAnswer({id: userState.id, data: ObjectWithTestId});
         }
         
-        await testComplete({ id: test.blogger.id });
-        return navigate(`/test/${params.id}/result`);
+        // CHECK IF TEST.ID DOESN'T CONTAINS IN USER.ANSWERS[KEY]
+        // await testComplete(test.blogger.id);
+        const linkToResult = `${location.pathname.substring(0,location.pathname.lastIndexOf("/"))}/result`;
+        return navigate(linkToResult);
       }
     } else if (test && location.pathname.split('/')[3] === 'answers') {
       if (questionNum < test.questions.length - 1) {
         setReactionShow(false);
         setQuestion((prev) => prev + 1);
       } else  if (questionNum === test.questions.length - 1 && params.id) {
-        await testComplete({ id: test.blogger.id });
+
+        // CHECK IF TEST.ID DOESN'T CONTAINS IN USER.ANSWERS[KEY]
+        // await testComplete(test.blogger.id);
         return navigate(`/test/${params.id}/result`);
       }
     }
@@ -167,31 +205,36 @@ const TestPage: FC<TestPageProps> = () => {
             locked={locked}
             fullScreen={fullScreen}
           >
+            {/* <Routes>
+              <Route path={`/:numPage`} element={ */}
             <Test 
-              // language={userState.language}
               language={language}
               length={test.questions.length}
               questionNum={questionNum}
               question={test.questions[questionNum]} 
-
+              // questions={test.questions} 
+            
               value={value}
               setValue={setValue} 
-
               indicatedAnswer={indecatedAnswer}
+              nextIcon={answersArrayPrev ? galleryIcon : arrowIcon}
               nextHandler={nextHandler}
               fullScreenBtnHandle={fullScreenBtnHandle}
               locked={locked}
               backBtnToggle={fullScreen}
-
-
+            
+            
               reactionSrc={reactionSrc}
               setReactionSrc={setReactionSrc}
               reactionShow={reactionShow}
-
-
+            
+            
               bloggerName={test.blogger.name}
               testName= {test.testName}
             />
+            {/* } 
+              />
+            </Routes> */}
           </Container>
         ) : ('API problem')
       }

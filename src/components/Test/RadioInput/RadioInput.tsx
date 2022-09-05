@@ -26,7 +26,7 @@ const RadioInput: FC<RadioInputProps> = ({
 
   const answerHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     // BLOCKED radioinputs AFTER FIRST PRESS 'true' checked
-    if ((pathname.split('/')[1] === 'xtivka') && checked.includes(true)) return ;
+    if ((pathname.split('/')[1] === 'game') && checked.includes(true)) return ;
     
     if (e.target.checked) {
       e.preventDefault();

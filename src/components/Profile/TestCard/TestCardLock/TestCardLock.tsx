@@ -1,7 +1,6 @@
 import React, { FC, MouseEventHandler, useEffect, useRef } from 'react';
 import s from './TestCardLock.module.scss';
 
-import { SimpleBloggerType } from '../../../../types/test.types';
 import ButtonPlay from '../../../Buttons/ButtonPlay/ButtonPlay';
 import iconLock from '../../../../assets/svg/lock.svg';
 import TestCard from '../TestCard';
@@ -10,9 +9,10 @@ export interface TestCardLockProps {
     onClick: MouseEventHandler<HTMLDivElement>;
     cover: string;
     bloggerId: string; 
-    blogger: SimpleBloggerType;
+    bloggerName: string; 
+    bloggerAvatar: string;
     testName: string;
-    length: number;
+    footerText: string;
     button?: any;
 }
 
@@ -20,9 +20,11 @@ const TestCardLock: FC<TestCardLockProps> = ({
   onClick,
   cover,
   bloggerId,
-  blogger, 
+  bloggerName,
+  bloggerAvatar,
+
   testName, 
-  length,
+  footerText,
   button
 }) => {
 
@@ -51,10 +53,10 @@ const TestCardLock: FC<TestCardLockProps> = ({
         </>
       }
       bloggerId={bloggerId}
-      bloggerName={blogger.name.ua}
-      bloggerAvatar={blogger.avatar}
+      bloggerName={bloggerName}
+      bloggerAvatar={bloggerAvatar}
       testName={testName}
-      footerText={`Хтивок: 2${length}`}
+      footerText={footerText}
       buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 
     />
   );

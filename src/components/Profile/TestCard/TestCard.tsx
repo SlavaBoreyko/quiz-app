@@ -33,7 +33,7 @@ const TestCard: FC<TestCardProps> = ({
   const refImg = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if(refImg.current) {
+    if(typeof coverImage === 'string' && refImg.current) {
       refImg.current.style.backgroundImage = `url("${coverImage}")`;
     }
   }, [refImg.current]);
@@ -44,8 +44,12 @@ const TestCard: FC<TestCardProps> = ({
         <div className={s.testCardContainter} onClick={onClick}>
           {/* COVER */}
           <div className={s.coverFrame}>
-            <div ref={refImg} className={s.coverOpen} />
-            {/* {coverImage} */}
+            {(typeof coverImage === 'string') && (
+              <div ref={refImg} className={s.coverOpen} />
+            )}
+            {(typeof coverImage !== 'string') && (
+              <>{coverImage}</>
+            )}
           </div>
           <div className={s.divPaddingContainer}>
             <div className={s.textDiv}>

@@ -1,4 +1,5 @@
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { QuestionTestType } from '../../types/test.types';
 import Card from './Card/Card';
 import ProgressBar from './ProgressBar/ProgressBar';
@@ -7,12 +8,14 @@ import RadioInput from './RadioInput/RadioInput';
 export interface TestProps {
   length: number;
   questionNum: number;
+  // questions: QuestionTestType[];
   question: QuestionTestType;
 
   value: number;
   setValue: Dispatch<SetStateAction<number>>;
   indicatedAnswer?: number;
 
+  nextIcon: string;
   nextHandler: () => void;
 
   reactionSrc?: string;
@@ -43,6 +46,8 @@ const Test: FC<TestProps> = ({
   // value,
   setValue, 
   indicatedAnswer,
+
+  nextIcon,
   nextHandler,
 
   reactionSrc,
@@ -55,6 +60,18 @@ const Test: FC<TestProps> = ({
 
   language
 }) => {
+  
+  // const {pathname} = useLocation();
+  // const params = useParams();
+  // const [questionNum, setQuestionNum] = useState(1);
+  // const [question, setQuestion] = useState(questions[0]);
+
+  // useEffect(() => {
+  //   params.numPage && setQuestionNum(+params.numPage);
+  //   params.numPage && setQuestion(questions[+params.numPage]);
+
+  // },[params.numPage]);
+   
   // const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
   // const { t } = useTranslation();
   // useEffect(() => {
@@ -127,9 +144,10 @@ const Test: FC<TestProps> = ({
       />
       <ProgressBar 
         // question={t('question')}
-        question={(language && language === 'or') ? question.question.or : question.question.ua}
+        question={question.question.ua}
         amountQA={length}
         current={questionNum + 1} 
+        nextIcon={nextIcon}
         nextHandler={nextHandler}
       />
       {question.answers.map((variant, index: number) => (

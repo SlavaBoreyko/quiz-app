@@ -62,7 +62,7 @@ const NavSidebar = () => {
   return (
     <>
       {
-        (pathname.split('/')[1] === 'test') ? (
+        (['test', 'game'].includes(pathname.split('/')[1])) ? (
           <div
             style={{
               position: 'absolute',

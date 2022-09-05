@@ -2,7 +2,8 @@ import React, { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from
 import s from './CircleBar.module.scss';
 
 export interface CircleBarProps {
-  resultPoints: number;
+  resultPoints?: number;
+  openAndLock?: string;
   width?: number;
   fontSize?: string;
   setShowResult?: Dispatch<SetStateAction<boolean>>;
@@ -10,6 +11,7 @@ export interface CircleBarProps {
 
 const CircleBar: FC<CircleBarProps> = ({
   resultPoints, 
+  openAndLock = '7/10',
   width = 50, 
   fontSize, 
   setShowResult, 
@@ -37,7 +39,9 @@ const CircleBar: FC<CircleBarProps> = ({
   const [progressEndValue, setProgressEndValue] = useState<number | undefined>(undefined);
   // Limited to 100% if resultPoints calculated the wrong way 
   useEffect(() => {
-    if(resultPoints && resultPoints < 100) {
+    if(resultPoints && resultPoints <= 0 ) {
+      setProgressEndValue(70);
+    } else if(resultPoints && resultPoints < 100) {
       setProgressEndValue(resultPoints);
     } else if (resultPoints && resultPoints > 100) {
       setProgressEndValue(100); 
@@ -62,6 +66,19 @@ const CircleBar: FC<CircleBarProps> = ({
         clearInterval(progress);
       }
     }, speed);
+  }
+
+  if(openAndLock && openAndLock !== '') {
+    const percentageOpenPics = 100*(+(openAndLock.split('/')[0]) / +(openAndLock.split('/')[1]));
+    (refValueContainer.current) && (
+      refValueContainer.current.textContent = `${openAndLock}`
+    );
+    (refProgressBar.current) && (
+      refProgressBar.current.style.background = `conic-gradient(
+                      #F59F00 ${percentageOpenPics * 3.6}deg,
+                      #343a40  ${percentageOpenPics * 3.6}deg
+                  )`
+    );
   }
 
   return (

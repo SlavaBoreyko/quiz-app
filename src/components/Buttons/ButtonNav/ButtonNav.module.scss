@@ -5,7 +5,8 @@
 .btnSpinner,
 .btn35,
 .btn35Back,
-.btnBack {   
+.btnBack,
+.btnReturn {   
     flex-shrink: 0;
     cursor: pointer;
     background-color: transparent;
@@ -38,6 +39,7 @@
 }
 
 .btn35Back,
-.btnBack  {
+.btnBack,
+.btnReturn  {
     background-color: #16181b91;
 }

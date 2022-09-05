@@ -10,6 +10,11 @@ import {
 import { db } from '../../firebase.config';
 import { BloggerBigType } from '../../types/test.types';
 
+export interface followingProps {
+  id: string;
+  value: 1 | -1;
+}
+
 export const bloggerApi = createApi({
   reducerPath: 'bloggerApi',
   baseQuery: fakeBaseQuery(),
@@ -48,8 +53,8 @@ export const bloggerApi = createApi({
         }
       },
     }),
-    following: builder.mutation<any, any>({
-      async query ({ id, value }) {
+    following: builder.mutation<any, followingProps>({
+      async queryFn({id, value}) {
         try {
           const q = query(
             collection(db, "bloggers"), 
@@ -65,13 +70,13 @@ export const bloggerApi = createApi({
           }
           return { data: '' };
         } catch (error) {
-          console.log(error);
-          return error;
+          // console.log(error);
+          return { error };
         }
       }
     }),
-    testComplete: builder.mutation<any, any>({
-      async query ({ id }) {
+    testComplete: builder.mutation<any, string>({
+      async queryFn(id) {
         try {
           const q = query(
             collection(db, "bloggers"), 
@@ -88,8 +93,8 @@ export const bloggerApi = createApi({
           }
           return { data: '' };
         } catch (error) {
-          console.log(error);
-          return error;
+          // console.log(error);
+          return { error };
         }
       }
     }),

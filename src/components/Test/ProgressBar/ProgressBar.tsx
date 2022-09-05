@@ -1,12 +1,14 @@
 import React, { FC } from 'react';
 import ButtonNav from '../../Buttons/ButtonNav/ButtonNav';
 import s from './ProgressBar.module.scss';
-import arrowIcon from '../../../assets/svg/arrow-right.svg';
+
 
 export interface ProgressProps {
     question: string;
     amountQA: number;
     current: number;
+
+    nextIcon: string;
     nextHandler: () => void;
 }
 
@@ -14,6 +16,7 @@ const ProgressBar:FC<ProgressProps> = ({
   question,
   amountQA, 
   current, 
+  nextIcon,
   nextHandler, 
 }) => {
   const ProgressArray = [...Array(amountQA)].fill(s.progressItem);
@@ -32,7 +35,8 @@ const ProgressBar:FC<ProgressProps> = ({
           <p><span>{question}</span></p>
         </div>
         <ButtonNav 
-          icon={arrowIcon}
+          icon={nextIcon}
+          // optionClass={'35%'}
           onClick={nextHandler}
         />
       </div>

@@ -26,6 +26,7 @@ import { useEffect } from "react";
 // import PrivacyPolicy from "./pages/PrivacyPolicy";
 import BloggerPage from "./pages/BloggerPage";
 import ExplorePage from "./pages/ExplorePage";
+import PicFullscreen from "./components/XT/PicFullscreen/PicFullscreen";
 const TRACKING_ID = "G-X99CC06EWN"; 
 ReactGA.initialize(TRACKING_ID);
 
@@ -52,14 +53,17 @@ function App() {
             {/* EXPLORE */}
             <Route path='/explore' element={<Navigate replace to="/explore/men/tests" />} />
             <Route path='/explore/*' element={<ExplorePage />} />
-            <Route path='/explore/girls/tests' element={<Navigate replace to="/explore/girls/bloggers" />} />
+            {/* <Route path='/explore/girls/tests' element={<Navigate replace to="/explore/girls/bloggers" />} /> */}
 
             {/* TEST & RESULT PAGES */}
-            <Route path='/test/:id' element={<TestPage />} />
+            <Route path='/test/:id/:numPage' element={<TestPage />} />
             <Route path='/test/:id/result' element={<ResultPage />}/>
             <Route path='/test/:id/answers' element={<TestPage />} />
 
-            <Route path='/xtivka/:id' element={<TestPage />} />
+
+            <Route path='/game/:id/:numPage' element={<TestPage />} />
+            <Route path='/game/:id/result' element={<ResultPage />}/>
+            <Route path='/game/fullscreen' element={<PicFullscreen />} />
            
             <Route path='/profile' element={<PrivateRoute />} >
               <Route path='/profile' element={<ProfilePage />} />

@@ -20,6 +20,7 @@ import BtnEmail from '../components/Buttons/BtnEmail/BtnEmail';
 import openInNewTab from '../utils/openInNewTab';
 import ButtonPrice from '../components/Buttons/ButtonPrice/ButtonPrice';
 import FooterPolicy from '../components/Footers/FooterPolicy';
+import TestCardLock from '../components/Profile/TestCard/TestCardLock/TestCardLock';
 
 const ExplorePage = () => {
   const location = useLocation();
@@ -194,7 +195,7 @@ const ExplorePage = () => {
                       `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
                 }
                 onClick={
-                  (test.payment === 'free' && userState.id) ? () => navigate(`/test/${test.id}`) : 
+                  (test.payment === 'free' && userState.id) ? () => navigate(`/test/${test.id}/1`) : 
                     (test.payment !== 'free' && userState.id) ? (() => openInNewTab(test.payment)) :
                       onGoogleClick 
                 }
@@ -255,10 +256,10 @@ const ExplorePage = () => {
             ))}
           </>
         }/>
-        {/* <Route path='/girls/tests' element={
+        <Route path='/girls/tests' element={
           <>
             { (testsListForGirls) ? testsListForGirls.map((test) => (
-              <TestCardOpen
+              <TestCardLock
                 key={test.id}
                 testName={(language === 'or') ? test.testName.or : test.testName.ua}
                 cover={test.cover}
@@ -268,7 +269,7 @@ const ExplorePage = () => {
                 footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
                   `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
                 }
-                onClick={(userState.id) ? () => navigate(`/test/${test.id}`) : onGoogleClick }
+                onClick={(userState.id) ? () => navigate(`/game/${test.id}/1`) : onGoogleClick }
                 button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnEmail />} 
               />
             )) : Array.apply(null, Array(4)).map((item, index) => (
@@ -282,7 +283,7 @@ const ExplorePage = () => {
               />
             ))}
           </>
-        }/> */}
+        }/>
       </Routes>
       <FooterPolicy language={language} />
     </Container>

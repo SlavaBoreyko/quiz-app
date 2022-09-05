@@ -29,7 +29,7 @@ const Card: FC<CardProps> = ({
   return (
     <div className={s.cardContainer}>
       <div className={s.lockFullScreenBtn}>
-        {(pathname.split('/')[1] === 'xtivka') && (
+        {(pathname.split('/')[1] === 'game') && (
           <ButtonNav 
             icon={locked ? lockIcon : zoomIcon}
             optionClass={locked ? '' : '35%'}

@@ -29,7 +29,8 @@ const ButtonNav: FC<BtnNavProps> = ({
         // s.btnShare has additional padding-left for icon 
           optionClass === 'share' ? s.btnShare : 
             (optionClass === '35%') ? s.btn35 : 
-              s.btn}
+              (optionClass === 'return') ? s.btnReturn : 
+                s.btn}
     >
       <img className={s.icon} src={srcIcon} alt='Icon' /> 
     </button>
