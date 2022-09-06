@@ -89,9 +89,6 @@ const ResultPage = () => {
           return num;
         }
       });
-      
-      console.log('answersArray', answersArray);
-      console.log('removeMinusArray', removeMinusArray);
       const sum = removeMinusArray.reduce((partialSum, a) => partialSum + a, 0);
       setOpenAndLock(sum);
     }
@@ -99,7 +96,16 @@ const ResultPage = () => {
 
   // PROPER OR NOT? 
   const testId = params.id!;
-  const { data: dataVerdict } = useFetchVerdictQuery({ testId, points: resultPoints!});
+
+  const [dataVerdict, setDataVerdict] = useState<any | undefined>(undefined);
+
+  useEffect(() => {
+    if(resultPoints && !gameMode) {
+      const { data: dataVerdict } = useFetchVerdictQuery({ testId, points: resultPoints});
+      setDataVerdict(dataVerdict);
+    }
+  }, []);
+
 
   return (
     <Container 

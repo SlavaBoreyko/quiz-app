@@ -1,7 +1,7 @@
 import s from './TestHeader.module.scss';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useFetchTestQuery } from '../../../features/test/testApi';
+import { useFetchTestQuery, useFetchTestsCardsByListIdQuery } from '../../../features/test/testApi';
 //After video add DevButton: 
 import BtnRectangle from '../../Buttons/BtnRectangle/BtnRectangle';
 import { useAppSelector } from '../../../app/hooks';
@@ -11,6 +11,16 @@ const TestHeader = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { data: testData }  = useFetchTestQuery(params.id!);
+  // const [testData, setTestData] = useState<any | undefined>(undefined);
+  // const { data: testData }  = useFetchTestsCardsByListIdQuery([params.id!]);
+  
+  // useEffect(() => {
+  //   if(params.id) {
+  //     const { data: testData }  = useFetchTestQuery(params.id);
+  //     setTestData(testData);
+  //   }
+  // },[]);
+
   const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
   const userState = useAppSelector((state: any) => state.user);
   useEffect(() => {

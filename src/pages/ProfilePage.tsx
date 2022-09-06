@@ -12,23 +12,31 @@ import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import Container from '../components/Containers/Container/Container';
 import TestCardPass from '../components/Profile/TestCard/TestCardPass/TestCardPass';
-import { useFetchTestsByBloggerIdQuery } from '../features/test/testApi';
+import { useFetchTestsCardsByListIdQuery } from '../features/test/testApi';
+import GameCardPass from '../components/Profile/TestCard/GameCardPass/GameCardPass';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const { data: allTestsByBlogger }  = useFetchTestsByBloggerIdQuery('divertito');
+  const [listId, setListId] = useState<string[]>([]);
   const [testList, setTestList] = useState<TestCardType[] | undefined>(undefined);
-  // FOR NEXT SORT 
-  useEffect(() => {
-    if(allTestsByBlogger) {
-      setTestList(allTestsByBlogger);
-    }
-  }, [allTestsByBlogger]);
 
   const userState = useAppSelector((state: RootState) => state.user);
-  const [ addAnswer ]  = useAddAnswerMutation();
-  const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
+  const { data } = useFetchAnswersQuery(userState.id!);
+  useEffect(() => {
+    if(userState.answers) {
+      setListId(Object.keys(userState.answers));
+    }
+  }, [userState.answers]);
 
+  const { data: allPassedTests }  = useFetchTestsCardsByListIdQuery(listId);
+  useEffect(() => {
+    if(allPassedTests) {
+      setTestList(allPassedTests);
+    }
+  }, [allPassedTests]);
+
+
+  const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
   useEffect(() => {
     const languageSet = localStorage.getItem('i18nextLng');
     if(userState.language) {
@@ -38,6 +46,7 @@ const ProfilePage = () => {
     }
   },[userState.language]);
     
+  const [ addAnswer ]  = useAddAnswerMutation();
   const localDemoTest = localStorage.getItem('demoTest');
   useEffect(() => {
     if(localDemoTest) {
@@ -64,7 +73,7 @@ const ProfilePage = () => {
   //     }
   // }, [testList])
 
-  const { data } = useFetchAnswersQuery(userState.id!);
+  
 
   return (
     <Container
@@ -83,38 +92,43 @@ const ProfilePage = () => {
       {
         data && testList && testList.map((testItem, index) => {
           if (data && testItem.id in data) { 
-            // const points = _.get(data, `${testItem.id}.points`);
             const points = data[testItem.id].points;
-            // const {text, svg} = await fetchVerdict(testItem.id);
-            return (
-              <TestCardPass
-                id={testItem.id}
-                key={index}         
-                testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
-                cover={testItem.cover}
-                bloggerId={testItem.blogger.id}
-                bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
-                bloggerAvatar={testItem.blogger.avatar}
-                points={points}
-                language={language ? language : 'ua'}
-                onClick={() => navigate(`/test/${testItem.id}/result`)}
-              />
-            );
+            if (testItem.type && testItem.type === 'game') {
+              const answersArrGame = data[testItem.id].answersArray;
+              return (
+                <GameCardPass
+                  id={testItem.id}
+                  key={index}         
+                  testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
+                  cover={testItem.cover}
+                  bloggerId={testItem.blogger.id}
+                  bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
+                  bloggerAvatar={testItem.blogger.avatar}
+
+                  picsMini={testItem.picsMini}
+                  answersArrGame={answersArrGame}
+                  openAndLock={`${points}/${testItem.qLength}`}
+                  language={language ? language : 'ua'}
+                  onClick={() => navigate(`/game/${testItem.id}/result`)}
+                />
+              );
+            } else {
+              return (
+                <TestCardPass
+                  id={testItem.id}
+                  key={index}         
+                  testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
+                  cover={testItem.cover}
+                  bloggerId={testItem.blogger.id}
+                  bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
+                  bloggerAvatar={testItem.blogger.avatar}
+                  points={points}
+                  language={language ? language : 'ua'}
+                  onClick={() => navigate(`/test/${testItem.id}/result`)}
+                />
+              );
+            }
           }
-          // else {
-          //     return (
-          //         <TestCardOpen
-          //             key={index}
-          //             testName={(language === 'or') ? testItem.testName.or : testItem.testName.ua}
-          //             cover={testItem.cover}
-          //             bloggerId={testItem.blogger.id}
-          //             bloggerName={(language === 'or') ? testItem.blogger.name.or : testItem.blogger.name.ua}
-          //             bloggerAvatar={testItem.blogger.avatar}
-          //             footerText={`${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${testItem.qLength}`}
-          //             onClick={() => navigate(`/test/${testItem.id}`)}
-          //         />
-          //     )
-          // }
         }
         )} 
 

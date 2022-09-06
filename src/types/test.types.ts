@@ -82,6 +82,7 @@ export interface TestCardType {
     price: string;
 
     type?: 'game' | 'test';
+    picsMini?: string[];
 }
 
 //

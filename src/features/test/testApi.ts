@@ -14,16 +14,20 @@ export const testApi = createApi({
   baseQuery: fakeBaseQuery(),
   tagTypes: ['Test', 'TestCard', 'Verdict'],
   endpoints: (builder) => ({
-    fetchTest: builder.query<any, string>({
+    fetchTest: builder.query<any, string | undefined>({
       async queryFn(testId) {
-        try {
-          const docRef = doc(db, "tests", testId);
-          const testDoc = await getDoc(docRef);
-          const testData = testDoc.data();
+        if(testId) {
+          try {
+            const docRef = doc(db, "tests", testId);
+            const testDoc = await getDoc(docRef);
+            const testData = testDoc.data();
 
-          return { data: testData};
-        } catch(err) {
-          return { error: err };
+            return { data: testData};
+          } catch(err) {
+            return { error: err };
+          }
+        } else {
+          return { error: 'testId is undefined' };
         }
       },
       providesTags: ['Test'],                 
@@ -66,6 +70,30 @@ export const testApi = createApi({
       },
       providesTags: ['TestCard'],                 
     }),
+    fetchTestsCardsByListId: builder.query<any, string[] | undefined>({
+      async queryFn(listId) {
+        // empty listId[] triggers firebase query error
+        if(listId && listId.length !== 0) {
+          let arrayTests: any[] = [];
+          try {
+            const q = query(
+              collection(db, "testsCards"), 
+              where("id", "in", listId),
+              // orderBy("desc"),
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => arrayTests.push(doc.data()));
+            return { data: arrayTests};
+          } catch(err) {
+            return { error: err };
+          }
+        } else {
+          return { data: [] };
+        }
+
+      },
+      providesTags: ['TestCard'],                 
+    }),
     addTest: builder.mutation<any, TestType>({
       async queryFn(data) {
         try {
@@ -102,4 +130,5 @@ export const {
   useAddTestMutation, 
   useFetchTestsCardByAudienceQuery,
   useFetchTestsByBloggerIdQuery,
+  useFetchTestsCardsByListIdQuery,
 } = testApi; 

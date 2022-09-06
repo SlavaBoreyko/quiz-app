@@ -11,7 +11,7 @@ export interface CircleBarProps {
 
 const CircleBar: FC<CircleBarProps> = ({
   resultPoints, 
-  openAndLock = '7/10',
+  openAndLock,
   width = 50, 
   fontSize, 
   setShowResult, 
@@ -40,7 +40,7 @@ const CircleBar: FC<CircleBarProps> = ({
   // Limited to 100% if resultPoints calculated the wrong way 
   useEffect(() => {
     if(resultPoints && resultPoints <= 0 ) {
-      setProgressEndValue(70);
+      setProgressEndValue(0);
     } else if(resultPoints && resultPoints < 100) {
       setProgressEndValue(resultPoints);
     } else if (resultPoints && resultPoints > 100) {
@@ -68,18 +68,21 @@ const CircleBar: FC<CircleBarProps> = ({
     }, speed);
   }
 
-  if(openAndLock && openAndLock !== '') {
-    const percentageOpenPics = 100*(+(openAndLock.split('/')[0]) / +(openAndLock.split('/')[1]));
-    (refValueContainer.current) && (
-      refValueContainer.current.textContent = `${openAndLock}`
-    );
-    (refProgressBar.current) && (
-      refProgressBar.current.style.background = `conic-gradient(
-                      #F59F00 ${percentageOpenPics * 3.6}deg,
-                      #343a40  ${percentageOpenPics * 3.6}deg
-                  )`
-    );
-  }
+  useEffect(() => {
+    if(openAndLock && openAndLock !== '') {
+      const percentageOpenPics = 100*(+(openAndLock.split('/')[0]) / +(openAndLock.split('/')[1]));
+      (refValueContainer.current) && (
+        refValueContainer.current.textContent = `${openAndLock}`
+      );
+      (refProgressBar.current) && (
+        refProgressBar.current.style.background = `conic-gradient(
+                        #F59F00 ${percentageOpenPics * 3.6}deg,
+                        #343a40  ${percentageOpenPics * 3.6}deg
+                    )`
+      );
+    }
+  }, [openAndLock]);
+
 
   return (
     <>

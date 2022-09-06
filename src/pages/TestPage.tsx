@@ -34,11 +34,10 @@ const TestPage: FC<TestPageProps> = () => {
   const [value, setValue] = useState(-1);
   const [answersArr, setAnswersArr] = useState<number[]>([]);
   const [answersArrayPrev, setAnswersArrayPrev] = useState<number[] | undefined>(undefined);
+  const [openAndLock, setOpenAndLock] = useState<number>(0);
+  const [gameMode, setGameMode] = useState<boolean>(location.pathname.split('/')[1] === 'game');
 
-  // NEW NAVIGATION
-  // useEffect(() => {
-  //   setQuestion(+location.pathname.substring(location.pathname.lastIndexOf('/') + 1));
-  // },[location.pathname]);
+
   useEffect(() => {
     params.numPage && setQuestion(+params.numPage-1);
   },[params.numPage]);
@@ -47,6 +46,22 @@ const TestPage: FC<TestPageProps> = () => {
     const state: any = location.state;
     state && state.answersArray && setAnswersArrayPrev(state.answersArray);
   },[location.state]);
+
+  // ADD-1
+  // useEffect(() => {
+  //   if(answersArr && gameMode) {
+  //     const removeMinusArray = answersArr.map((num) => {
+  //       if (num === -1) {
+  //         return num = 0;
+  //       } else {
+  //         return num;
+  //       }
+  //     });
+  //     setAnswersArr(removeMinusArray);
+  //     const sum = removeMinusArray.reduce((partialSum, a) => partialSum + a, 0);
+  //     setOpenAndLock(sum);
+  //   }
+  // }, []);
 
   // REACTION
   const [reactionShow, setReactionShow] = useState(false);
@@ -83,7 +98,7 @@ const TestPage: FC<TestPageProps> = () => {
 
   // Logic for /xtivka
   useEffect(() => {
-    if (location.pathname.split('/')[1] === 'game') {
+    if (gameMode) {
       setLocked(true);
     }
     if(value !== -1) setReactionShow(true);
@@ -108,25 +123,29 @@ const TestPage: FC<TestPageProps> = () => {
   // FOR ADMIN PAGE
   const calcResultPoints = () => {
     // sumPoints has to calculate when add addTest from Admin 
-    if(test) {
+    if (gameMode) {
+      return openAndLock; 
+    } else if(test) {
       const resultPoints = Math.round(100*
         (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)/test.sumPoints);
       return resultPoints;
-    }
-    return 0;
+    } else return 0;
   };
 
   const [ addAnswer ]  = useAddAnswerMutation();
 
   const saveAnswerNextQuestion = () => {
     setQuestion((prev) => prev + 1);
-    setAnswersArr((prev) => [...prev, value]);
+    if(gameMode) {
+      if(value === -1 ) setAnswersArr((prev) => [...prev, 0]);
+      else setAnswersArr((prev) => [...prev, value]);
+    } else setAnswersArr((prev) => [...prev, value]);
+
     history.pushState(
       null, 
       `Question ${questionNum + 1}`, 
       `${window.location.href.substring(0,window.location.href.lastIndexOf("/"))}/${questionNum + 2}`
     );
-
     //clear for next answer:
     setValue(0);
     setReactionShow(false);
@@ -150,18 +169,33 @@ const TestPage: FC<TestPageProps> = () => {
         // XT: SECOND ATTEMT  
         if(answersArrayPrev && answersArrayPrev.length > 0) {
           let array = answersArrayPrev;
-          array[questionNum] = value;
+          let sum = answersArrayPrev.reduce((partialSum, a) => partialSum + a, 0);
+
+          if(value === -1) array[questionNum] = 0;
+          else {
+            array[questionNum] = value; 
+            sum = sum + value;
+          }
+          
           ObjectWithTestId[testId] = {
             answersArray: [...array],
-            points: calcResultPoints(),
+            points: sum,
             // timestamp: serverTimestamp(),
           };
         } else {
-          ObjectWithTestId[testId] = {
-            answersArray: [...answersArr, value],
-            points: calcResultPoints(),
-            // timestamp: serverTimestamp(),
-          };
+          if(gameMode) {
+            ObjectWithTestId[testId] = {
+              answersArray: [...answersArr, value],
+              points: [...answersArr, value].reduce((partialSum, a) => partialSum + a, 0),
+              // timestamp: serverTimestamp(),
+            };
+          } else {
+            ObjectWithTestId[testId] = {
+              answersArray: [...answersArr, value],
+              points: calcResultPoints(),
+              // timestamp: serverTimestamp(),
+            };
+          }
         }      
         switch (userState.id) {
         // 1. If  user finished first demo test without auth

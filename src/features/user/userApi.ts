@@ -42,17 +42,19 @@ export const userApi = createApi({
   baseQuery: fakeBaseQuery(),
   tagTypes: ['UserAnswersType', 'FollowingList'],
   endpoints: (builder) => ({
-    fetchAnswers: builder.query<UserAnswersType, string>({
+    fetchAnswers: builder.query<UserAnswersType, string | undefined>({
       async queryFn(userId) {
-        try {
-          const docRef = doc(db, "users", userId);
-          const userDoc = await getDoc(docRef);
-          const userData = userDoc.data();
-
-          return { data: userData!.answers};
-        } catch(err) {
-          return { error: err };
-        }
+        if(userId) {
+          try {
+            const docRef = doc(db, "users", userId);
+            const userDoc = await getDoc(docRef);
+            const userData = userDoc.data();
+  
+            return { data: userData!.answers};
+          } catch(err) {
+            return { error: err };
+          }
+        } else return { error: 'userId is undefined' };
       }, 
       providesTags: ['UserAnswersType'],               
     }),
