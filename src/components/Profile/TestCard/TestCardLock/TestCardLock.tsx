@@ -12,6 +12,8 @@ export interface TestCardLockProps {
     bloggerName: string; 
     bloggerAvatar: string;
     testName: string;
+
+    picsMini: string[] | undefined;
     footerText: string;
     button?: any;
 }
@@ -24,6 +26,7 @@ const TestCardLock: FC<TestCardLockProps> = ({
   bloggerAvatar,
 
   testName, 
+  picsMini,
   footerText,
   button
 }) => {
@@ -56,7 +59,24 @@ const TestCardLock: FC<TestCardLockProps> = ({
       bloggerName={bloggerName}
       bloggerAvatar={bloggerAvatar}
       testName={testName}
-      footerText={footerText}
+      footerText={(picsMini) && 
+        <>
+          <div 
+            style={{ 
+              marginLeft: '2.5rem', 
+              display: 'flex', 
+              alignItems: 'center', 
+            }}
+          >
+            {
+              picsMini.slice(0,3).map((pic, index) => (
+                <img key={index} className={s.picsCircleOpen} src={pic} />
+              ))
+            }
+            {footerText}
+          </div>
+        </>
+      }
       buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 
     />
   );

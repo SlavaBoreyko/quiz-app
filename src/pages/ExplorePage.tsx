@@ -266,7 +266,8 @@ const ExplorePage = () => {
                 bloggerId={test.blogger.id}
                 bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
                 bloggerAvatar={test.blogger.avatar}
-                footerText={(userState.id) ? `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
+                picsMini={test.picsMini}
+                footerText={(userState.id) ? `${(language === 'or') ? 'Фото: ' : 'Фото: '} ${test.qLength}` :
                   `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
                 }
                 onClick={(userState.id) ? () => navigate(`/game/${test.id}/1`) : onGoogleClick }

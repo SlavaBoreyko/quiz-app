@@ -42,3 +42,12 @@
         opacity: 0.4;
     }
 }
+
+.picsCircleOpen {
+    height: 4rem;
+    width: 4rem;
+    object-fit: cover;
+    border: 2px solid #181b1e;
+    border-radius: 2rem;
+    margin-left: -2.5rem;
+}

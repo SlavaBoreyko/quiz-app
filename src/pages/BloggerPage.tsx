@@ -186,9 +186,11 @@ const BloggerPage = () => {
             bloggerId={test.blogger.id}
             bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
             bloggerAvatar={test.blogger.avatar}
+
+            picsMini={test.picsMini}
             footerText={
               (test.payment === 'free' && userState.id) ? 
-                `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
+                `${(language === 'or') ? 'Фото: ' : 'Фото: '} ${test.qLength}` :
                 (test.payment !== 'free' && userState.id) ? 
                   `${(language === 'or') ? 'Платный тест ' : 'Платний тест '}` :
                   `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
