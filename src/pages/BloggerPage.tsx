@@ -187,29 +187,35 @@ const BloggerPage = () => {
             bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
             bloggerAvatar={test.blogger.avatar}
 
+            // picsMini={(userState.id) ? test.picsMini : undefined}
             picsMini={test.picsMini}
             footerText={
-              (test.payment === 'free' && userState.id) ? 
+              // (test.payment === 'free' && userState.id) ? 
+              (test.payment === 'free') ? 
                 `${(language === 'or') ? 'Фото: ' : 'Фото: '} ${test.qLength}` :
                 (test.payment !== 'free' && userState.id) ? 
                   `${(language === 'or') ? 'Платный тест ' : 'Платний тест '}` :
                   `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
             }
             onClick={
-              (test.payment === 'free' && userState.id) ? () => navigate(`/game/${test.id}/1`) : 
+              // (test.payment === 'free' && userState.id) ? () => navigate(`/game/${test.id}/1`) : 
+              (test.payment === 'free') ? () => navigate(`/game/${test.id}/1`) : 
                 (test.payment !== 'free' && userState.id) ? (() => openInNewTab(test.payment)) :
                   onGoogleClick 
             }
-            button={(test.payment === 'free' && userState.id) ? <ButtonPlay width={'22%'}/> : 
-              (test.payment !== 'free' && userState.id) ? 
-                <ButtonPrice 
-                  price={test.price} 
-                  onClick={(e: any) => {
-                    e.stopPropagation();
-                    openInNewTab(test.payment);
-                  }}
-                /> : 
-                <BtnEmail />
+            button={
+              // (test.payment === 'free' && userState.id) ? 
+              (test.payment === 'free') ? 
+                <ButtonPlay width={'22%'}/> : 
+                (test.payment !== 'free' && userState.id) ? 
+                  <ButtonPrice 
+                    price={test.price} 
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      openInNewTab(test.payment);
+                    }}
+                  /> : 
+                  <BtnEmail />
             }
           />
         ) : (

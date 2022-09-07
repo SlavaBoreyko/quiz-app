@@ -13,9 +13,7 @@ const ButtonPlay: FC<ButtonPlayProps> = ({
   (width) && document.documentElement.style.setProperty('--sizeBtnPlay', `${width}`);
   return (
     <button className={s.btn}>
-      <div className={s.circularProgress} >
-        <img className={s.icon} src={playIcon} alt='icon' />
-      </div>
+      <img className={s.icon} src={playIcon} alt='icon' />
     </button>
   );
 };

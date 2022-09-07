@@ -59,7 +59,7 @@ const TestCardLock: FC<TestCardLockProps> = ({
       bloggerName={bloggerName}
       bloggerAvatar={bloggerAvatar}
       testName={testName}
-      footerText={(picsMini) && 
+      footerText={(picsMini) ? ( 
         <>
           <div 
             style={{ 
@@ -73,10 +73,12 @@ const TestCardLock: FC<TestCardLockProps> = ({
                 <img key={index} className={s.picsCircleOpen} src={pic} />
               ))
             }
-            {footerText}
+            <div style={{marginLeft: '0.5rem', }}>{footerText}</div>        
           </div>
         </>
-      }
+      ) : (
+        <>{footerText}</>
+      )}
       buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 
     />
   );

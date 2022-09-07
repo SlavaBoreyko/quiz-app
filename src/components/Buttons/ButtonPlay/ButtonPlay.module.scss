@@ -8,31 +8,37 @@
     // background: none;
     position: relative;
     cursor: pointer;
-    border: none;
-    
-    width: var(--sizeBtnPlay);
-    padding-top: var(--sizeBtnPlay);
 
-    border-radius: 50%; 
-    display: grid;
-    place-items: center;
-    background-color: #343a40;
+    // safari my iphone bugs fixed-1:
+    display: flex;
     flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%; 
+    border: 1px solid #343a40;
+    background-color: #1a1e21; 
+    
+    // width: var(--sizeBtnPlay);
+    // padding-top: var(--sizeBtnPlay);
+    // background-color: #343a40;
 
     &:hover,
     &:active {
-        // background-color: #3bc8db8f;
-        background-color: $colorAccentOrange;
+        // background-color: $colorAccentOrange;
+        border: 1px solid $colorAccentOrange;
     }
     
-    &:before {
-        content: '';
-        position: absolute;
-        height: 95%;
-        width: 95%;
-        background-color: #1a1e21;
-        border-radius: 50%;
-    }
+    // &:before {
+    //     content: '';
+    //     top: 2.5%;
+    //     position: absolute;
+    //     height: 95%;
+    //     width: 95%;
+    //     background-color: #1a1e21;
+    //     border-radius: 50%;
+    // }
 
     .icon {
         position: absolute;

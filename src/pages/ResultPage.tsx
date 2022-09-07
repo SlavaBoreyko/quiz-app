@@ -23,11 +23,11 @@ import { useFetchTestQuery } from '../features/test/testApi';
 const _ = require('lodash');
 
 const ResultPage = () => {
-
   const params = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  // redux-toolkit
+
+  const [gameMode, setGameMode] = useState<boolean>(pathname.split('/')[1] === 'game');
   const userState = useAppSelector((state: RootState) => state.user);
   const { data: answersData } = useFetchAnswersQuery(userState.id!);
 
@@ -35,16 +35,17 @@ const ResultPage = () => {
   const { data: test }  = useFetchTestQuery(params.id!);
   const [ picsList, setPicsList ] = useState<string[]>([]);
   const [answersArray, setAnswersArray] = useState<number[]>([]);
-  const [openAndLock, setOpenAndLock] = useState<number | undefined>(undefined);
-  const [gameMode, setGameMode] = useState<boolean>(pathname.split('/')[1] === 'game');
+  // const [dataVerdict, setDataVerdict] = useState<any | undefined>(undefined);
 
   useEffect(() => {
-    let picsArray: string[] = [];
-    test && test.questions.forEach((item: any) => {
-      picsArray.push(item.img);
-    });
-    setPicsList(picsArray);
-  }, [test]);
+    if(gameMode) {
+      let picsArray: string[] = [];
+      test && test.questions.forEach((item: any) => {
+        picsArray.push(item.img);
+      });
+      setPicsList(picsArray);
+    }
+  }, [test, gameMode]);
 
   const [resultPoints, setResultPoints] = useState<number | undefined>(undefined);
   const [showResult, setShowResult] = useState(false);
@@ -80,32 +81,30 @@ const ResultPage = () => {
     }
   }, [answersData]);
 
-  useEffect(() => {
-    if(answersArray && gameMode) {
-      const removeMinusArray = answersArray.map((num) => {
-        if (num === -1) {
-          return num = 0;
-        } else {
-          return num;
-        }
-      });
-      const sum = removeMinusArray.reduce((partialSum, a) => partialSum + a, 0);
-      setOpenAndLock(sum);
-    }
-  }, [answersArray]);
+  const { data: dataVerdict } = useFetchVerdictQuery({ testId: params.id, points: resultPoints});
 
-  // PROPER OR NOT? 
-  const testId = params.id!;
 
-  const [dataVerdict, setDataVerdict] = useState<any | undefined>(undefined);
+  // useEffect(() => {
+  //   if(params.id && resultPoints && !gameMode) {
+  //     const { data: dataVerdict } = useFetchVerdictQuery({ testId: params.id, points: resultPoints});
+  //     setDataVerdict(dataVerdict);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if(resultPoints && !gameMode) {
-      const { data: dataVerdict } = useFetchVerdictQuery({ testId, points: resultPoints});
-      setDataVerdict(dataVerdict);
-    }
-  }, []);
 
+  // useEffect(() => {
+  //   if(answersArray && gameMode) {
+  //     const removeMinusArray = answersArray.map((num) => {
+  //       if (num === -1) {
+  //         return num = 0;
+  //       } else {
+  //         return num;
+  //       }
+  //     });
+  //     const sum = removeMinusArray.reduce((partialSum, a) => partialSum + a, 0);
+  //     setOpenAndLock(sum);
+  //   }
+  // }, [answersArray]);
 
   return (
     <Container 
@@ -117,10 +116,10 @@ const ResultPage = () => {
       {(dataVerdict) && (resultPoints) && (!gameMode) &&
             <img className={s.IconBigBackgroung} src={dataVerdict.icon} alt='Status icon'/>
       }
-      {(answersArray && (resultPoints || openAndLock)) ?
+      {(answersArray && resultPoints) ?
         <CircleBar 
           resultPoints={gameMode ? undefined : resultPoints}
-          openAndLock={gameMode ? `${openAndLock}/${answersArray.length}` : undefined}
+          openAndLock={gameMode ? `${resultPoints}/${answersArray.length}` : undefined}
           setShowResult={setShowResult}
           width={gameMode ? 40 : 50}
         /> : <></>
@@ -137,8 +136,6 @@ const ResultPage = () => {
         <>
           <ResultCard 
             showText={showResult}
-            // status={dataVerdict.status} 
-            // description={dataVerdict.description}
             status={(language === 'or') ? dataVerdict.status.or : dataVerdict.status.ua}
             description={(language === 'or') ? dataVerdict.description.or : dataVerdict.description.ua}
           />

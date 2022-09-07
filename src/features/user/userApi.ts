@@ -17,8 +17,8 @@ export interface fetchedAnswersType {
 }
 
 export interface FetchVerdictProps {
-  testId: string;
-  points: number;
+  testId: string | undefined;
+  points: number | undefined;
 }
 
 export interface updateAnswersProps {
@@ -80,21 +80,29 @@ export const userApi = createApi({
 
     fetchVerdict: builder.query<any, FetchVerdictProps>({
       async queryFn({testId, points}) {
-        try {
+        if(testId && points) {
+          try {
           // const docRef = doc(db, "verdict", key); 
-          const q = query(collection(db, "verdict"), where("testId", "==", testId));
-          const querySnapshot = await getDocs(q); 
+            const q = query(collection(db, "verdict"), where("testId", "==", testId));
+            const querySnapshot = await getDocs(q); 
 
-          let verdictsList: any;
-          querySnapshot.forEach((doc) => {
-            verdictsList = doc.data();
-          });
 
-          const verdictData = getVerdict(points, verdictsList);
-          return { data: verdictData };
-        } catch(err) {
-          return { error: err };
-        }
+            let verdictsList: any | undefined;
+            querySnapshot.forEach((doc) => {
+              if (doc.data()) {
+                verdictsList = doc.data();
+              } else verdictsList = undefined;
+            });
+
+            let verdictData: any;
+            if(verdictsList) {
+              verdictData = getVerdict(points, verdictsList);
+            }
+            return { data: verdictData };
+          } catch(err) {
+            return { error: err };
+          }
+        } return { error: 'testId || points is undefined' };
       },
       providesTags: ['UserAnswersType'],  
     }),

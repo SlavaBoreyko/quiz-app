@@ -266,7 +266,7 @@ const ExplorePage = () => {
                 bloggerId={test.blogger.id}
                 bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
                 bloggerAvatar={test.blogger.avatar}
-                picsMini={test.picsMini}
+                picsMini={(userState.id) ? test.picsMini : undefined}
                 footerText={(userState.id) ? `${(language === 'or') ? 'Фото: ' : 'Фото: '} ${test.qLength}` :
                   `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
                 }
