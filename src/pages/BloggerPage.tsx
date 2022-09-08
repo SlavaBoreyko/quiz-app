@@ -21,6 +21,7 @@ import BtnEmail from '../components/Buttons/BtnEmail/BtnEmail';
 import FooterPolicy from '../components/Footers/FooterPolicy';
 import SubcriptionCard from '../components/Profile/TestCard/SubcriptionCard/SubcriptionCard';
 import TestCardLock from '../components/Profile/TestCard/TestCardLock/TestCardLock';
+import BloggerNoTest from '../components/Bloggers/BlogerTestList/BloggerNoTest';
 
 const BloggerPage = () => {
   const params = useParams();
@@ -176,7 +177,7 @@ const BloggerPage = () => {
           height={'8rem'} 
         />
       )} */}
-      { testList ? testList.map((test, index) => (
+      { testList?.length ? testList?.map((test, index) => (
 
         (test.type && test.type === 'game') ? (
           <TestCardLock
@@ -252,13 +253,7 @@ const BloggerPage = () => {
           />
         )
       )) : (
-        <Skeleton     
-          sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
-          variant="rounded"  
-          animation="wave"  
-          width={'100%'} 
-          height={'15rem'} 
-        />
+        <BloggerNoTest />
       )}
       <FooterPolicy language={language} />
     </Container>
