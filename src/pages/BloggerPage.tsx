@@ -104,6 +104,9 @@ const BloggerPage = () => {
           email: user.email,
           // timestamp: serverTimestamp()
         });
+        if(blogger?.id){
+          following({ id: blogger.id, value: 1 });
+        }
       }
       navigate('/divertito');
     } catch (error) {
