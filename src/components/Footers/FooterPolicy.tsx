@@ -15,16 +15,16 @@ const FooterPolicy: FC<FooterPolicyProps> = ({
       alignSelf: 'flex-end',
     }}
   >
-    {(language === 'or') ? 
-      <> 
-            *Пользуясь сайтом, вы принимаете правила
-        <a  href={require('../../assets/pdf/privacy-policy.pdf')} target='_blank'
-          style={{
-            color: '#adb5bdd2',
-          }}
-        > Политики конфиденциальности.</a>
-      </> :
-      <>
+    {(language === 'ua') ? 
+      // <> 
+      //       *Пользуясь сайтом, вы принимаете правила
+      //   <a  href={require('../../assets/pdf/privacy-policy.pdf')} target='_blank'
+      //     style={{
+      //       color: '#adb5bdd2',
+      //     }}
+      //   > Политики конфиденциальности.</a>
+      // </> :
+      (<>
         <span> *Користуючись сайтом, ви приймаєте правила</span>
         <a href={require('../../assets/pdf/privacy-policy.pdf')} target='blank'
           style={{
@@ -32,6 +32,16 @@ const FooterPolicy: FC<FooterPolicyProps> = ({
           }}
         > Політики конфіденційності.</a>
       </>
+      ) : (
+        <>
+        <span> *Korzystając z serwisu akceptujesz zasady</span>
+        <a href={require('../../assets/pdf/privacy-policy.pdf')} target='blank'
+          style={{
+            color: '#adb5bdd2',
+          }}
+        > Polityki Prywatności.</a>
+      </>
+      )
     }
   </div>
 );

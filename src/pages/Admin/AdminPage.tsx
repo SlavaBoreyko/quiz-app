@@ -17,6 +17,7 @@ export const InitialStyte = {
   testName: {
     ua: '',
     or: '',
+    pl: '',
   },
   blogger: {
     id: '',
@@ -24,6 +25,7 @@ export const InitialStyte = {
     name: {
       ua: '',
       or: '',
+      pl: '',
     },
   },
   cover: '',
@@ -35,8 +37,9 @@ export const InitialStyte = {
 
 const QuestionInitState = {
   question: {
+    pl: '',
     ua: '',
-    or: ''
+    or: '',
   },
   img: '',
   answers: [],
@@ -147,17 +150,10 @@ const AdminPage = () => {
     if(pageForm > 0) {
       await addTest(saveTest);
     }
-
   };
 
   const clearForm = () => {
     setQuestion({...QuestionInitState});
-
-    // This cleans state some strange way before setQuestionArray 
-    // setAnswersArray((prev) => {
-    //     [...prev].map((item) => {item.points = 0; item.answer = ''; return item})
-    //     return prev;
-    // })
 
     setAnswersArray(
       [

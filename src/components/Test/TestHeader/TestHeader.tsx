@@ -46,13 +46,13 @@ const TestHeader = () => {
                   {/* <span className={s.bloggerName}>{t('bloggerName')}</span> */}
                   <Link to={`/${testData.blogger.id}`}>
                     <span className={s.bloggerName}>
-                      {(language && language === 'or') ? testData.blogger.name.or : testData.blogger.name.ua}
+                      {(language === 'ua') ? testData.blogger.name.ua : testData.blogger.name.pl}
                     </span>
                   </Link>
                 </div>
                 {/* <span className={s.testName}>{t('testName')}</span> */}
                 <span className={s.testName}>
-                  {(language && language === 'or') ? testData.testName.or : testData.testName.ua}
+                  {(language === 'ua') ? testData.testName.ua : testData.testName.pl}
                 </span> 
               </div>
             </div>

@@ -77,7 +77,7 @@ const TestPage: FC<TestPageProps> = () => {
 
   const { data: test }  = useFetchTestQuery(params.id!);
 
-  const [language, setLanguage] = useState('ua');
+  const [language, setLanguage] = useState('pl');
   useEffect(() => {
     if(localDemoTest) {
       const demoTestParsed = JSON.parse(localDemoTest);

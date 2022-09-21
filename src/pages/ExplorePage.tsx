@@ -151,14 +151,14 @@ const ExplorePage = () => {
                 key={blogger.id}
                 id={blogger.id}
                 avatar={blogger.avatar}
-                name={(language === 'or') ? blogger.name.or  : blogger.name.ua}
+                name={(language === 'ua') ? blogger.name.ua : blogger.name.pl}
                 
                 mainBlogFollowers={blogger.mainBlog.followers}
                 mainBlogSoc={blogger.mainBlog.soc}
 
                 followers={blogger.followers}
                 passedTests={blogger.passedTests}
-                topics={(language === 'or') ? blogger.topics.or  : blogger.topics.ua}
+                topics={(language === 'ua') ? blogger.topics.ua : blogger.topics.pl}
                 language={language}
 
                 // followHandler={followHandler}
@@ -182,17 +182,17 @@ const ExplorePage = () => {
             { (testsListForMen) ? testsListForMen.map((test) => (
               <TestCardOpen
                 key={test.id}
-                testName={(language === 'or') ? test.testName.or : test.testName.ua}
+                testName={(language === 'ua') ? test.testName.ua : test.testName.pl}
                 cover={test.cover}
                 bloggerId={test.blogger.id}
-                bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
+                bloggerName={(language === 'ua') ? test.blogger.name.ua : test.blogger.name.pl}
                 bloggerAvatar={test.blogger.avatar}
                 footerText={
                   (test.payment === 'free' && userState.id) ? 
-                    `${(language === 'or') ? 'Вопросов: ' : 'Питань: '} ${test.qLength}` :
+                    `${(language === 'ua') ? 'Питань:  ' : 'Pytań: '} ${test.qLength}` :
                     (test.payment !== 'free' && userState.id) ? 
-                      `${(language === 'or') ? 'Платный тест ' : 'Платний тест '}` :
-                      `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
+                      `${(language === 'ua') ? 'Платний тест ' : 'Płatny test '}` :
+                      `${(language === 'ua') ? 'Вхід через email' : 'Zaloguj się'}`
                 }
                 onClick={
                   (test.payment === 'free' && userState.id) ? () => navigate(`/test/${test.id}/1`) : 
@@ -202,7 +202,7 @@ const ExplorePage = () => {
                 button={(test.payment === 'free' && userState.id) ? <ButtonPlay width={'22%'}/> : 
                   (test.payment !== 'free' && userState.id) ? 
                     <ButtonPrice 
-                      price={test.price} 
+                    currency={test.currency}  
                       onClick={(e: any) => {
                         e.stopPropagation();
                         openInNewTab(test.payment);
@@ -230,14 +230,14 @@ const ExplorePage = () => {
                 key={blogger.id}
                 id={blogger.id}
                 avatar={blogger.avatar}
-                name={(language === 'or') ? blogger.name.or  : blogger.name.ua}
+                name={(language === 'ua') ? blogger.name.ua : blogger.name.pl}
                 
                 mainBlogFollowers={blogger.mainBlog.followers}
                 mainBlogSoc={blogger.mainBlog.soc}
 
                 followers={blogger.followers}
                 passedTests={blogger.passedTests}
-                topics={(language === 'or') ? blogger.topics.or  : blogger.topics.ua}
+                topics={(language === 'ua') ? blogger.topics.ua : blogger.topics.pl}
                 language={language}
 
                 // followHandler={followHandler}
@@ -261,17 +261,25 @@ const ExplorePage = () => {
             { (testsListForGirls) ? testsListForGirls.map((test) => (
               <TestCardLock
                 key={test.id}
-                testName={(language === 'or') ? test.testName.or : test.testName.ua}
+                testName={(language === 'ua') ? test.testName.ua : test.testName.pl}
                 cover={test.cover}
                 bloggerId={test.blogger.id}
-                bloggerName={(language === 'or') ? test.blogger.name.or : test.blogger.name.ua}
+                bloggerName={(language === 'ua') ? test.blogger.name.ua : test.blogger.name.pl}
                 bloggerAvatar={test.blogger.avatar}
-                picsMini={(userState.id) ? test.picsMini : undefined}
-                footerText={(userState.id) ? `${(language === 'or') ? 'Фото: ' : 'Фото: '} ${test.qLength}` :
-                  `${(language === 'or') ? 'Вход через email' : 'Вхід через email'}`
+                // picsMini={(userState.id) ? test.picsMini : undefined}
+                picsMini={test.picsMini}
+                footerText={
+                  // (test.payment === 'free' && userState.id) ? 
+                  (test.payment === 'free') ? 
+                    `${(language === 'ua') ? 'Фото: ' : 'Zdjęcia: '} ${test.qLength}` :
+                    (test.payment !== 'free' && userState.id) ? 
+                      `${(language === 'ua') ? 'Платный тест ' : 'Płatny test '}` :
+                      `${(language === 'ua') ? 'Вход через email' : 'Zaloguj się'}`
                 }
-                onClick={(userState.id) ? () => navigate(`/game/${test.id}/1`) : onGoogleClick }
-                button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnEmail />} 
+                // onClick={(userState.id) ? () => navigate(`/game/${test.id}/1`) : onGoogleClick }
+                // button={(userState.id) ? <ButtonPlay width={'22%'}/> : <BtnEmail />} 
+                onClick={() => navigate(`/game/${test.id}/1`)}
+                button={<ButtonPlay width={'22%'}/>} 
               />
             )) : Array.apply(null, Array(4)).map((item, index) => (
               <Skeleton 

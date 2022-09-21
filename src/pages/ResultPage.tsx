@@ -151,7 +151,7 @@ const ResultPage = () => {
             <ButtonTextIcon 
               caption={(language === 'or') ? 'Пройти тест еще раз' : 'Пройти тест ще раз'} 
               icon={IconReset} 
-              onClick={() => navigate(`/test/${params.id}`) }
+              onClick={() => navigate(`/test/${params.id}/1`) }
             />
           )}
           {(!userState.email) && (!gameMode) && (

@@ -6,13 +6,17 @@ export interface PropsChildren {
     children: React.ReactNode | React.ReactNode[];
     img?: string;
     justifyContent?: string;
+    alignItems?: string;
     backgroundColor?: string;
     locked: boolean;
     fullScreen?: boolean;
 }
 
 const Container:FC<PropsChildren> = ({
-  children, justifyContent, img,
+  children, 
+  justifyContent, 
+  alignItems,
+  img,
   backgroundColor,
   locked,
   fullScreen
@@ -20,6 +24,7 @@ const Container:FC<PropsChildren> = ({
   <div className={s.containerBack} 
     style={{ 
       justifyContent: `${justifyContent}`,
+      alignItems: `${alignItems}`,
       backgroundColor: `${locked ? '#000000cb' : backgroundColor}`,
     }} 
   >

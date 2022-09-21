@@ -1,10 +1,11 @@
 @import "../../../style/variables.scss";
 
 .headerProfile {
+    position: relative;
     // margin from Logo
-    margin: 1rem 0 0rem 0;
+    // margin: 1rem 0 0rem 0;
     // for nav share btn
-    margin-top: -5.5rem;
+    margin-top: -0.5rem;
     display: flex;
     width: 100%;
     
@@ -39,6 +40,8 @@
     flex-shrink: 0;
 }
 .name {
+    margin-top: 0.25rem;
+
     text-align: left;
     font-size: 1.8rem;
     font-weight: 900;
@@ -48,8 +51,7 @@
 }
 
 .details {
-    // width: 100%;
-    margin-top: 3rem;
+    margin-top: 2rem;
     font-size: 1.4rem;
     color: #adb5bd;
     // color: $colorAccentOrange;

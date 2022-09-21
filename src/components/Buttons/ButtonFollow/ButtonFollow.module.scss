@@ -1,14 +1,14 @@
 @import "../../../style/variables.scss";
 
-.btnFollow,
-.btnFollowing  {
-    // margin: 0 0 1.5rem 1rem;
-    // margin: 0 0 0.5rem 1rem;
+.btnFill,
+.btnUnfill  {
+    position: relative;
     margin: 1rem 0 0 0;
 
     cursor: pointer;
     display: flex;
     justify-content: center;
+    // justify-content: flex-start;
     align-items: center;
     flex-shrink: 0;
     
@@ -16,12 +16,13 @@
     font-size: 1.2rem;
     font-weight: 700;
     color: #212529;
-    padding: 0.5rem 2rem;
+    // padding: 0.5rem 2rem;
+    padding: 0.5rem 1.5rem;
     // padding: 0.75rem 2.5rem;
     // font-size: 1.4rem;
 
     // height: 100%;
-    // width: 100%;
+    width: 100%;
 
     background-color: $colorAccentOrange;
     border: 1px solid $colorAccentOrange;
@@ -42,14 +43,91 @@
     //     font-size: 1.4rem;
     //     padding: 0.75rem 2rem;
     // }
+
+    // transform: translateZ(0);
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
-.btnFollowing {
+.btnUnfill {
     background-color: transparent;
     color: $colorAccentOrange;
 
     &:hover {
-        // background-color: $backColorTransparent;
+        background-color: $backColorTransparent;
         transition: all 200ms;
+    }
+}
+
+.sizeBig {
+    position:relative; 
+    font-size: 1.6rem;
+    padding: 1rem 1rem;
+    // border-radius: 6rem;
+    border-radius: 0.5rem;
+
+    &:hover {
+        background-color: $colorAccentOrange;
+        color: #212529;
+    }
+    transform: translateZ(0);
+    overflow: hidden;
+}
+
+.divWidth {
+    position: relative;
+    // width: 20rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.divCenter {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-left: 1px solid #212529;
+}
+.icon {
+    height: 4rem;
+    width: 4rem;
+    flex-shrink: 0;
+    object-fit: cover;
+    object-position: center center;
+
+    border: 1px solid #212529;
+    border-radius: 50%;
+    padding: 0.5rem;
+    margin-right: 2rem;
+}
+
+.glareAnimate::after {
+    content: '';
+    position: absolute;
+    will-change: transform; 
+    // width: 80%;
+    border-radius: 6rem;
+    top: -50%;
+    right: -50%;
+    bottom: -50%;
+    left: -50%;
+    background: linear-gradient(to bottom, rgba(229, 172, 142, 0), rgba(255,255,255,0.5) 50%, rgba(229, 172, 142, 0));
+    transform: rotateZ(60deg) translate(-5em, 7.5em);
+
+    // transform: rotateZ(60deg) translate(-1em, 4em);
+    
+}
+  
+.glareAnimate:after, .glareAnimate:after { 
+    animation: sheen 2s forwards;
+    animation-iteration-count:infinite;
+     animation-fill-mode: forwards; 
+}
+  
+@keyframes sheen {
+    100% {
+      transform: rotateZ(60deg) translate(1em, -9em);
+    //   transform: rotateZ(60deg) translate(1em, -8em);
     }
 }

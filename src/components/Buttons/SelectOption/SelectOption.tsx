@@ -1,7 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import s from './SelectOption.module.scss';
 
 export interface SelectOptionParams {
+    size?: 'big-coin' | 'big' | 'middle' | 'small';
+    color?: string;
     onChange: React.ChangeEventHandler<HTMLSelectElement>;
     options: {
         // value: ReactI18NextChild | Iterable<ReactI18NextChild>;
@@ -9,24 +11,49 @@ export interface SelectOptionParams {
         icon: string;
         title: string;
     }[];
-    language: string
+    selected: string;
 }
 
 const SelectOption: FC<SelectOptionParams> = ({
+  size = 'small',
+  color,
   onChange,
   options,
-  language
-}) => (
-  <select className={s.selectOption} name="language" onChange={onChange} value={language}>
-    {   
-      options.map((option) => 
-        (<option key={option.value} value={option.value} > 
-          {/* selected={language === option.value}  */}
-          {`${option.icon} ${option.title}`}
-        </option>)
-      )
+  selected,
+}) => {
+  const [selectOptionStyle, setSelectOptionStyle] = useState(s.selectOption);
+  const [coinBorderStyle, setCoinBorderStyle] = useState('');
+
+  useEffect(() => {
+    switch(size) {
+    case 'small': 
+      setSelectOptionStyle(s.selectOption);
+      break;
+    case 'big-coin': 
+      setSelectOptionStyle(s.selectOptionBigCoin);
+      setCoinBorderStyle(s.coinBorderBig);
+      break;
     }
-  </select>
-);
+  }, [size]);
+
+  return (
+    <div className={coinBorderStyle}>
+      <select className={selectOptionStyle} 
+        onChange={onChange} 
+        value={selected}
+        style={color ? { color: `${color}`} : {}}
+      >
+        {   
+          options.map((option, index) => 
+            (<option key={index} value={option.value}> 
+              {/* selected={language === option.value}  */}
+              {option.icon !== '' ? `${option.icon} ${option.title}` :
+                `${option.title}`}
+            </option>)
+          )
+        }
+      </select>
+    </div>
+  );};
 
 export default SelectOption;

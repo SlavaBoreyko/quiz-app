@@ -3,11 +3,15 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { 
   doc, collection, getDoc, 
   addDoc, query, where, 
-  getDocs, setDoc 
+  getDocs, setDoc, updateDoc 
 } from 'firebase/firestore';
 import { db } from '../../firebase.config';
 import { TestCardType, TestType, VerdictListType } from '../../types/test.types';
 
+export interface updateCard {
+  docId: string;
+  cardData: TestCardType;
+}
 
 export const testApi = createApi({
   reducerPath: 'testApi',
@@ -60,7 +64,13 @@ export const testApi = createApi({
             // orderBy("desc"),
           );
           const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((doc) => arrayTests.push(doc.data()));
+          querySnapshot.forEach((doc) => {
+            const Data = doc.data();
+            arrayTests.push({ 
+              ...Data,
+              docId: doc.id,
+            });
+          });
 
           // setListings((prevState) => [...prevState, ...listingsList])
           return { data: arrayTests};
@@ -93,6 +103,32 @@ export const testApi = createApi({
 
       },
       providesTags: ['TestCard'],                 
+    }),
+    createTestCard: builder.mutation<any, TestCardType>({
+      async queryFn(cardData) {
+        try {
+          const docRef = await addDoc(collection(db, "testsCards"), {
+            ...cardData
+          });
+          return { data:  {id: docRef.id}};
+        } catch(err) {
+          return { error: err };
+        }
+      },     
+      invalidatesTags: ['TestCard'],           
+    }),
+    updateTestCard: builder.mutation<any, updateCard>({
+      async queryFn({docId, cardData}) {
+        try {
+          const docRef = doc(db, 'testsCards', docId);
+          console.log('updateTestCard redux',{...cardData,});
+          await setDoc(docRef, {...cardData,});
+          return { data:  'Updated success'};
+        } catch(err) {
+          return { error: err };
+        }
+      },      
+      invalidatesTags: ['TestCard'],          
     }),
     addTest: builder.mutation<any, TestType>({
       async queryFn(data) {
@@ -131,4 +167,6 @@ export const {
   useFetchTestsCardByAudienceQuery,
   useFetchTestsByBloggerIdQuery,
   useFetchTestsCardsByListIdQuery,
+  useCreateTestCardMutation,
+  useUpdateTestCardMutation,
 } = testApi; 

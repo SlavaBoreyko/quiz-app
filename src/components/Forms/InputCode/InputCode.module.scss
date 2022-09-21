@@ -1,0 +1,98 @@
+@import "../../../style/variables.scss";
+
+.codeInput {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    z-index: 100;
+    // for FRAME BORDER
+    background-color: #212529;
+    padding: 0 0.5rem;
+}
+.codeLabel {
+    text-align: center;
+    width: 100%;
+
+    color:  #4f5b66;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+.codeInputs,
+.codeInputsInvalid,
+.codeInputsValid {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.codeInputs input,
+.codeInputsInvalid input,
+.codeInputsValid input {
+    border: none;
+    background-image: none;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    text-align: center;
+    height: 4.5rem;
+    width: 3.6rem;
+    border-radius: 0.5rem;
+    margin: 0 0.2rem;
+    border: 2px solid #4f5b66ae;
+    background-color: #17191ca9;
+    font-size: 2.6rem;
+    color: #57626c;
+}
+
+.codeInputsInvalid input {
+    color: #ed0909;
+    border: 2px solid #bb1010bd;
+}
+.codeInputsValid input {
+    color: $colorAccentOrange;
+}
+
+
+.codeLockIcon {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    height: 4.5rem;
+    width: 3.6rem;
+    border-radius: 0.5rem;
+    margin: 0 0.2rem;
+    // border: 2px solid #4f5b66ae;
+    // background-color: #17191ca9;
+    background-color: #4f5b66ae;
+    // padding: 3px;
+}
+
+.icon {
+    width: 3rem;
+}
+
+.invalid {
+    background-color: #bb1010;
+}
+.valid {
+    background-color: $colorAccentOrange;
+}
+
+
+.codeInputs input:focus,
+.codeInputsInvalid input:focus,
+.codeInputsValid input:focus {
+    outline: none;
+}
+
+
+.codeInputs input:nth-child(4),
+.codeInputsInvalid input:nth-child(4),
+.codeInputsValid input:nth-child(4) {
+    margin-right: 1.5rem;
+}

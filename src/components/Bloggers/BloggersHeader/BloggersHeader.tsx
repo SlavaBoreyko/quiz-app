@@ -4,6 +4,10 @@ import s from './BloggersHeader.module.scss';
 import HtmlParser from 'html-react-parser'; 
 import ButtonFollow from '../../Buttons/ButtonFollow/ButtonFollow';
 import convertFollowersToK from '../../../utils/convertFollowersToK';
+import ButtonNav from '../../Buttons/ButtonNav/ButtonNav';
+
+import editIcon from '../../../assets/svg/navigation/edit-pencil-2.svg';
+import { useLocation } from 'react-router-dom';
 
 export interface BloggersHeaderProps {
     id: string;
@@ -22,7 +26,11 @@ export interface BloggersHeaderProps {
 
     followHandler: any;
     followingState: boolean;
+
+    isBloggerProfile: boolean;
+    setEditMode: any;
 }
+
 
 const BloggersHeader: FC<BloggersHeaderProps> = ({
   id,
@@ -41,56 +49,71 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
 
   followHandler,
   followingState,
-}) => {    
-  const [followingStateLocal, setFollowingStateLocal] = useState<boolean>(false);
 
+  isBloggerProfile,
+  setEditMode,
+}) => {    
+  const { pathname } = useLocation();
+  const [editPathname, setEditPathname] = useState<boolean>(false);
+
+  const [followingStateLocal, setFollowingStateLocal] = useState<boolean>(false);
   useEffect(() => {
+    if(pathname.split('/')[2] === 'edit') setEditPathname(true);
     setFollowingStateLocal(followingState);
-  }, [followingState]);
+  }, [followingState,pathname]);
 
   return (
     <>
       <header className={s.headerProfile} 
+        style={isBloggerProfile ? {
+          marginTop: '0',
+          paddingTop: '0',
+        } : {}}
       >
         <img className={s.avatar} src={avatar} alt='Avatar'/>
-        {/* <div className={s.containerDiv}>
-                <p className={s.details}>@{id}</p>
-                <h1 className={s.name}>{name}</h1>
-            </div>   */}
         <div
           style={{
             display: 'flex',
             width: '100%',
+            height: '14.5rem',
             flexDirection: 'column', 
+            justifyContent: isBloggerProfile ? 'space-between' : 'flex-end',
           }}
-        >
+        > 
           <div
             style={{
-              // marginTop: '0.5rem',
-              // marginBottom: '0.5rem',
               display: 'flex',
               width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
+              justifyContent: 'flex-end',
             }}
           >   
+            {(isBloggerProfile) && (
+              <ButtonNav 
+                icon={editIcon}
+                onClick={() => setEditMode(true)}
+                optionClass={'share'}
+                optionLabel={'Edit'}
+              />
+            )}
+          </div>
+          <div style={{ marginBottom: '0.5rem'}}>   
             <p className={s.details}>@{id}</p>
-    
+            <h1 className={s.name}>{name}</h1>
           </div>
                 
-          <h1 className={s.name}>{name}</h1>
-          <ButtonFollow 
-            caption={followingStateLocal ? 'Following' : '+ Follow'}
-            onClick={() => {
-              setFollowingStateLocal((prev) => !prev);
-              (followingState) ?
-                followHandler('unfollow') :
-                followHandler('follow');
-            }}
-          />
-        </div>
-            
-                    
+          {(!isBloggerProfile && !editPathname) && (
+            <ButtonFollow 
+              fill={followingStateLocal ? false : true}
+              caption={followingStateLocal ? 'Following' : '+ Follow'}
+              onClick={() => {
+                setFollowingStateLocal((prev) => !prev);
+                (followingState) ?
+                  followHandler('unfollow') :
+                  followHandler('follow');
+              }}
+            />
+          )}
+        </div>     
       </header>
 
       <div className={s.containerNumbers}>
@@ -101,18 +124,17 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
               target="_blank" 
               rel="noopener noreferrer"
             >
-                    
               <p className={s.fontGold}>{mainBlogName}</p> 
             </a>
           </div>
           <div className={s.marginTop} >
             {/* Each child in a list should have a unique "key" prop. */}
             {/* <p>{(language === 'or') ? ['Подписчиков', <br/>, 'в TestRoom'] : ['Підписників', <br/>, 'в TestRoom']}</p> */}
-            <p>{(language === 'or') ? HtmlParser('Подписчиков <br/>в TestRoom') : HtmlParser('Підписників <br/>в TestRoom')}</p>
+            <p>{(language === 'ua') ?  HtmlParser('Підписників <br/>в TestRoom') : HtmlParser('Abonenci <br/>w TestRoom')}</p>
                     
           </div>
           <div className={s.marginTop}>
-            <p>{(language === 'or') ? HtmlParser('Пройденных<br/>тестов') : HtmlParser('Пройдених<br/>тестів')}</p>
+            <p>{(language === 'ua') ? HtmlParser('Пройдених<br/>тестів') : HtmlParser('Testy zdane')}</p>
           </div>
 
           <a 
@@ -126,6 +148,7 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
             <div className={s.socBox}>
               <img className={s.socIcon} src={require(`../../../assets/svg/socIcon/${mainBlogSoc}.svg`)} alt={'YouTube'}/>
               <span className={s.numberGold}>{convertFollowersToK(mainBlogFollowers)}K</span>
+              {/* <span className={s.numberGold}>{mainBlogFollowers}K</span> */}
             </div>
           </a>
             
@@ -139,7 +162,11 @@ const BloggersHeader: FC<BloggersHeaderProps> = ({
         </div>
             
       </div>
-      {(description !== '') && (<p className={s.details}>{description}</p>)}
+      {(description !== '') && (
+        <p className={s.details} style={{ width: '100%', textAlign: 'left'}}>
+          {description}
+        </p>
+      )}
       <div
         style={{
           marginBottom: '1rem',

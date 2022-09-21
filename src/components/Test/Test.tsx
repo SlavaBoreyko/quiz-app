@@ -27,10 +27,12 @@ export interface TestProps {
   backBtnToggle: boolean;
 
   bloggerName: {
+    pl: string;
     ua: string;
     or: string;
   };
   testName:  {
+    pl: string;
     ua: string;
     or: string;
   };
@@ -60,17 +62,6 @@ const Test: FC<TestProps> = ({
 
   language
 }) => {
-  
-  // const {pathname} = useLocation();
-  // const params = useParams();
-  // const [questionNum, setQuestionNum] = useState(1);
-  // const [question, setQuestion] = useState(questions[0]);
-
-  // useEffect(() => {
-  //   params.numPage && setQuestionNum(+params.numPage);
-  //   params.numPage && setQuestion(questions[+params.numPage]);
-
-  // },[params.numPage]);
    
   // const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
   // const { t } = useTranslation();
@@ -144,7 +135,7 @@ const Test: FC<TestProps> = ({
       />
       <ProgressBar 
         // question={t('question')}
-        question={question.question.ua}
+        question={(language === 'ua') ? question.question.ua : question.question.pl}
         amountQA={length}
         current={questionNum + 1} 
         nextIcon={nextIcon}
@@ -155,7 +146,7 @@ const Test: FC<TestProps> = ({
           key={index} 
           index={index}
           // text={t(`answer.${index}`)}
-          text={(language && language === 'or') ? variant.answer.or : variant.answer.ua}
+          text={(language === 'ua') ? variant.answer.ua : variant.answer.pl}
           value={variant.points}
           reaction={variant.reaction}
           setReactionSrc={setReactionSrc}

@@ -6,6 +6,9 @@ import iconLock from '../../../../assets/svg/lock.svg';
 import TestCard from '../TestCard';
 
 export interface TestCardLockProps {
+    editMode?: boolean;
+    docId?: string;
+
     onClick: MouseEventHandler<HTMLDivElement>;
     cover: string;
     bloggerId: string; 
@@ -15,10 +18,14 @@ export interface TestCardLockProps {
 
     picsMini: string[] | undefined;
     footerText: string;
+    price?: number;
     button?: any;
 }
 
 const TestCardLock: FC<TestCardLockProps> = ({
+  editMode,
+  docId,
+
   onClick,
   cover,
   bloggerId,
@@ -28,6 +35,7 @@ const TestCardLock: FC<TestCardLockProps> = ({
   testName, 
   picsMini,
   footerText,
+  price,
   button
 }) => {
 
@@ -46,9 +54,13 @@ const TestCardLock: FC<TestCardLockProps> = ({
     }
   }, [refIconLock.current]);
 
+  console.log('testcardlock docId', docId);
   return (
     <TestCard 
+      editMode={editMode}
+      docId={docId}
       onClick={onClick}
+      coverUrl={cover}
       coverImage={
         <>
           <div ref={refIconLock} className={s.iconLock} />
@@ -79,6 +91,7 @@ const TestCardLock: FC<TestCardLockProps> = ({
       ) : (
         <>{footerText}</>
       )}
+      price={price ? price : undefined}
       buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 
     />
   );

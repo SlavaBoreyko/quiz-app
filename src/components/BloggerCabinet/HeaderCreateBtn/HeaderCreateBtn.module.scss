@@ -1,0 +1,9 @@
+.headerContainerBorderTop {
+    margin-top: 1rem;
+    // padding: 0.5rem 0;
+    display: grid; 
+    grid-template-columns: 14.5rem 1fr;
+    width: 100%;
+    // column-gap: 2rem;
+    border-top: 1px solid #adb5bd1c;
+}

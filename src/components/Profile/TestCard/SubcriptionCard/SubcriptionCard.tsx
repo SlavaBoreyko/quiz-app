@@ -11,7 +11,7 @@ export interface SubcriptionCardProps {
 
   footerText: string;
 
-  price: string;
+  price: number;
   // onClick: MouseEventHandler<HTMLDivElement> | undefined; 
 }
 
@@ -61,7 +61,7 @@ const SubcriptionCard: FC<SubcriptionCardProps> = ({
                   {HtmlParser(footerText)}
                 </div>
                 {/* Radius 24% must be equal to other circle elements for Balance */}
-                <ButtonPrice price={price} onClick={onClick}/>
+                <ButtonPrice currency={'USD'} onClick={onClick}/>
               </div>
             </div>
           </div>

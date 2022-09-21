@@ -27,6 +27,8 @@ import { useEffect } from "react";
 import BloggerPage from "./pages/BloggerPage";
 import ExplorePage from "./pages/ExplorePage";
 import PicFullscreen from "./components/XT/PicFullscreen/PicFullscreen";
+import SignUpPage from "./pages/SignUpPage";
+import BloggerCreatePage from "./pages/BloggerCreatePage";
 const TRACKING_ID = "G-X99CC06EWN"; 
 ReactGA.initialize(TRACKING_ID);
 
@@ -43,12 +45,13 @@ function App() {
         <Routes>
           <Route path='/' element={<AuthWrapper />} >
 
-            {["/", "/sign-in"].map((path, index) => 
+            {["/"].map((path, index) => 
               <Route path={path} element={<Navigate replace to="/explore/men/tests" />} key={index} />
             )}
 
             {/* BLOGGER PAGES */}
             <Route path='/:id' element={<BloggerPage />} />
+            <Route path='/:id/edit' element={<BloggerPage />} />
 
             {/* EXPLORE */}
             <Route path='/explore' element={<Navigate replace to="/explore/men/tests" />} />
@@ -70,9 +73,13 @@ function App() {
             </Route>  
 
             <Route path='/developer' element={<DeveloperPage />}/>
+
             
             {/* <Route path='/privacy' element={<PrivacyPolicy />}/> */}
             {/* <Route path='/admin' element={<AdminPage />}/> */}
+            
+            <Route path='/sign-up' element={<SignUpPage />}/>
+            <Route path='/create' element={<BloggerCreatePage />}/>
           </Route> 
         </Routes>
       </Router>

@@ -2,6 +2,7 @@
 // Compound Test Type: 
 export interface AnswerTestType {
     answer: {
+        pl: string;
         ua: string;
         or: string
     }; 
@@ -11,6 +12,7 @@ export interface AnswerTestType {
 }
 export interface QuestionTestType {
     question: {
+        pl: string;
         ua: string;
         or: string
     }; 
@@ -22,14 +24,16 @@ export interface SimpleBloggerType {
     id: string;
     avatar: string;
     name: {
+        pl: string;
         ua: string;
-        or: string
+        or: string;
     }; 
 }
 export interface BloggerBigType {
     id: string;
     avatar: string;
     mainBlog: {
+        pl: string;
         ua: string;
         or: string;
         soc: string; //insta, youtube,tiktok
@@ -37,14 +41,17 @@ export interface BloggerBigType {
         link: string; 
     }
     name: {
+        pl: string;
         ua: string;
         or: string;
     }; 
     description: {
+        pl: string;
         ua: string;
         or: string;
     }; 
     topics: {
+        pl: string;
         ua: string;
         or: string;
     }
@@ -53,11 +60,33 @@ export interface BloggerBigType {
     passedTests: number;
 }
 
+export interface CreateBloggerType {
+    avatar: string;
+    id: string;
+    userId: string;
+    userEmail: string;
+    name: {
+        pl: string;
+    }; 
+    mainBlog: {
+        soc: string; 
+        followers: number | string;
+        link: string; 
+    }
+    description: {
+        pl: string;
+    }; 
+    // topics: {
+    //     pl: string;
+    // }
+}
+
 export interface TestType {
     id: string;
     testName: {
+        pl: string;
         ua: string;
-        or: string
+        or: string;
     }; 
     blogger: SimpleBloggerType;
     cover: string;
@@ -68,20 +97,24 @@ export interface TestType {
 }
 
 export interface TestCardType {
+    docId: string;
     id: string;
     published: boolean;
     audience: string[];
     cover: string;
     blogger: SimpleBloggerType;
     testName: {
+        pl: string;
         ua: string;
         or: string
     }; 
     qLength: number;
     payment: string;
-    price: string;
+    price: number;
+    currency: string;
+    // currency: 'USD' | 'PLN';
 
-    type?: 'game' | 'test';
+    type?: string;
     picsMini?: string[];
 }
 

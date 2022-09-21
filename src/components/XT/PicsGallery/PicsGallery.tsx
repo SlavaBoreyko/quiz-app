@@ -16,7 +16,7 @@ const PicsGallery: FC<PicsGalleryProps> = ({
   const {pathname} = useLocation();
 
   return (
-    <div className={s.gridGallery}>
+    <div className={s.gridGallery} >
       <div className={s.gridGallery} style={{
         position: 'absolute',
         cursor: 'pointer',

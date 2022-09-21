@@ -5,35 +5,25 @@
 }
 
 .btn {
-    // background: none;
     position: relative;
     cursor: pointer;
-    border: none;
-    
-    width: var(--sizeBtnPlay);
-    padding-top: var(--sizeBtnPlay);
 
-    border-radius: 50%; 
-    display: grid;
-    place-items: center;
-    background-color: #343a40;
+    // safari my iphone bugs fixed-1:
+    display: flex;
     flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%; 
+    border: 1px solid #343a40;
+    background-color: #1a1e21; 
+    border: 1px solid $colorAccentOrange;
 
-
-    &:hover,
-    &:active {
-        // background-color: #3bc8db8f;
-        background-color: $colorAccentOrange;
-    }
-    
-    &:before {
-        content: '';
-        position: absolute;
-        height: 95%;
-        width: 95%;
-        background-color: #1a1e21;
-        border-radius: 50%;
-    }
+    // &:hover,
+    // &:active {
+    //     border: 1px solid $colorAccentOrange;
+    // }
 
     .goldFont {
         position: absolute;
@@ -41,7 +31,7 @@
         left: 50%;
         transform: translate(-50%,-50%);
  
-        font-size: 1.4rem;
+        font-size: 1.8rem;
         font-weight: 700;
         color: $colorAccentOrange;
         z-index: 10;

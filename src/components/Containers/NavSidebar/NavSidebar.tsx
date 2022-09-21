@@ -7,20 +7,25 @@ import { toast } from 'react-toastify';
 
 import profileIcon from '../../../assets/svg/personIconActive.svg';
 import shareIcon from '../../../assets/svg/share-like-tik.svg';
+import editIcon from '../../../assets/svg/navigation/edit-pencil-2.svg';
 import logo from '../../../assets/svg/testroom-logo.svg';
 import TestHeader from '../../Test/TestHeader/TestHeader';
 import BtnRectangle from '../../Buttons/BtnRectangle/BtnRectangle';
 
 import useAnalyticsEventTracker from '../../hooks/useAnalyticsEventTracker';
 import SelectOption from '../../Buttons/SelectOption/SelectOption';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { addUserLanguage } from '../../../features/user/userSlice';
+import { RootState } from '../../../app/store';
+import { useFetchBloggerInUserQuery } from '../../../features/user/userApi';
 
 const NavSidebar = () => {
 
+  const userState = useAppSelector((state: RootState) => state.user);
+  const {data: dataBlogger} = useFetchBloggerInUserQuery(userState.id);
   const gaEventTracker = useAnalyticsEventTracker('Developer');
 
-  const { pathname } = useLocation();
+  const { pathname} = useLocation();
   const navigate = useNavigate();
 
   const linkCopy = () => {
@@ -48,15 +53,20 @@ const NavSidebar = () => {
   
   const languages = [
     {
-      value: 'ua',
-      icon: '🦁',
-      title: 'УКР',
+      value: 'pl',
+      icon: '🇵🇱',
+      title: 'PL',
     },
     {
-      value: 'or',
-      icon: '🐷',
-      title: 'ОРК',
+      value: 'ua',
+      icon: '🇺🇦',
+      title: 'UA',
     },
+    // {
+    //   value: 'or',
+    //   icon: '🐷',
+    //   title: 'ОРК',
+    // },
   ]; 
 
   return (
@@ -100,22 +110,28 @@ const NavSidebar = () => {
           </div>
         )
       }
+      <div 
+        style={{ 
+          marginBottom: '1rem',  
+          alignSelf: 'flex-end', 
+          justifySelf: 'flex-start',
+        }}>
+        <SelectOption 
+          onChange={onChangeLanguage}
+          options={languages}
+          selected={language ? language : 'pl'}
+        />
+      </div>
 
-      <SelectOption 
-        onChange={onChangeLanguage}
-        options={languages}
-        language={language ? language : 'ua'}
-      />
-
-      {(!['/profile'].includes(pathname)) && (
+      {(!['/sign-up','/create', '/profile', '/cabinet'].includes(pathname)) && (
         <div className={s.sideBarNav} >
-          <ButtonNav 
-            icon={profileIcon}
-            onClick={() => navigate('/profile')}
-          />
-          {/* Pages for Share Btn */}
-          
-          {/* {(pathname.split('/')[1] === 'test') && */}
+          {['test','game', 'explore'].includes(pathname.split('/')[1])
+            && (
+              <ButtonNav 
+                icon={profileIcon}
+                onClick={() => navigate('/profile')}
+              />
+          )}
           {( !['profile', 'explore'].includes(pathname.split('/')[1]) ) && (
             <ButtonNav 
               icon={shareIcon}
