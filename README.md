@@ -1,6 +1,6 @@
 # Quiz App for YouTubers
 
-### Live: testroom.com.ua/divertito 
+### Live: https://testroom.com.ua/divertito 
 
 <img width="1332" alt="Screenshot 2022-11-14 at 13 29 28" src="https://user-images.githubusercontent.com/53602597/201660343-04d0cea0-bcee-4d40-93b5-9a6c96d08499.png">
 
