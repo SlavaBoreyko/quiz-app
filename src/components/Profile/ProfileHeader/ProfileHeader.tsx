@@ -1,8 +1,9 @@
 /* eslint-disable arrow-body-style */
 import React, { FC } from 'react';
 import s from './ProfileHeader.module.scss';
-// import { getAuth } from 'firebase/auth';
-// import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import LogoutIcon from '../../../assets/svg/buttons/logout-1.svg';
 
 export interface ProfileHeaderProps {
     marginTop?: string;
@@ -18,12 +19,12 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
   name, 
   description, 
 }) => {
-//   const auth = getAuth();
-//   const navigate = useNavigate();
-//   const onLogout = () => {
-//     auth.signOut();
-//     navigate('/');
-//   };
+  const auth = getAuth();
+  const navigate = useNavigate();
+  const onLogout = () => {
+    auth.signOut();
+    navigate('/');
+  };
     
   return (
     <header className={s.headerProfile} 
@@ -40,7 +41,7 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
           {description}
         </div>
       </div>
-      {/* <div className={s.btnDiv}>
+      <div className={s.btnDiv}>
                 <button 
                     className={s.btnLogout}
                     type='button' 
@@ -48,7 +49,7 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
                 >
                 Logout <i><img src={LogoutIcon} alt='icon'/></i>
                 </button>
-            </div> */}
+            </div>
     </header>
   );
 };

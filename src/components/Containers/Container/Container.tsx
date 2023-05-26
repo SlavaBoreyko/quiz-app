@@ -3,40 +3,49 @@ import NavSidebar from '../NavSidebar/NavSidebar';
 import s from './Container.module.scss';
 
 export interface PropsChildren {
-    children: React.ReactNode | React.ReactNode[];
-    img?: string;
-    justifyContent?: string;
-    backgroundColor?: string;
-    locked: boolean;
-    fullScreen?: boolean;
+  children: React.ReactNode | React.ReactNode[];
+  img?: string;
+  justifyContent?: string;
+  alignItems?: string;
+  backgroundColor?: string;
+  locked: boolean;
+  fullScreen?: boolean;
 }
 
-const Container:FC<PropsChildren> = ({
-  children, justifyContent, img,
+const Container: FC<PropsChildren> = ({
+  children,
+  justifyContent,
+  alignItems,
+  img,
   backgroundColor,
   locked,
-  fullScreen
+  fullScreen,
 }) => (
-  <div className={s.containerBack} 
-    style={{ 
-      justifyContent: `${justifyContent}`,
+  <div
+    className={s.containerBack}
+    style={{
+      // justifyContent: `${justifyContent}`,
+      // justifyContent: 'center',
+      alignItems: `${alignItems}`,
       backgroundColor: `${locked ? '#000000cb' : backgroundColor}`,
-    }} 
+    }}
   >
     {/* <TestHeader /> */}
     <NavSidebar />
-    {
-      locked && ( <div className={s.iconLock} />) 
-    }
+    {locked && <div className={s.iconLock} />}
     {children}
-    {(img) && 
-          <img className={locked ? s.lockedImage :
-            fullScreen ? s.fullScreen : 
-              s.backImage} 
-          src={img} 
-          alt='Background illustration'
-          />
-    }
+    {img && (
+      <>
+        <div className={s.filterContainerImg}> </div>
+        <img
+          className={
+            locked ? s.lockedImage : fullScreen ? s.fullScreen : s.backImage
+          }
+          src={img}
+          alt="Background illustration"
+        />
+      </>
+    )}
   </div>
 );
 

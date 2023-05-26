@@ -1,19 +1,22 @@
 @import "../../../style/variables.scss";
 
 .headerProfile {
-    // margin from Logo
-    margin: 1rem 0 0rem 0;
-    // for nav share btn
-    margin-top: -5.5rem;
-    display: flex;
+    position: relative;
+    margin-top: -0.5rem;
     width: 100%;
+    // display: flex;
+    display: grid;
+    grid-template-columns: 4fr 6fr;
     
     justify-content: flex-start;
     align-items: flex-end;
     // align-items: flex-start;
     padding: 1rem 0 2rem 0;
-    // line
-    // border-bottom: 1px solid #adb5bd2b;
+
+    @media (min-width: 800px) {
+        grid-template-columns: 5fr 6fr 1fr;
+        column-gap: 2rem;
+    }
 
 }
 
@@ -39,6 +42,8 @@
     flex-shrink: 0;
 }
 .name {
+    margin-top: 0.25rem;
+
     text-align: left;
     font-size: 1.8rem;
     font-weight: 900;
@@ -48,8 +53,7 @@
 }
 
 .details {
-    // width: 100%;
-    margin-top: 3rem;
+    margin-top: 2rem;
     font-size: 1.4rem;
     color: #adb5bd;
     // color: $colorAccentOrange;
@@ -74,10 +78,15 @@
 }
 
 .numberDiv {
+    position: relative;
     display: grid;
     width: 100%;
-    // grid-template-columns: 1.5fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
+    @media (min-width: 800px) {
+        grid-template-columns: 3fr 3fr 3fr 1fr;
+        column-gap: 3rem;
+    }
+
     justify-items: center;
     // modification with numbers 3.3
     align-items: flex-end; 
@@ -85,6 +94,13 @@
     color: #adb5bd;
     // color: $colorAccentOrange;
     text-align: center;
+
+}
+.desktopFreeSpace {
+    display: none;
+    @media (min-width: 800px) {
+        display: flex;
+    }
 }
 
 .numberGold,
@@ -121,6 +137,8 @@
     margin-right: 1rem;
     // margin-top: 0.25rem;
     // margin-bottom: 0.5rem;
+
+    // width: 100%;
 }
 
 .start {
@@ -129,6 +147,8 @@
     height: 100%;
     align-self: center;
     margin-right: 1rem;
+
+
 }
 
 .marginTop {

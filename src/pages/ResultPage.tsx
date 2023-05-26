@@ -121,7 +121,7 @@ const ResultPage = () => {
           resultPoints={gameMode ? undefined : resultPoints}
           openAndLock={gameMode ? `${resultPoints}/${answersArray.length}` : undefined}
           setShowResult={setShowResult}
-          width={gameMode ? 40 : 50}
+          width={gameMode ? 16 : 20}
         /> : <></>
       }
       { (gameMode) && (
@@ -151,7 +151,7 @@ const ResultPage = () => {
             <ButtonTextIcon 
               caption={(language === 'or') ? 'Пройти тест еще раз' : 'Пройти тест ще раз'} 
               icon={IconReset} 
-              onClick={() => navigate(`/test/${params.id}`) }
+              onClick={() => navigate(`/test/${params.id}/1`) }
             />
           )}
           {(!userState.email) && (!gameMode) && (

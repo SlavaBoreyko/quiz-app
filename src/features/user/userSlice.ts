@@ -19,6 +19,11 @@ export interface UserState {
   answers: UserAnswersType | undefined; 
   language?: string;
   following?: string[];
+
+  blogger?: {
+    id: string;
+    nickname: string;
+  }
 }
 
 const userInitState: UserState = {
@@ -67,15 +72,13 @@ const userSlice = createSlice({
         state.following = payload;
       },
     );
+    builder.addMatcher(
+      userApi.endpoints.fetchBloggerInUser.matchFulfilled,
+      (state, { payload }) => {
+        state.blogger = payload;
+      },
+    );
   }
-  // (builder) => {
-  //     builder.addMatcher(
-  //         userApi.endpoints.fetchAnswers.matchFulfilled,
-  //         (state, { payload }) => {
-  //             state.answers = payload
-  //         },
-  //     )
-  // },
 });
 
 export const { setCurrentUser, addDemoAnswer, addUserLanguage } = userSlice.actions;

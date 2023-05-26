@@ -21,7 +21,8 @@ html {
 }
 
 body {
-    background: #171a1c;
+     // background: #171a1c;
+    background-color: #212529;
 }
 
 a,
@@ -30,4 +31,15 @@ a:active
  {
     text-decoration: none;
     // color: '#adb5bdaa' !important; 
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

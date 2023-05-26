@@ -1,117 +1,157 @@
-
-// Compound Test Type: 
+// Compound Test Type:
 export interface AnswerTestType {
-    answer: {
-        ua: string;
-        or: string
-    }; 
-    points: number;
-    reaction?: string;
-
+  answer: {
+    en: string;
+    pl: string;
+    ua: string;
+    or: string;
+  };
+  points: number;
+  reaction?: string;
 }
 export interface QuestionTestType {
-    question: {
-        ua: string;
-        or: string
-    }; 
-    img: string;
-    answers: AnswerTestType[];
+  question: {
+    en: string;
+    pl: string;
+    ua: string;
+    or: string;
+  };
+  img: string;
+  answers: AnswerTestType[];
 }
 
 export interface SimpleBloggerType {
-    id: string;
-    avatar: string;
-    name: {
-        ua: string;
-        or: string
-    }; 
+  id: string;
+  avatar: string;
+  name: {
+    en: string;
+    pl: string;
+    ua: string;
+    or: string;
+  };
 }
 export interface BloggerBigType {
-    id: string;
-    avatar: string;
-    mainBlog: {
-        ua: string;
-        or: string;
-        soc: string; //insta, youtube,tiktok
-        followers: number;
-        link: string; 
-    }
-    name: {
-        ua: string;
-        or: string;
-    }; 
-    description: {
-        ua: string;
-        or: string;
-    }; 
-    topics: {
-        ua: string;
-        or: string;
-    }
-    audience: string[];
+  id: string;
+  avatar: string;
+  mainBlog: {
+    en: string;
+    pl: string;
+    ua: string;
+    or: string;
+    soc: string; //insta, youtube,tiktok
     followers: number;
-    passedTests: number;
+    link: string;
+  };
+  name: {
+    en: string;
+    pl: string;
+    ua: string;
+    or: string;
+  };
+  description: {
+    en: string;
+    pl: string;
+    ua: string;
+    or: string;
+  };
+  topics: {
+    en: string;
+    pl: string;
+    ua: string;
+    or: string;
+  };
+  audience: string[];
+  followers: number;
+  passedTests: number;
+}
+
+export interface CreateBloggerType {
+  avatar: string;
+  id: string;
+  userId: string;
+  userEmail: string;
+  name: {
+    pl: string;
+  };
+  mainBlog: {
+    soc: string;
+    followers: number | string;
+    link: string;
+  };
+  description: {
+    pl: string;
+  };
+  // topics: {
+  //     pl: string;
+  // }
 }
 
 export interface TestType {
-    id: string;
-    testName: {
-        ua: string;
-        or: string
-    }; 
-    blogger: SimpleBloggerType;
-    cover: string;
-    questions: QuestionTestType[];
-    sumPoints: number;
-    payment: string;
-    price: string;
+  id: string;
+  testName: {
+    en: string;
+    pl: string;
+    ua: string;
+    or: string;
+  };
+  blogger: SimpleBloggerType;
+  cover: string;
+  questions: QuestionTestType[];
+  sumPoints: number;
+  payment: string;
+  price: string;
 }
 
 export interface TestCardType {
-    id: string;
-    published: boolean;
-    audience: string[];
-    cover: string;
-    blogger: SimpleBloggerType;
-    testName: {
-        ua: string;
-        or: string
-    }; 
-    qLength: number;
-    payment: string;
-    price: string;
+  docId: string;
+  id: string;
+  published: boolean;
+  audience: string[];
+  cover: string;
+  blogger: SimpleBloggerType;
+  testName: {
+    en: string;
+    pl: string;
+    ua: string;
+    or: string;
+  };
+  qLength: number;
+  payment: string;
+  price: number;
+  currency: string;
+  // currency: 'USD' | 'PLN';
 
-    type?: 'game' | 'test';
-    picsMini?: string[];
+  type?: string;
+  picsMini?: string[];
 }
 
 //
 export interface TestAnswersType {
-    [key: number]: string; 
+  [key: number]: string;
 }
 // bind
 
 export interface ResultsListType {
-    status: string;
-    points: number;
-    description: string;
+  status: string;
+  points: number;
+  description: string;
 }
 
 export interface ResultType {
-    id: number,
-    testName: string;
-    results: ResultsListType[],
+  id: number;
+  testName: string;
+  results: ResultsListType[];
 }
 
 export interface VerdictType {
-    minPoints: number;
-    status: string;
-    icon: string;
-    description: string;
-    blogLink?: string;
+  minPoints: number;
+  status: string;
+  icon: string;
+  description: string;
+  blogLink?: string;
 }
 
 export interface VerdictListType {
-    testId: string;
-    verdicts: VerdictType[]; 
+  testId: string;
+  verdicts: VerdictType[];
 }

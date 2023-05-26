@@ -37,10 +37,18 @@ export interface setLanguage {
   language: string;
 }
 
+export interface addBloggerProps {
+  userId: string;
+  blogger: { 
+    // id: string;
+    nickname: string;
+  }
+}
+
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fakeBaseQuery(),
-  tagTypes: ['UserAnswersType', 'FollowingList'],
+  tagTypes: ['UserAnswersType', 'FollowingList', 'fetchBloggerInUser'],
   endpoints: (builder) => ({
     fetchAnswers: builder.query<UserAnswersType, string | undefined>({
       async queryFn(userId) {
@@ -58,7 +66,49 @@ export const userApi = createApi({
       }, 
       providesTags: ['UserAnswersType'],               
     }),
-
+    addBloggerIdToUser: builder.mutation<any, addBloggerProps>({
+      async queryFn({userId, blogger}) {
+        try {
+          const docRefUser = doc(db, 'users', userId);
+          const updateUser = await updateDoc(docRefUser, {
+            blogger: {...blogger}
+          });
+          return { data: 'Added Blogger in User' };
+        } catch(err) {  
+          return { error: err };
+        }          
+      },
+      invalidatesTags: ['fetchBloggerInUser'],
+    }),
+    fetchBloggerInUser: builder.query<any, string | undefined>({
+      async queryFn(userId) {
+        if(userId) {
+          try {
+            const docRef = doc(db, "users", userId);
+            const userDoc = await getDoc(docRef);
+            if (userDoc.exists()) {
+              const userData = userDoc.data();
+              if(userData.blogger.id && userData.blogger.nickname) {
+                return { data: {
+                  blogger: {
+                    id: userData.blogger.id,
+                    nickname: userData.blogger.nickname,
+                  }
+                }};
+              } else {
+                return { data: {
+                  blogger: undefined,
+                }};
+              }
+            }
+            return { error: "userDoc doesn't exist"};
+          } catch(err) {
+            return { error: err };
+          }
+        } else return { error: 'userId is undefined' };
+      },
+      providesTags: ['fetchBloggerInUser'],                  
+    }),
     fetchFollowingList: builder.query<string[], string>({
       async queryFn(userId) {
         try {
@@ -211,4 +261,6 @@ export const {
   useFollowMutation,
   useUnfollowMutation,
   useFetchFollowingListQuery,
+  useFetchBloggerInUserQuery,
+  useAddBloggerIdToUserMutation,
 } = userApi; 

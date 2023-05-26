@@ -41,7 +41,7 @@ const ExploreNavbar:FC<ExploreNavbarProps> = ({
         />
       </div>
 
-      <div className={s.groupBtn}>
+      {/* <div className={s.groupBtn}>
         <ButtonLabel
           label=' For Men '
           onClick={() => {
@@ -58,7 +58,7 @@ const ExploreNavbar:FC<ExploreNavbarProps> = ({
           }}
           active={toggleMenGirls === 'girls'}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

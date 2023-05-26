@@ -1,0 +1,17 @@
+.gridDesktopList {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: 4rem;
+
+  @media (min-width: 800px) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 4rem;
+  }
+}
+
+.flexGrow {
+  display: flex;
+  height: 100%;
+  flex-grow: 1;
+}
