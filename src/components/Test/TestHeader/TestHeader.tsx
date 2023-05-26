@@ -1,19 +1,21 @@
 import s from './TestHeader.module.scss';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useFetchTestQuery, useFetchTestsCardsByListIdQuery } from '../../../features/test/testApi';
-//After video add DevButton: 
+import {
+  useFetchTestQuery,
+  useFetchTestsCardsByListIdQuery,
+} from '../../../features/test/testApi';
+//After video add DevButton:
 import BtnRectangle from '../../Buttons/BtnRectangle/BtnRectangle';
 import { useAppSelector } from '../../../app/hooks';
-
 
 const TestHeader = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { data: testData }  = useFetchTestQuery(params.id!);
+  const { data: testData } = useFetchTestQuery(params.id!);
   // const [testData, setTestData] = useState<any | undefined>(undefined);
   // const { data: testData }  = useFetchTestsCardsByListIdQuery([params.id!]);
-  
+
   // useEffect(() => {
   //   if(params.id) {
   //     const { data: testData }  = useFetchTestQuery(params.id);
@@ -25,40 +27,41 @@ const TestHeader = () => {
   const userState = useAppSelector((state: any) => state.user);
   useEffect(() => {
     const languageSet = localStorage.getItem('i18nextLng');
-    if(userState.language) {
+    if (userState.language) {
       setLanguage(userState.language);
-    } else if(languageSet) {
+    } else if (languageSet) {
       setLanguage(languageSet);
     }
-  },[userState.language]);
+  }, [userState.language]);
 
   return (
     <>
-      {
-        (testData) && (
-          <>
-            <div className={s.divHeader}>
-              <Link to={`/${testData.blogger.id}`}>
-                <img className={s.avatarHeader} src={testData.blogger.avatar} alt={'Avatar'}/>
-              </Link> 
-              <div className={s.divText}>
-                <div className={s.bloggerNamePlusLng}>
-                  {/* <span className={s.bloggerName}>{t('bloggerName')}</span> */}
-                  <Link to={`/${testData.blogger.id}`}>
-                    <span className={s.bloggerName}>
-                      {(language === 'ua') ? testData.blogger.name.ua : testData.blogger.name.pl}
-                    </span>
-                  </Link>
-                </div>
-                {/* <span className={s.testName}>{t('testName')}</span> */}
-                <span className={s.testName}>
-                  {(language === 'ua') ? testData.testName.ua : testData.testName.pl}
-                </span> 
+      {testData && (
+        <>
+          <div className={s.divHeader}>
+            <Link to={`/${testData.blogger.id}`}>
+              <img
+                className={s.avatarHeader}
+                src={testData.blogger.avatar}
+                alt={'Avatar'}
+              />
+            </Link>
+            <div className={s.divText}>
+              <div className={s.bloggerNamePlusLng}>
+                {/* <span className={s.bloggerName}>{t('bloggerName')}</span> */}
+                <Link to={`/${testData.blogger.id}`}>
+                  <span className={s.bloggerName}>
+                    {testData.blogger.name.ua}
+                  </span>
+                </Link>
               </div>
+              {/* <span className={s.testName}>{t('testName')}</span> */}
+              <span className={s.testName}>{testData.testName.ua}</span>
             </div>
-            
-            {/* AFTER Max video release */}
-            {/* <div 
+          </div>
+
+          {/* AFTER Max video release */}
+          {/* <div 
               style={{
                 marginTop: '0.5rem',
               }}
@@ -68,9 +71,8 @@ const TestHeader = () => {
                 onClick={() => navigate('/developer')} 
               />
             </div> */}
-          </>
-        )
-      }
+        </>
+      )}
     </>
   );
 };

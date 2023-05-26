@@ -10,13 +10,16 @@ import BloggersHeader from '../components/Bloggers/BloggersHeader/BloggersHeader
 import Container from '../components/Containers/Container/Container';
 import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
-import { useFetchBloggerQuery, useFollowingMutation } from '../features/blogger/bloggerApi';
+import {
+  useFetchBloggerQuery,
+  useFollowingMutation,
+} from '../features/blogger/bloggerApi';
 import { useFetchTestsByBloggerIdQuery } from '../features/test/testApi';
-import { 
-  useFetchBloggerInUserQuery, 
-  useFetchFollowingListQuery, 
-  useFollowMutation, 
-  useUnfollowMutation 
+import {
+  useFetchBloggerInUserQuery,
+  useFetchFollowingListQuery,
+  useFollowMutation,
+  useUnfollowMutation,
 } from '../features/user/userApi';
 import { db } from '../firebase.config';
 import { BloggerBigType, TestCardType } from '../types/test.types';
@@ -32,20 +35,27 @@ import HeaderCreateBtn from '../components/BloggerCabinet/HeaderCreateBtn/Header
 import EditCard from '../components/BloggerCabinet/EditCard/EditCard';
 import ContainerHint from '../components/BloggerCabinet/ContainerHint/ContainerHint';
 import imgHint2 from '../assets/mockups/hint-screen-2-2.png';
+import ContainerList from '../components/Containers/ContainerList/ContainerList';
+import { BloggersHeader2 } from '../components/Bloggers/BloggersHeader2/BloggersHeader2';
+import { SocialType } from '../components/Bloggers/types/blogger.types';
 
 const BloggerPage = () => {
   const myRefCardHint = useRef<HTMLDivElement>(null);
   const params = useParams();
   const navigate = useNavigate();
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const [editPathname, setEditPathname] = useState<boolean>(false);
 
   const [isBloggerProfile, setIsBloggerProfile] = useState<boolean>(false);
   const [blogger, setBlogger] = useState<BloggerBigType | undefined>(undefined);
-  const { data: bloggerData, isFetching, isLoading } = useFetchBloggerQuery(params.id!);
+  const {
+    data: bloggerData,
+    isFetching,
+    isLoading,
+  } = useFetchBloggerQuery(params.id!);
 
   const userState = useAppSelector((state: RootState) => state.user);
-  const {data: bloggerDataInUser} = useFetchBloggerInUserQuery(userState.id);
+  const { data: bloggerDataInUser } = useFetchBloggerInUserQuery(userState.id);
   // EDIT MODE
   const [editMode, setEditMode] = useState<boolean>(false);
   const [formData, setFormData] = useState<BloggerBigType>(bloggerInitialState);
@@ -53,84 +63,92 @@ const BloggerPage = () => {
   const [createGame, setCreateGame] = useState<boolean>(false);
 
   const executeScroll = () => {
-    myRefCardHint.current && 
-    myRefCardHint.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: "nearest"}); 
+    myRefCardHint.current &&
+      myRefCardHint.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      });
   };
 
-
   useEffect(() => {
-    if(pathname && bloggerDataInUser) {
-      (pathname.split('/')[1] === bloggerDataInUser.blogger.nickname) && setIsBloggerProfile(true);
+    if (pathname && bloggerDataInUser) {
+      pathname.split('/')[1] === bloggerDataInUser.blogger.nickname &&
+        setIsBloggerProfile(true);
     } else {
       setIsBloggerProfile(false);
     }
-    if(pathname.split('/')[2] === 'edit') setEditPathname(true);
+    if (pathname.split('/')[2] === 'edit') setEditPathname(true);
 
-    if(createGame) {
+    if (createGame) {
       executeScroll();
     }
   }, [pathname, bloggerDataInUser, createGame]);
 
-  const [language, setLanguage] = useState<string | null>(localStorage.getItem('i18nextLng'));
+  const [language, setLanguage] = useState<string | null>(
+    localStorage.getItem('i18nextLng'),
+  );
   const { data: followingList } = useFetchFollowingListQuery(userState.id!);
   const [followingState, setFollowingState] = useState<boolean>(false);
   // console.log('followingList', followingList)
-  const { data: allTestsByBlogger }  = useFetchTestsByBloggerIdQuery(params.id!);
-  const [testList, setTestList] = useState<TestCardType[] | undefined>(undefined);
+  const { data: allTestsByBlogger } = useFetchTestsByBloggerIdQuery(params.id!);
+  const [testList, setTestList] = useState<TestCardType[] | undefined>(
+    undefined,
+  );
 
   // Follow
-  const [ follow ]  = useFollowMutation();
-  const [ unfollow ] = useUnfollowMutation();
-  const [ following ] = useFollowingMutation();
+  const [follow] = useFollowMutation();
+  const [unfollow] = useUnfollowMutation();
+  const [following] = useFollowingMutation();
 
   useEffect(() => {
-    if(followingList && blogger && followingList.includes(blogger.id)) {
+    if (followingList && blogger && followingList.includes(blogger.id)) {
       setFollowingState(true);
     }
-  },[followingList, blogger]);
+  }, [followingList, blogger]);
 
   useEffect(() => {
     const languageSet = localStorage.getItem('i18nextLng');
-    if(userState.language) {
+    if (userState.language) {
       setLanguage(userState.language);
-    } else if(languageSet) {
+    } else if (languageSet) {
       setLanguage(languageSet);
     }
-  },[userState.language]);
+  }, [userState.language]);
 
   useEffect(() => {
-    if(bloggerData ) {
+    if (bloggerData) {
       setBlogger(bloggerData);
       // fullfill EditCard
       setFormData(bloggerData);
     }
-  },[bloggerData]);
+  }, [bloggerData]);
 
   // idea 2 is working
   // useEffect(() => {
   //   setBlogger(formData);
   // }, [editMode]);
 
-  // FOR NEXT SORT 
+  // FOR NEXT SORT
   useEffect(() => {
-    if(allTestsByBlogger) {
+    if (allTestsByBlogger) {
       setTestList(allTestsByBlogger);
     }
   }, [allTestsByBlogger]);
 
   const followHandler = (action: 'follow' | 'unfollow') => {
-    if((action === 'follow') && (userState.id) && (blogger)) {
+    if (action === 'follow' && userState.id && blogger) {
       // follow({id: userState.id, bloggerId: blogger.id});
       following({ id: blogger.id, value: 1 });
       // console.log('followHandler: follow');
     }
 
-    if((action === 'unfollow') && (userState.id) && (blogger)) {
+    if (action === 'unfollow' && userState.id && blogger) {
       following({ id: blogger.id, value: -1 });
       // console.log('followHandler: UNFOLLOW');
-    } 
+    }
   };
-  // (userState) && 
+  // (userState) &&
   // console.log('userState.following', userState);
 
   const onGoogleClick = async () => {
@@ -144,8 +162,8 @@ const BloggerPage = () => {
       const docRef = doc(db, 'users', user.uid);
       const docSnap = await getDoc(docRef);
 
-      // If user, doesn't exist, create user 
-      if(!docSnap.exists()) {
+      // If user, doesn't exist, create user
+      if (!docSnap.exists()) {
         await setDoc(doc(db, 'users', user.uid), {
           name: user.displayName,
           email: user.email,
@@ -158,56 +176,79 @@ const BloggerPage = () => {
     }
   };
 
-  console.log('testList', testList);
+  const mainBlog = blogger
+    ? {
+        socialType: blogger.mainBlog.soc as unknown as SocialType,
+        name: blogger.mainBlog.ua,
+        followers: blogger.mainBlog.followers,
+        link: blogger.mainBlog.link,
+      }
+    : null;
 
   return (
     <Container
-      justifyContent='flex-start'
-      backgroundColor='#212529'
+      justifyContent="flex-start"
+      backgroundColor="#212529"
       locked={false}
     >
-      {(blogger) ? (
-        (isBloggerProfile && editMode) ? (
-          <EditHeader 
-            bloggerId={bloggerDataInUser.blogger.id}
-            formData={formData}
-            setFormData={setFormData}
-            setEditMode={setEditMode}
-          />
-        ) : (
-          <BloggersHeader 
-            id={blogger.id}
-            key={blogger.id}
-            avatar={blogger.avatar}
-            name={(language === 'ua') ? blogger.name.ua : blogger.name.pl}
-            // blogger.name[language] 
-          
-            mainBlogSoc={blogger.mainBlog.soc} 
-            mainBlogName={(language === 'ua') ? blogger.mainBlog.ua : blogger.mainBlog.pl}
-            mainBlogFollowers={blogger.mainBlog.followers}
-            mainBlogLink={blogger.mainBlog.link}
-
-            followers={blogger.followers}
-            passedTests={blogger.passedTests}
-            description={(language === 'ua') ? blogger.description.ua : blogger.description.pl}
-            language={language}
-            followHandler={followHandler}
-            followingState={followingState}
-
-            isBloggerProfile={isBloggerProfile}
-            setEditMode={setEditMode}
-          /> 
-        )
-      ) : (
-        <Skeleton 
-          sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
-          variant="rounded"  
-          animation="wave"  
-          width={'100%'} 
-          height={'15rem'} 
+      {blogger ? (
+        <BloggersHeader2
+          id={blogger.id}
+          key={blogger.id}
+          avatar={blogger.avatar}
+          name={blogger.name.ua}
+          mainBlog={mainBlog}
+          // mainBlogSoc={blogger.mainBlog.soc}
+          // mainBlogName={blogger.mainBlog.ua}
+          // mainBlogFollowers={blogger.mainBlog.followers}
+          // mainBlogLink={blogger.mainBlog.link}
+          followers={blogger.followers}
+          passedTests={blogger.passedTests}
+          // description={
+          //   language === 'ua'
+          //     ? blogger.description.ua
+          //     : blogger.description.pl
+          // }
+          description={blogger.description.ua}
+          language={language}
+          followHandler={followHandler}
+          followingState={followingState}
         />
+      ) : (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            width: '100%',
+          }}
+        >
+          <div style={{ width: '100%' }}>
+            <Skeleton
+              sx={{
+                bgcolor: '#2f363c',
+                margin: '-1rem 2rem 0rem 0',
+                justifyContent: 'flex-start',
+              }}
+              variant="rounded"
+              animation="wave"
+              width="48%"
+              height="17rem"
+            />
+            <Skeleton
+              sx={{
+                bgcolor: '#2f363c',
+                margin: '1rem 2rem 2rem 0',
+                justifyContent: 'flex-start',
+              }}
+              variant="rounded"
+              animation="wave"
+              width="48%"
+              height="7rem"
+            />
+          </div>
+        </div>
       )}
-      {(isBloggerProfile && !editMode ) ? (
+      {isBloggerProfile && !editMode ? (
         <HeaderCreateBtn
           createGame={createGame}
           setCreateGame={setCreateGame}
@@ -215,37 +256,34 @@ const BloggerPage = () => {
           setCreateTest={setCreateTest}
         />
       ) : (
-        <>
-        </>
+        <></>
       )}
-      <div 
-        ref={myRefCardHint} 
-        
+      <div
+        ref={myRefCardHint}
         onClick={() => setCreateGame(true)}
-        style={{ 
+        style={{
           width: '100%',
           cursor: 'pointer',
         }}
       >
         {editPathname && (
-          <ContainerHint 
-        
+          <ContainerHint
             img={imgHint2}
             textHint={'Create Game Card with cover and title 🥰'}
           />
         )}
       </div>
-      {(!editMode && createGame && formData) && (
-        <EditCard 
-
+      {!editMode && createGame && formData && (
+        <EditCard
           blogger={{
             id: formData.id,
             avatar: formData.avatar,
             name: {
+              en: formData.name.en,
               pl: formData.name.pl,
               ua: formData.name.pl,
               or: formData.name.pl,
-            }
+            },
           }}
         />
       )}
@@ -281,94 +319,141 @@ const BloggerPage = () => {
           height={'8rem'} 
         />
       )} */}
-      { testList ? testList.map((test, index) => (
-        (test.type && test.type === 'game') ? (
-          <TestCardLock
-            editMode={isBloggerProfile}
-            docId={test.docId} 
-            key={test.id}
-            testName={(language === 'ua') ? test.testName.ua : test.testName.pl}
-            cover={test.cover}
-            bloggerId={test.blogger.id}
-            bloggerName={(language === 'ua') ? test.blogger.name.ua : test.blogger.name.pl}
-            bloggerAvatar={test.blogger.avatar}
-
-            // picsMini={(userState.id) ? test.picsMini : undefined}
-            picsMini={test.picsMini}
-            footerText={
-              // (test.payment === 'free' && userState.id) ? 
-              (test.payment === 'free') ? 
-                `${(language === 'ua') ? 'Фото: ' : 'Zdjęcia: '} ${test.qLength}` :
-                (test.payment !== 'free' && userState.id) ? 
-                  `${(language === 'ua') ? '' : ''}` :
-                  `${(language === 'ua') ? 'Вход через email' : 'Zaloguj się'}`
-            }
-            onClick={
-              // (test.payment === 'free' && userState.id) ? () => navigate(`/game/${test.id}/1`) : 
-              (test.payment === 'free') ? () => navigate(`/game/${test.id}/1`) : 
-                (test.payment !== 'free' && userState.id) ? (() => openInNewTab(test.payment)) :
-                  onGoogleClick 
-            }
-            price={test.price ? test.price : undefined}
-            button={
-              // (test.payment === 'free' && userState.id) ? 
-              (test.payment === 'free') ? 
-                <ButtonPlay width={'22%'}/> : 
-                (test.payment !== 'free' && userState.id) ? 
-                  <ButtonPrice 
-                    currency={test.currency} 
-                    onClick={(e: any) => {
-                      e.stopPropagation();
-                      openInNewTab(test.payment);
-                    }}
-                  /> : 
-                  <BtnEmail />
-            }
-          />
+      <ContainerList>
+        {testList ? (
+          testList.map((test, index) =>
+            test.type && test.type === 'game' ? (
+              <TestCardLock
+                editMode={isBloggerProfile}
+                docId={test.docId}
+                key={test.id}
+                // testName={
+                //   language === 'ua' ? test.testName.ua : test.testName.pl
+                // }
+                testName={test.testName.ua}
+                cover={test.cover}
+                bloggerId={test.blogger.id}
+                // bloggerName={
+                //   language === 'ua'
+                //     ? test.blogger.name.ua
+                //     : test.blogger.name.pl
+                // }
+                bloggerName={test.blogger.name.ua}
+                bloggerAvatar={test.blogger.avatar}
+                // picsMini={(userState.id) ? test.picsMini : undefined}
+                picsMini={test.picsMini}
+                footerText={
+                  // (test.payment === 'free' && userState.id) ?
+                  test.payment === 'free'
+                    ? `${language === 'ua' ? 'Фото: ' : 'Zdjęcia: '} ${
+                        test.qLength
+                      }`
+                    : test.payment !== 'free' && userState.id
+                    ? `${language === 'ua' ? '' : ''}`
+                    : `${
+                        language === 'ua' ? 'Вход через email' : 'Zaloguj się'
+                      }`
+                }
+                onClick={
+                  // (test.payment === 'free' && userState.id) ? () => navigate(`/game/${test.id}/1`) :
+                  test.payment === 'free'
+                    ? () => navigate(`/game/${test.id}/1`)
+                    : test.payment !== 'free' && userState.id
+                    ? () => openInNewTab(test.payment)
+                    : onGoogleClick
+                }
+                price={test.price ? test.price : undefined}
+                button={
+                  // (test.payment === 'free' && userState.id) ?
+                  test.payment === 'free' ? (
+                    <ButtonPlay width={'22%'} />
+                  ) : test.payment !== 'free' && userState.id ? (
+                    <ButtonPrice
+                      currency={test.currency}
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        openInNewTab(test.payment);
+                      }}
+                    />
+                  ) : (
+                    <BtnEmail />
+                  )
+                }
+              />
+            ) : (
+              <TestCardOpen
+                key={test.id}
+                testName={test.testName.ua}
+                cover={test.cover}
+                bloggerId={test.blogger.id}
+                bloggerName={test.blogger.name.ua}
+                bloggerAvatar={test.blogger.avatar}
+                footerText={
+                  // (test.payment === 'free' && userState.id) ?
+                  test.payment === 'free'
+                    ? `${'Питань:  '} ${test.qLength}`
+                    : test.payment !== 'free'
+                    ? `${'Платный тест '}`
+                    : `${'Вход через email'}`
+                }
+                onClick={
+                  test.payment === 'free'
+                    ? () => navigate(`/test/${test.id}/1`)
+                    : test.payment !== 'free' && userState.id
+                    ? () => openInNewTab(test.payment)
+                    : onGoogleClick
+                }
+                button={
+                  test.payment === 'free' ? (
+                    <ButtonPlay width={'22%'} />
+                  ) : test.payment !== 'free' && userState.id ? (
+                    <ButtonPrice
+                      currency={test.currency}
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        openInNewTab(test.payment);
+                      }}
+                    />
+                  ) : (
+                    <BtnEmail />
+                  )
+                }
+              />
+            ),
+          )
         ) : (
-          <TestCardOpen
-            key={test.id}
-            testName={(language === 'ua') ? test.testName.ua : test.testName.pl}
-            cover={test.cover}
-            bloggerId={test.blogger.id}
-            bloggerName={(language === 'ua') ? test.blogger.name.ua : test.blogger.name.pl}
-            bloggerAvatar={test.blogger.avatar}
-            footerText={
-
-              // (test.payment === 'free' && userState.id) ? 
-              (test.payment === 'free') ? 
-                `${(language === 'ua') ? 'Питань:  ' : 'Pytań: '} ${test.qLength}` :
-                (test.payment !== 'free' && userState.id) ? 
-                  `${(language === 'ua') ? 'Платный тест ' : 'Płatny test '}` :
-                  `${(language === 'ua') ? 'Вход через email' : 'Zaloguj się'}`
-            }
-            onClick={
-              (test.payment === 'free' && userState.id) ? () => navigate(`/test/${test.id}/1`) : 
-                (test.payment !== 'free' && userState.id) ? (() => openInNewTab(test.payment)) :
-                  onGoogleClick 
-            }
-            button={(test.payment === 'free' && userState.id) ? <ButtonPlay width={'22%'}/> : 
-              (test.payment !== 'free' && userState.id) ? 
-                <ButtonPrice 
-                  currency={test.currency} 
-                  onClick={(e: any) => {
-                    e.stopPropagation();
-                    openInNewTab(test.payment);
-                  }}
-                /> : 
-                <BtnEmail />
-            }
-          />
-        )
-      )) : (
-        <Skeleton     
-          sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
-          variant="rounded"  
-          animation="wave"  
-          width={'100%'} 
-          height={'15rem'} 
-        />
-      )}
+          <>
+            <Skeleton
+              sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
+              variant="rounded"
+              animation="wave"
+              width={'100%'}
+              height={'15rem'}
+            />
+            <Skeleton
+              sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
+              variant="rounded"
+              animation="wave"
+              width={'100%'}
+              height={'15rem'}
+            />
+            <Skeleton
+              sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
+              variant="rounded"
+              animation="wave"
+              width={'100%'}
+              height={'15rem'}
+            />
+            <Skeleton
+              sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
+              variant="rounded"
+              animation="wave"
+              width={'100%'}
+              height={'15rem'}
+            />
+          </>
+        )}
+      </ContainerList>
       <FooterPolicy language={language} />
     </Container>
   );

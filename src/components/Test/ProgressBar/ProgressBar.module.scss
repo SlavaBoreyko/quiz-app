@@ -1,100 +1,113 @@
-@import "../../../style/variables.scss";
+@import '../../../style/variables.scss';
 
 :root {
-    --qa-amount: 5;
+  --qa-amount: 5;
 }
 
 .divCounterButton {
-    // Does -1rem create some bug?
-    // margin-bottom: -1rem;
-    margin-bottom: -0.5rem;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    // align-items: flex-end;
-    align-items: center;
+  // Does -1rem create some bug?
+  // margin-bottom: -1rem;
+  margin-bottom: -0.5rem;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  // align-items: flex-end;
+  align-items: center;
+
+  @media (min-width: 800px) {
+    width: 50%;
+  }
 }
 
 .divButton,
 .divButtonActive {
-    margin-bottom: 0.5rem;
-    display: flex;
-    flex-shrink: 0;
-    justify-content: center;
-    align-items: center;
-    width: 4rem;
-    height: 4rem;
-    // border: 1px solid #0b7285;
-    border: 1px solid $colorBorderLight;
-    border-radius: 3rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  // border: 1px solid #0b7285;
+  border: 1px solid $colorBorderLight;
+  border-radius: 3rem;
 }
 
 .divButtonActive {
-    border: 1px solid $colorAccentOrange;
+  border: 1px solid $colorAccentOrange;
 }
 
 .counter {
-    font-size: 1.4rem;
-    // color: #3bc9db;
-    color: $colorAccentOrange;
-    font-weight: 700;
+  font-size: 1.4rem;
+  // color: #3bc9db;
+  color: $colorAccentOrange;
+  font-weight: 700;
 }
 .amountQA {
-    font-size: 1rem;
-    // color: $colorDarkOrange;
-    color: rgb(237 159 17 / 88%);
+  font-size: 1rem;
+  // color: $colorDarkOrange;
+  color: rgb(237 159 17 / 88%);
 }
 
 .line {
-    display: grid;
-    grid-template-columns: repeat(var(--qa-amount), 1fr);
-    column-gap: 2px;
-    width: 100%;
-    height: 1.2rem;
-    // margin: 1rem;
-    margin: 0.5rem;
-    padding: 3px 0;
-    border-radius: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(var(--qa-amount), 1fr);
+  column-gap: 2px;
+  width: 100%;
+  height: 1.2rem;
+  // margin: 1rem;
+  margin: 0.5rem 0;
+  padding: 3px 0;
+  border-radius: 0.5rem;
+
+  @media (min-width: 800px) {
+    width: 50%;
+  }
 }
 
 .progressItem,
 .progressItemDone {
-    align-content: flex-start;
-    // background-color: #0b7285;
-    background-color: $colorDarkOrange;
-    width: 100%;
+  align-content: flex-start;
+  // background-color: #0b7285;
+  background-color: $colorDarkOrange;
+  width: 100%;
 }
 
 .progressItem:first-child,
 .progressItemDone:first-child {
-    border-radius: 0.5rem 0 0 0.5rem;
+  border-radius: 0.5rem 0 0 0.5rem;
 }
 
 .progressItem:last-child,
 .progressItemDone:last-child {
-    border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .progressItemDone {
-    background-color: $colorAccentOrange;
+  background-color: $colorAccentOrange;
 }
 
 .question {
-    margin: 0 1rem 1rem 1rem;
-    & p, span {
-        font-size: 1.6rem;
-        text-align: center;
-        color: #e3eaf1;
+  margin: 0 1rem 1rem 1rem;
+  & p,
+  span {
+    font-size: 1.6rem;
+    text-align: center;
+    color: #e3eaf1;
 
-        @media (min-width: 700px) {
-            font-size: 1.5rem;
-            font-weight: 500;
-        }
-
-        & span {
-            background-color: #00000098;
-            padding: 4px;
-            line-height: 1.5;
-        }
+    @media (min-width: 700px) {
+      font-size: 1.5rem;
+      font-weight: 500;
     }
+
+    & span {
+      background-color: #00000098;
+      padding: 4px;
+      line-height: 1.5;
+
+      @media (min-width: 800px) {
+        background-color: transparent;
+      }
+    }
+  }
 }

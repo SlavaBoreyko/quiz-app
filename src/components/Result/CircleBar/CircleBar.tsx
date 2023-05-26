@@ -18,7 +18,7 @@ const CircleBar: FC<CircleBarProps> = ({
 }) => {
 
   // (width) && 
-  document.documentElement.style.setProperty('--size', `${width}%`);
+  document.documentElement.style.setProperty('--size', `${width}rem`);
   const refProgressBar = useRef<HTMLDivElement>(null);
   const refValueContainer = useRef<HTMLDivElement>(null);
 

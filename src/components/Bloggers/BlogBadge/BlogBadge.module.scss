@@ -1,0 +1,31 @@
+@import '../../../style/variables.scss';
+
+.socBox {
+  display: flex;
+  width: 14.5rem;
+  border: 1px solid $colorAccentOrange;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+}
+
+.socIcon {
+  height: 4rem;
+  border-radius: 0.5rem;
+  margin: -1px;
+}
+
+.numberGold {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+  font-size: 3rem;
+  font-weight: 200;
+  color: $colorAccentOrange;
+}
+
+.fontGold {
+  font-size: 1.4rem;
+  color: $colorAccentOrange;
+  margin-bottom: 0.5rem;
+}

@@ -20,12 +20,11 @@ import { RootState } from '../../../app/store';
 import { useFetchBloggerInUserQuery } from '../../../features/user/userApi';
 
 const NavSidebar = () => {
-
   const userState = useAppSelector((state: RootState) => state.user);
-  const {data: dataBlogger} = useFetchBloggerInUserQuery(userState.id);
+  const { data: dataBlogger } = useFetchBloggerInUserQuery(userState.id);
   const gaEventTracker = useAnalyticsEventTracker('Developer');
 
-  const { pathname} = useLocation();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const linkCopy = () => {
@@ -39,23 +38,23 @@ const NavSidebar = () => {
   useEffect(() => {
     const languageSet = localStorage.getItem('i18nextLng');
     languageSet && setLanguage(languageSet);
-  },[]);
-  
+  }, []);
+
   // useEffect(() => {
   //   language && i18n.changeLanguage(language);
   // }, [language])
-  
+
   const onChangeLanguage = (e: any) => {
     setLanguage(e.target.value);
     dispatch(addUserLanguage(e.target.value));
     localStorage.setItem('i18nextLng', e.target.value);
   };
-  
+
   const languages = [
     {
-      value: 'pl',
-      icon: '🇵🇱',
-      title: 'PL',
+      value: 'en',
+      icon: '🇺🇸',
+      title: 'EN',
     },
     {
       value: 'ua',
@@ -63,40 +62,44 @@ const NavSidebar = () => {
       title: 'UA',
     },
     // {
+    //   value: 'pl',
+    //   icon: '🇵🇱',
+    //   title: 'PL',
+    // },
+    // {
     //   value: 'or',
     //   icon: '🐷',
     //   title: 'ОРК',
     // },
-  ]; 
+  ];
 
   return (
     <>
-      {
-        (['test', 'game'].includes(pathname.split('/')[1])) ? (
-          <div
-            style={{
-              position: 'absolute',
-              top: '2rem',
-              left: '2rem',
-              width: '100%',
-              alignSelf: 'flex-start',
-            }}
-          >
-            <TestHeader />
-          </div>
-        ) : (
-          <div className={s.divDeveloper}>
-            <Link to="/">
-              <img 
-                style={{
-                  // height: '3rem',
-                  width: '14.5rem',
-                }}
-                src={logo} 
-                alt='TestRoom'
-              />
-            </Link>
-            {/* {(!['/developer'].includes(pathname)) && (
+      {['test', 'game'].includes(pathname.split('/')[1]) ? (
+        <div
+          style={{
+            position: 'absolute',
+            top: '2rem',
+            left: '2rem',
+            width: '100%',
+            alignSelf: 'flex-start',
+          }}
+        >
+          <TestHeader />
+        </div>
+      ) : (
+        <div className={s.divDeveloper}>
+          <Link to="/">
+            <img
+              style={{
+                // height: '3rem',
+                width: '14.5rem',
+              }}
+              src={logo}
+              alt="TestRoom"
+            />
+          </Link>
+          {/* {(!['/developer'].includes(pathname)) && (
               <BtnRectangle 
                 caption={(language === 'or') ? `> Для блогеров` :`> Для блогерів`} 
                 onClick={
@@ -107,38 +110,37 @@ const NavSidebar = () => {
                 } 
               />
             )} */}
-          </div>
-        )
-      }
-      <div 
-        style={{ 
-          marginBottom: '1rem',  
-          alignSelf: 'flex-end', 
+        </div>
+      )}
+      {/* <div
+        style={{
+          marginBottom: '1rem',
+          alignSelf: 'flex-end',
           justifySelf: 'flex-start',
-        }}>
-        <SelectOption 
+        }}
+      >
+        <SelectOption
           onChange={onChangeLanguage}
           options={languages}
-          selected={language ? language : 'pl'}
+          selected={language ? language : 'en'}
         />
-      </div>
+      </div> */}
 
-      {(!['/sign-up','/create', '/profile', '/cabinet'].includes(pathname)) && (
-        <div className={s.sideBarNav} >
-          {['test','game', 'explore'].includes(pathname.split('/')[1])
-            && (
-              <ButtonNav 
-                icon={profileIcon}
-                onClick={() => navigate('/profile')}
-              />
+      {!['/sign-up', '/create', '/profile', '/cabinet'].includes(pathname) && (
+        <div className={s.sideBarNav}>
+          {['test', 'game', 'explore'].includes(pathname.split('/')[1]) && (
+            <ButtonNav
+              icon={profileIcon}
+              onClick={() => navigate('/profile')}
+            />
           )}
-          {( !['profile', 'explore'].includes(pathname.split('/')[1]) ) && (
-            <ButtonNav 
+          {!['profile', 'explore'].includes(pathname.split('/')[1]) && (
+            <ButtonNav
               icon={shareIcon}
               onClick={linkCopy}
               optionClass={'share'}
             />
-          )} 
+          )}
         </div>
       )}
     </>

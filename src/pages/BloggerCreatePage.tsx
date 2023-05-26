@@ -6,46 +6,49 @@ import imgHint1 from '../assets/mockups/hint-screen-1.png';
 import { BloggerBigType } from '../types/test.types';
 import ContainerHint from '../components/BloggerCabinet/ContainerHint/ContainerHint';
 
-
 export interface bloggerDataType {
-    avatar: string;
-    id: string;
-    name: {
-      pl: string;
-    };
-    mainBlog: {
-      soc:  string;
-      followers: number | string;
-      link:  string;
-    };
-    description: {
-      pl: string;
-    };
-  }
-  
+  avatar: string;
+  id: string;
+  name: {
+    pl: string;
+  };
+  mainBlog: {
+    soc: string;
+    followers: number | string;
+    link: string;
+  };
+  description: {
+    pl: string;
+  };
+}
+
 export const bloggerInitialState = {
   avatar: '',
   id: '',
   name: {
+    en: '',
     pl: '',
     or: '',
     ua: '',
   },
   mainBlog: {
-    soc:  '',
+    soc: '',
     followers: 0,
     link: '',
+    en: '',
     pl: '',
     or: '',
     ua: '',
   },
   audience: [''],
   description: {
+    en: '',
     pl: '',
     or: '',
     ua: '',
   },
   topics: {
+    en: '',
     pl: '',
     or: '',
     ua: '',
@@ -53,7 +56,6 @@ export const bloggerInitialState = {
   followers: 0,
   passedTests: 0,
 };
-  
 
 const BloggerCreatePage = () => {
   const [formData, setFormData] = useState<BloggerBigType>(bloggerInitialState);
@@ -69,27 +71,24 @@ const BloggerCreatePage = () => {
         pl: formData.name.pl,
         ua: '',
         or: '',
-      }
+      },
     });
   }, [formData]);
 
-
   return (
     <Container
-      justifyContent='flex-start'
-      backgroundColor='#212529'
+      justifyContent="flex-start"
+      backgroundColor="#212529"
       locked={false}
     >
-      <div style={{ marginTop: '3rem'}}/>
-      <EditHeader 
-        formData={formData}
-        setFormData={setFormData}
-      />
-      <ContainerHint 
+      <div style={{ marginTop: '3rem' }} />
+      <EditHeader formData={formData} setFormData={setFormData} />
+      <ContainerHint
         img={imgHint1}
         textHint={'Your profile is going to look like ⤵️'}
       />
     </Container>
-  );};
+  );
+};
 
 export default BloggerCreatePage;

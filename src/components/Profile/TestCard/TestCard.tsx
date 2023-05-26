@@ -1,4 +1,10 @@
-import React, { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
+import React, {
+  FC,
+  MouseEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import s from './TestCard.module.scss';
 import { useNavigate } from 'react-router-dom';
 import ButtonNav from '../../Buttons/ButtonNav/ButtonNav';
@@ -7,19 +13,19 @@ import EditCard from '../../BloggerCabinet/EditCard/EditCard';
 
 export interface TestCardProps {
   editMode?: boolean;
-  docId?:string;
-  
+  docId?: string;
+
   onClick: MouseEventHandler<HTMLDivElement> | undefined;
   coverUrl?: string;
-  coverImage: string | any; //React element JSX? Node? 
-    // Header
-    // blogger: SimpleBloggerType;
-  bloggerId: string; 
-  bloggerName: string; 
+  coverImage: string | any; //React element JSX? Node?
+  // Header
+  // blogger: SimpleBloggerType;
+  bloggerId: string;
+  bloggerName: string;
   bloggerAvatar: string;
-    // Title
+  // Title
   testName: string;
-    //Footer and button
+  //Footer and button
   footerText?: any;
 
   price?: number;
@@ -35,7 +41,7 @@ const TestCard: FC<TestCardProps> = ({
   coverImage,
 
   bloggerId,
-  bloggerName, 
+  bloggerName,
   bloggerAvatar,
 
   testName,
@@ -48,27 +54,26 @@ const TestCard: FC<TestCardProps> = ({
   const [openEditCard, setOpenEditCard] = useState<boolean>(false);
 
   useEffect(() => {
-    if(typeof coverImage === 'string' && refImg.current) {
+    if (typeof coverImage === 'string' && refImg.current) {
       refImg.current.style.backgroundImage = `url("${coverImage}")`;
     }
   }, [refImg.current]);
 
-
-
   return (
     <>
-      {(openEditCard) ? (
-        <EditCard 
+      {openEditCard ? (
+        <EditCard
           docId={docId}
           setOpenEditCard={setOpenEditCard}
           blogger={{
             id: bloggerId,
             avatar: bloggerAvatar,
             name: {
+              en: bloggerName,
               pl: bloggerName,
               ua: bloggerName,
               or: bloggerName,
-            }
+            },
           }}
           // bad <></> JSX no string link
           coverUrl={coverUrl}
@@ -80,40 +85,40 @@ const TestCard: FC<TestCardProps> = ({
         <div className={s.testCardContainter} onClick={onClick}>
           {/* COVER */}
           <div className={s.coverFrame}>
-            {(typeof coverImage === 'string') && (
+            {typeof coverImage === 'string' && (
               <div ref={refImg} className={s.coverOpen} />
             )}
-            {(typeof coverImage !== 'string') && (
-              <>{coverImage}</>
-            )}
+            {typeof coverImage !== 'string' && <>{coverImage}</>}
           </div>
           <div className={s.divPaddingContainer}>
             <div className={s.textDiv}>
               <div className={s.centerTitle}>
                 {/* HEADER */}
                 {/* <Link to={`/${bloggerId}`}> */}
-                <div 
-                  className={s.divCenterBlogger} 
-                  style={
-                    editMode ? {marginBottom: '-1rem',} : {}
-                  }
+                <div
+                  className={s.divCenterBlogger}
+                  style={editMode ? { marginBottom: '-1rem' } : {}}
                   onClick={(e) => {
-                    e.stopPropagation(); 
+                    e.stopPropagation();
                     navigate(`/${bloggerId}`);
-                  }
-                  }>
-                  <div style={{ display: 'flex', alignItems: 'center',}}>
-                    <img className={s.bloggerAvatar} src={bloggerAvatar} alt={`Ава`}/>
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <img
+                      className={s.bloggerAvatar}
+                      src={bloggerAvatar}
+                      alt={`Ава`}
+                    />
                     <span className={s.bloggerName}>{bloggerName}</span>
                   </div>
-                  {(editMode) && (
-                    <ButtonNav 
+                  {editMode && (
+                    <ButtonNav
                       icon={editIcon}
                       onClick={() => setOpenEditCard(true)}
                       optionClass={'share'}
                       // optionLabel={'Edit'}
                     />
-                  )}    
+                  )}
                 </div>
                 {/* </Link> */}
 

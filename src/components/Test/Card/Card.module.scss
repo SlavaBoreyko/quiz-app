@@ -1,40 +1,47 @@
-
 .cardContainer {
-    height: 100%;
-    // BEFORE 
-    width: 100%;
-    // padding-bottom: 10%;
-    // width: 70%;
-    // margin-bottom: -8rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    flex-grow: 1;
+  height: 100%;
+  // BEFORE
+  width: 100%;
+  // padding-bottom: 10%;
+  // width: 70%;
+  // margin-bottom: -8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-grow: 1;
 
-    & p, span {
-        font-size: 1.6rem;
-        text-align: center;
-        color: #e3eaf1;
+  & p,
+  span {
+    font-size: 1.6rem;
+    text-align: center;
+    color: #e3eaf1;
 
-        & span {
-            background-color: #00000098;
-            padding: 4px;
-            line-height: 1.5;
-        }
+    & span {
+      background-color: #00000098;
+      padding: 4px;
+      line-height: 1.5;
     }
+  }
+
+  @media (min-width: 800px) {
+    height: 6rem;
+    flex-grow: 0;
+    width: 50%;
+    align-self: flex-end;
+    // height: fit-content;
+  }
 }
 
 .lockFullScreenBtn {
-    position: absolute;
-    z-index: 300;
-    // top: 43%;
-    top: 38.5vh;
-    align-self: flex-end;
+  position: absolute;
+  z-index: 300;
+  // top: 43%;
+  top: 38.5vh;
+  align-self: flex-end;
 }
 
-.reactionDiv  {
-    align-self: flex-start;
-    margin-bottom: 1rem;
-    transition: all 1000ms;
+.reactionDiv {
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  transition: all 1000ms;
 }
-

@@ -1,5 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { QuestionTestType } from '../../types/test.types';
 import Card from './Card/Card';
 import ProgressBar from './ProgressBar/ProgressBar';
@@ -31,7 +30,7 @@ export interface TestProps {
     ua: string;
     or: string;
   };
-  testName:  {
+  testName: {
     pl: string;
     ua: string;
     or: string;
@@ -43,10 +42,10 @@ export interface TestProps {
 const Test: FC<TestProps> = ({
   length,
   questionNum,
-  question, 
+  question,
 
   // value,
-  setValue, 
+  setValue,
   indicatedAnswer,
 
   nextIcon,
@@ -60,9 +59,8 @@ const Test: FC<TestProps> = ({
   locked,
   backBtnToggle,
 
-  language
+  language,
 }) => {
-   
   // const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
   // const { t } = useTranslation();
   // useEffect(() => {
@@ -104,17 +102,14 @@ const Test: FC<TestProps> = ({
 
   //     // i18n.addResource('ua', 'translationsUA', key, value, options)
   // },[ questionNum]);
-    
 
-  const [checked, setChecked] = useState([false,false,false]);
+  const [checked, setChecked] = useState([false, false, false]);
   const [trueAnswer, setTrueAnswer] = useState<number | undefined>(undefined);
-    
+
   // FOR XTIVKA_TEST
-  let pointsArray: number[] = []; 
+  let pointsArray: number[] = [];
   const maxPointTrue = () => {
-    question.answers.forEach((variant) => 
-      pointsArray.push(variant.points)
-    );
+    question.answers.forEach((variant) => pointsArray.push(variant.points));
     return Math.max.apply(null, pointsArray);
   };
   // FOR XTIVKA_TEST
@@ -122,41 +117,61 @@ const Test: FC<TestProps> = ({
     setChecked([false, false, false]);
     const answermaxPointTrue = maxPointTrue();
     setTrueAnswer(answermaxPointTrue);
-  },[questionNum]);
+  }, [questionNum]);
 
   return (
     <>
-      <Card 
+      {/* // <div
+    //   style={{
+    //     height: '100%',
+    //     display: 'flex',
+    //     flexDirection: 'column',
+    //     alignItems: 'center',
+    //   }}
+    // > */}
+      <Card
         reactionSrc={reactionSrc}
         reactionShow={reactionShow}
         fullScreenBtnHandle={fullScreenBtnHandle}
         locked={locked}
         backBtnToggle={backBtnToggle}
       />
-      <ProgressBar 
-        // question={t('question')}
-        question={(language === 'ua') ? question.question.ua : question.question.pl}
-        amountQA={length}
-        current={questionNum + 1} 
-        nextIcon={nextIcon}
-        nextHandler={nextHandler}
-      />
-      {question.answers.map((variant, index: number) => (
-        <RadioInput 
-          key={index} 
-          index={index}
-          // text={t(`answer.${index}`)}
-          text={(language === 'ua') ? variant.answer.ua : variant.answer.pl}
-          value={variant.points}
-          reaction={variant.reaction}
-          setReactionSrc={setReactionSrc}
-          setValue={setValue}
-          setChecked={setChecked}
-          checked={checked}
-          indicatedAnswer={indicatedAnswer}
-          trueAnswer={trueAnswer}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+        }}
+      >
+        <ProgressBar
+          // question={t('question')}
+          question={question.question.ua}
+          amountQA={length}
+          current={questionNum + 1}
+          nextIcon={nextIcon}
+          nextHandler={nextHandler}
         />
-      ))}
+        {question.answers.map((variant, index: number) => (
+          <RadioInput
+            key={index}
+            index={index}
+            // text={t(`answer.${index}`)}
+            text={variant.answer.ua}
+            value={variant.points}
+            reaction={variant.reaction}
+            setReactionSrc={setReactionSrc}
+            setValue={setValue}
+            setChecked={setChecked}
+            checked={checked}
+            indicatedAnswer={indicatedAnswer}
+            trueAnswer={trueAnswer}
+          />
+        ))}
+      </div>
+      {/* </div> */}
     </>
   );
 };

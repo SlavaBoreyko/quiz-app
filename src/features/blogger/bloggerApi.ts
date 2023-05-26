@@ -119,18 +119,17 @@ export const bloggerApi = createApi({
     createNewBlogger: builder.mutation<any, CreateBloggerType>({
       async queryFn(formData) {
         try {
-          console.log({...formData});
           const docRef = await addDoc(collection(db, "bloggers"), {
             ...formData
           });
           // reference to users collection
-          const docRefUser = doc(db, 'users', formData.userId);
-          const updateUser = await updateDoc(docRefUser, {
-            blogger:{ 
-              id: docRef.id,
-              nickname: formData.id,
-            }
-          });
+          // const docRefUser = doc(db, 'users', formData.userId);
+          // const updateUser = await updateDoc(docRefUser, {
+          //   blogger:{ 
+          //     id: docRef.id,
+          //     nickname: formData.id,
+          //   }
+          // });
           return { data:  {id: docRef.id}};
         } catch(err) {
           return { error: err };

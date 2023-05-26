@@ -15,6 +15,7 @@ export interface TestInputsType {
 export const InitialStyte = {
   id: '',
   testName: {
+    en: '',
     ua: '',
     or: '',
     pl: '',
@@ -23,6 +24,7 @@ export const InitialStyte = {
     id: '',
     avatar: '',
     name: {
+      en: '',
       ua: '',
       or: '',
       pl: '',
@@ -37,6 +39,7 @@ export const InitialStyte = {
 
 const QuestionInitState = {
   question: {
+    en: '',
     pl: '',
     ua: '',
     or: '',
@@ -46,35 +49,35 @@ const QuestionInitState = {
 };
 
 const answersArrayInitState = [
-  {   
+  {
     points: 0,
-    answer: ''
+    answer: '',
   },
-  {   
+  {
     points: 0,
-    answer: ''
+    answer: '',
   },
-  {   
+  {
     points: 0,
-    answer: ''
+    answer: '',
   },
 ];
 
 const AdminPage = () => {
-
   const [pageForm, setPageForm] = useState<number>(0);
   const [dataTest, setDataTest] = useState<TestType>(InitialStyte);
   // const { id, testName, cover } = dataTest;
-  // File ? 
+  // File ?
   const [file, setFile] = useState<any>('');
   const [progress, setProgress] = useState<number | undefined>(undefined);
-    
-  const [ addTest ] = useAddTestMutation();
+
+  const [addTest] = useAddTestMutation();
 
   const [questionArray, setQuestionArray] = useState<QuestionTestType[]>([]);
   const [question, setQuestion] = useState<QuestionTestType>(QuestionInitState);
-  const [answersArray, setAnswersArray] = useState<any[]>(answersArrayInitState);
-
+  const [answersArray, setAnswersArray] = useState<any[]>(
+    answersArrayInitState,
+  );
 
   const uploadFile = () => {
     const name = new Date().getTime() + file.name;
@@ -82,21 +85,21 @@ const AdminPage = () => {
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
-      "state_changed",
+      'state_changed',
       (snapshot) => {
-        const progress = 
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is ", + progress + "% done");
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ', +progress + '% done');
         setProgress(progress);
-        switch(snapshot.state) {
-        case "paused":
-          console.log("Upload is paused");
-          break;
-        case "running":
-          console.log("Upload is running");
-          break;
-        default:
-          break;  
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+          default:
+            break;
         }
       },
       (error) => {
@@ -104,15 +107,14 @@ const AdminPage = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          toast.success("Image upload successfully");
-          if(pageForm === 0) {
-            setDataTest((prev) => ({...prev, cover: downloadURL}));
+          toast.success('Image upload successfully');
+          if (pageForm === 0) {
+            setDataTest((prev) => ({ ...prev, cover: downloadURL }));
           } else {
-            setQuestion((prev) => ({...prev, img: downloadURL}));
+            setQuestion((prev) => ({ ...prev, img: downloadURL }));
           }
-                    
         });
-      }
+      },
     );
   };
 
@@ -121,10 +123,10 @@ const AdminPage = () => {
   }, [file]);
 
   const handleChangeAnswers = (e: any, index: number) => {
-    setAnswersArray((prevArr) => { 
-      let array =  [...prevArr];
+    setAnswersArray((prevArr) => {
+      let array = [...prevArr];
       let answer = array[index];
-      if(e.target.type === 'number') {
+      if (e.target.type === 'number') {
         answer[e.target.name] = +e.target.value;
       } else {
         answer[e.target.name] = e.target.value;
@@ -133,159 +135,162 @@ const AdminPage = () => {
 
       return [...array];
     });
-        
   };
 
   const handleChangeTestMain = (e: any) => {
-    setDataTest((prev) => ({...prev, [e.target.name]: e.target.value }));
+    setDataTest((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleChange = (e: any) => {
-    setQuestion((prev) => ({...prev, [e.target.name]: e.target.value }));
+    setQuestion((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async(e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const saveTest = {...dataTest, questions: [...questionArray]};
-    if(pageForm > 0) {
+    const saveTest = { ...dataTest, questions: [...questionArray] };
+    if (pageForm > 0) {
       await addTest(saveTest);
     }
   };
 
   const clearForm = () => {
-    setQuestion({...QuestionInitState});
+    setQuestion({ ...QuestionInitState });
 
-    setAnswersArray(
-      [
-        {   
-          points: 0,
-          answer: ''
-        },
-        {   
-          points: 0,
-          answer: ''
-        },
-        {   
-          points: 0,
-          answer: ''
-        },
-      ]
-    );
+    setAnswersArray([
+      {
+        points: 0,
+        answer: '',
+      },
+      {
+        points: 0,
+        answer: '',
+      },
+      {
+        points: 0,
+        answer: '',
+      },
+    ]);
   };
 
   const nextHandler = (e: any) => {
     e.preventDefault();
-    (pageForm > 0) && setQuestionArray((prev) => [...prev, { ...question, answers: answersArray}]);
+    pageForm > 0 &&
+      setQuestionArray((prev) => [
+        ...prev,
+        { ...question, answers: answersArray },
+      ]);
     clearForm();
     setPageForm((prev) => (prev += 1));
   };
 
   console.log('dataTest', dataTest);
   console.log('questionArray', questionArray);
-    
+
   return (
-    <Container justifyContent='flex-start' locked={false}>
+    <Container justifyContent="flex-start" locked={false}>
       <form className={s.answersDiv}>
-    
-        {(pageForm === 0) && (
+        {pageForm === 0 && (
           <>
-            <input 
-              type="text" 
+            <input
+              type="text"
               className={s.styleInput}
-              value={dataTest.testName.ua} 
-              name='testName'
-              placeholder='Test Name'
+              value={dataTest.testName.ua}
+              name="testName"
+              placeholder="Test Name"
               onChange={handleChangeTestMain}
             />
-            <input 
-              type="text" 
+            <input
+              type="text"
               className={s.styleInput}
-              value={dataTest.id} 
-              name='id'
-              placeholder='Test id'
+              value={dataTest.id}
+              name="id"
+              placeholder="Test id"
               onChange={handleChangeTestMain}
             />
-            <input 
-              type="file" 
-              // value={file} 
+            <input
+              type="file"
+              // value={file}
               className={s.styleInput}
-              name='file' 
+              name="file"
               onChange={(e) => {
                 const file = (e.target as HTMLInputElement).files;
-                if(file) {
+                if (file) {
                   setFile(file[0]);
                 }
-              }}/>
+              }}
+            />
           </>
         )}
-        
 
         {/* <input type="text" value={testName} name='testName' onChange={handleChange}/> */}
         {/* <textarea rows={2} /> */}
 
         {/* <label htmlFor='question'>Question:</label> */}
 
-        {(pageForm > 0) && (
+        {pageForm > 0 && (
           <>
-            <input 
-              type="text" 
-              value={question.question.ua} 
+            <input
+              type="text"
+              value={question.question.ua}
               className={s.styleInput}
-              name='question'
-              placeholder='Question'
+              name="question"
+              placeholder="Question"
               onChange={handleChange}
             />
-                
+
             <div className={s.answersDiv}>
-              {   
-                answersArray.map((answer, index) => (
-                  <div className={s.horizonFlex}>
-                    <input 
-                      className={s.pointsInput}
-                      key={`${index}-points`}
-                      type="number" 
-                      value={answer.points} 
-                      name='points'
-                      onChange={(e) => handleChangeAnswers(e, index)}
-                    />
-                    <input 
-                      key={`${index}-answer`}
-                      className={s.styleInput}
-                      type="text" 
-                      value={answer.answer} 
-                      name='answer'
-                      placeholder={`Answer ${index+1}`}
-                      onChange={(e) => handleChangeAnswers(e, index)}
-                    />
-                  </div>
-                ))
-              }
+              {answersArray.map((answer, index) => (
+                <div className={s.horizonFlex}>
+                  <input
+                    className={s.pointsInput}
+                    key={`${index}-points`}
+                    type="number"
+                    value={answer.points}
+                    name="points"
+                    onChange={(e) => handleChangeAnswers(e, index)}
+                  />
+                  <input
+                    key={`${index}-answer`}
+                    className={s.styleInput}
+                    type="text"
+                    value={answer.answer}
+                    name="answer"
+                    placeholder={`Answer ${index + 1}`}
+                    onChange={(e) => handleChangeAnswers(e, index)}
+                  />
+                </div>
+              ))}
             </div>
 
-            <input 
-              type="file" 
-              // value={file} 
+            <input
+              type="file"
+              // value={file}
               className={s.styleInput}
-              name='file' 
+              name="file"
               onChange={(e) => {
                 const file = (e.target as HTMLInputElement).files;
-                if(file) {
+                if (file) {
                   setFile(file[0]);
                 }
-              }}/>
+              }}
+            />
           </>
         )}
 
-        <button 
+        <button
           className={s.styleInput}
           disabled={progress !== undefined && progress < 100}
           onClick={nextHandler}
-        >Next +</button>
-        <button 
+        >
+          Next +
+        </button>
+        <button
           className={s.styleInput}
           disabled={progress !== undefined && progress < 100}
           onClick={handleSubmit}
-        >Save Test</button>
+        >
+          Save Test
+        </button>
       </form>
     </Container>
   );

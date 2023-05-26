@@ -1,4 +1,10 @@
-import React, { FC, MouseEventHandler, useEffect, useRef, useState } from 'react';
+import React, {
+  FC,
+  MouseEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import s from './EditCard.module.scss';
 import { toast } from 'react-toastify';
 import cameraIcon from '../../../assets/svg/buttons/camera.svg';
@@ -6,7 +12,10 @@ import iconLock from '../../../assets/svg/lock.svg';
 import uploadFile from '../../../utils/img/uploadFile';
 import { TestCardType } from '../../../types/test.types';
 import ButtonFollow from '../../Buttons/ButtonFollow/ButtonFollow';
-import { useCreateTestCardMutation, useUpdateTestCardMutation } from '../../../features/test/testApi';
+import {
+  useCreateTestCardMutation,
+  useUpdateTestCardMutation,
+} from '../../../features/test/testApi';
 import SelectOption from '../../Buttons/SelectOption/SelectOption';
 
 const CardInitialState = {
@@ -19,12 +28,14 @@ const CardInitialState = {
     id: '',
     avatar: '',
     name: {
+      en: '',
       pl: '',
       ua: '',
       or: '',
-    }
+    },
   },
   testName: {
+    en: '',
     pl: '',
     ua: '',
     or: '',
@@ -43,6 +54,7 @@ export interface EditCardProps {
     id: string;
     avatar: string;
     name: {
+      en: string;
       pl: string;
       ua: string;
       or: string;
@@ -64,13 +76,14 @@ const EditCard: FC<EditCardProps> = ({
   testName,
   price,
 }) => {
-
   const [createTestCard] = useCreateTestCardMutation();
   const [updateTestCard] = useUpdateTestCardMutation();
   const [cardData, setCardData] = useState<TestCardType>(CardInitialState);
   const [file, setFile] = useState<any>('');
   const [progress, setProgress] = useState<number | undefined>(undefined);
-  const [previewCover, setPreviewCover] = useState<string | undefined>(undefined);
+  const [previewCover, setPreviewCover] = useState<string | undefined>(
+    undefined,
+  );
   const [audienceType, setAudienceType] = useState<string>('men');
   const [paymentType, setPaymentType] = useState<string>('paid');
   const [currencyType, setCurrencyType] = useState<string>('');
@@ -78,7 +91,6 @@ const EditCard: FC<EditCardProps> = ({
 
   const refBlurImg = useRef<HTMLDivElement>(null);
   const refIconLock = useRef<HTMLDivElement>(null);
-
 
   const currencyTypeArray = [
     {
@@ -91,54 +103,54 @@ const EditCard: FC<EditCardProps> = ({
       icon: '',
       title: 'zł',
     },
-  ]; 
+  ];
 
   // AUTO FILL FORM
   useEffect(() => {
-    if(blogger) {
+    if (blogger) {
       setCardData((prev) => ({
-        ...prev, 
+        ...prev,
         blogger: {
-          ...blogger, 
-        }
+          ...blogger,
+        },
       }));
       blogger.audience && setAudienceType(blogger.audience);
     }
   }, [blogger]);
 
   useEffect(() => {
-    if(docId) {
+    if (docId) {
       setCardData((prev) => ({
-        ...prev, 
+        ...prev,
         docId: docId,
       }));
     }
-    if(coverUrl && file === '') {
+    if (coverUrl && file === '') {
       setPreviewCover(coverUrl);
     }
-    if(previewCover) {
+    if (previewCover) {
       setCardData((prev) => ({
-        ...prev, 
+        ...prev,
         cover: previewCover,
       }));
-    } 
-    if(testName) {
+    }
+    if (testName) {
       setCardData((prev) => ({
-        ...prev, 
+        ...prev,
         testName: {
           ...prev.testName,
-          pl: testName, 
-        }
+          pl: testName,
+        },
       }));
     }
     setCardData((prev) => ({
-      ...prev, 
+      ...prev,
       currency: currencyType,
     }));
 
-    if(price) {
+    if (price) {
       setCardData((prev) => ({
-        ...prev, 
+        ...prev,
         price: price,
       }));
     }
@@ -146,106 +158,101 @@ const EditCard: FC<EditCardProps> = ({
   // //
 
   useEffect(() => {
-    if(file) {
+    if (file) {
       uploadFile(file, setProgress, setPreviewCover);
     }
-
   }, [file]);
 
   useEffect(() => {
-    if(refBlurImg.current && previewCover) {
+    if (refBlurImg.current && previewCover) {
       refBlurImg.current.style.backgroundImage = `url("${previewCover}")`;
     }
   }, [refBlurImg.current, previewCover]);
 
   useEffect(() => {
-    if(!previewCover && refIconLock.current) {
+    if (!previewCover && refIconLock.current) {
       refIconLock.current.style.backgroundImage = `url("${cameraIcon}")`;
     } else if (previewCover && refIconLock.current) {
       refIconLock.current.style.backgroundImage = `url("${iconLock}")`;
     }
-  }, [refIconLock.current,previewCover]);
+  }, [refIconLock.current, previewCover]);
 
   useEffect(() => {
-    if(cardData.price !== 0) {
+    if (cardData.price !== 0) {
       setPaymentType('paid');
     }
   }, [cardData.price]);
 
-  const paymentTypeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {  
+  const paymentTypeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       e.preventDefault();
       setPaymentType(e.currentTarget.value);
-      if(e.currentTarget.value === 'paid') {
+      if (e.currentTarget.value === 'paid') {
         setCurrencyType('PLN');
         setCardData((prev) => ({
-          ...prev, 
+          ...prev,
           payment: 'paid',
         }));
       } else if (e.currentTarget.value === 'free') {
         setCurrencyType('');
         setCardData((prev) => ({
-          ...prev, 
+          ...prev,
           payment: 'free',
         }));
-      } 
+      }
     }
   };
 
-
-  const currencyTypeHandler = (e: any) => {  
+  const currencyTypeHandler = (e: any) => {
     setCurrencyType(e.target.value);
   };
 
-
   const handleChangePl = (e: any) => {
-    setCardData((prev: any) => (
-      {...prev, [e.target.name]: { pl: e.target.value } }
-    ));
+    setCardData((prev: any) => ({
+      ...prev,
+      [e.target.name]: { pl: e.target.value },
+    }));
   };
 
   const handleChangeNum = (e: any) => {
-    setCardData((prev: any) => (
-      {...prev, [e.target.name]: +e.target.value }
-    ));
+    setCardData((prev: any) => ({ ...prev, [e.target.name]: +e.target.value }));
   };
 
   const validateInput = () => {
     let emptyFields: string[] = [];
     let state: boolean = true;
-    if (file === '' && !cover) { 
-      emptyFields.push('file'); 
+    if (file === '' && !cover) {
+      emptyFields.push('file');
       state = false;
     }
-    if (!cardData.testName.pl.trim()) { 
-      emptyFields.push('testName'); 
+    if (!cardData.testName.pl.trim()) {
+      emptyFields.push('testName');
       state = false;
     }
-    // validate blogger.avatar, name, id 
+    // validate blogger.avatar, name, id
 
     setEmptyFields(emptyFields);
     return state;
   };
 
-  const handleSubmit = async(e: any, publishState: boolean) => {
+  const handleSubmit = async (e: any, publishState: boolean) => {
     e.preventDefault();
     const validInput = validateInput();
     if (!validInput) {
       return toast.error('Please fill out all required fields');
     }
-    if(validInput) {
-      if(docId) {
-
-        updateTestCard({docId: docId, cardData: {...cardData, published: publishState}});
+    if (validInput) {
+      if (docId) {
+        updateTestCard({
+          docId: docId,
+          cardData: { ...cardData, published: publishState },
+        });
 
         setOpenEditCard(false);
       } else {
-        createTestCard({...cardData, published: publishState});
+        createTestCard({ ...cardData, published: publishState });
       }
-      setCardData((prev: any) => (
-        {...prev, published: publishState}
-      ));
-      
+      setCardData((prev: any) => ({ ...prev, published: publishState }));
     }
   };
 
@@ -257,39 +264,47 @@ const EditCard: FC<EditCardProps> = ({
         <div className={s.testCardContainter}>
           {/* COVER */}
           <div className={s.coverFrame}>
-            <label htmlFor={'cover'} >
-              <input 
-                id={'cover'} 
+            <label htmlFor={'cover'}>
+              <input
+                id={'cover'}
                 name={'file'}
-                type='file' 
+                type="file"
                 onChange={(e) => {
                   const file = (e.target as HTMLInputElement).files;
-                  if(file) {
+                  if (file) {
                     setFile(file[0]);
                   }
                 }}
-              /> 
-              {
-                (previewCover) ? (
-                  <>
-                    <div ref={refIconLock} className={s.iconLock} />
-                    <div ref={refBlurImg} className={s.coverBlur} />
-                  </>
-                ) : (
-                  <>
-                    <div ref={refIconLock} className={s.iconCamera} />
-                    <div className={emptyFields.includes('file') ? s.coverUploadError : s.coverUpload} />
-                    <p className={s.fontBackgroundColor}
-                      style={{ 
-                        position:'absolute', 
-                        display: 'flex',
-                        width: '14.5rem',
-                        bottom: '30%',
-                        justifyContent: 'center',
-                      }}
-                    >Upload a cover 1:1</p> 
-                  </>
-                )}
+              />
+              {previewCover ? (
+                <>
+                  <div ref={refIconLock} className={s.iconLock} />
+                  <div ref={refBlurImg} className={s.coverBlur} />
+                </>
+              ) : (
+                <>
+                  <div ref={refIconLock} className={s.iconCamera} />
+                  <div
+                    className={
+                      emptyFields.includes('file')
+                        ? s.coverUploadError
+                        : s.coverUpload
+                    }
+                  />
+                  <p
+                    className={s.fontBackgroundColor}
+                    style={{
+                      position: 'absolute',
+                      display: 'flex',
+                      width: '14.5rem',
+                      bottom: '30%',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    Upload a cover 1:1
+                  </p>
+                </>
+              )}
             </label>
           </div>
           <div className={s.divPaddingContainer}>
@@ -297,53 +312,63 @@ const EditCard: FC<EditCardProps> = ({
               <div className={s.centerTitle}>
                 {/* HEADER */}
                 {/* <Link to={`/${bloggerId}`}> */}
-                <div className={s.divCenterBlogger} >
-                  {(blogger && blogger.avatar) ? (
-                    <img className={s.bloggerAvatar} src={blogger.avatar} alt={`Ава`}/>
+                <div className={s.divCenterBlogger}>
+                  {blogger && blogger.avatar ? (
+                    <img
+                      className={s.bloggerAvatar}
+                      src={blogger.avatar}
+                      alt={`Ава`}
+                    />
                   ) : (
                     <div className={s.bloggerAvatar} />
                   )}
-                  {(blogger && blogger.name.pl) ? (
+                  {blogger && blogger.name.pl ? (
                     <span className={s.bloggerName}>{blogger.name.pl}</span>
                   ) : (
-                    <span className={s.bloggerNameTemplate}>{"Blogger's name"}</span>
+                    <span className={s.bloggerNameTemplate}>
+                      {"Blogger's name"}
+                    </span>
                   )}
                 </div>
                 {/* TITLE */}
                 <div className={s.alignItemsCenter}>
-                <textarea 
-                  className={emptyFields.includes('testName') ? s.editTitleError : s.editTitle}
-                  name={'testName'} 
-                  rows={2} 
-                  placeholder='Title of a game:'
-                  value={cardData.testName.pl}
-                  onChange={handleChangePl}
-                /> 
+                  <textarea
+                    className={
+                      emptyFields.includes('testName')
+                        ? s.editTitleError
+                        : s.editTitle
+                    }
+                    name={'testName'}
+                    rows={2}
+                    placeholder="Title of a game:"
+                    value={cardData.testName.pl}
+                    onChange={handleChangePl}
+                  />
                 </div>
               </div>
 
               {/* FOOTER */}
-              <div className={s.divResult} style={{ alignItems: 'flex-end',}}>
-                <label 
-                  className={paymentType === 'free' ? 
-                    s.paymentTypeOn :  s.paymentTypeOff
-                  } 
+              <div className={s.divResult} style={{ alignItems: 'flex-end' }}>
+                <label
+                  className={
+                    paymentType === 'free' ? s.paymentTypeOn : s.paymentTypeOff
+                  }
                   htmlFor={'free'}
                 >
-                  <input 
-                    type="radio" 
+                  <input
+                    type="radio"
                     id={'free'}
                     name={'free'}
-                    value={'free'} 
-                    onChange={paymentTypeHandler} 
+                    value={'free'}
+                    onChange={paymentTypeHandler}
                     checked={paymentType === 'free'}
                   />
                   FREE
                 </label>
-          
-                <input 
-                  className={ paymentType === 'paid' ? s.inputPrice : ''}
-                  type="number" 
+
+                <input
+                  className={paymentType === 'paid' ? s.inputPrice : ''}
+                  type="number"
                   name={'price'}
                   style={{
                     margin: '0rem 0.5rem',
@@ -354,10 +379,14 @@ const EditCard: FC<EditCardProps> = ({
                   }}
                   placeholder={'10'}
                   onChange={handleChangeNum}
-                  value={cardData.price === 0 ? '' : Number(cardData.price).toString()}
+                  value={
+                    cardData.price === 0
+                      ? ''
+                      : Number(cardData.price).toString()
+                  }
                 />
                 {/* CURRENCIES */}
-                <SelectOption 
+                <SelectOption
                   size={'big-coin'}
                   // color={'#adb5bd'}
                   onChange={(e) => {
@@ -366,7 +395,7 @@ const EditCard: FC<EditCardProps> = ({
                   }}
                   options={currencyTypeArray}
                   selected={currencyType}
-                />     
+                />
               </div>
             </div>
           </div>
@@ -385,7 +414,7 @@ const EditCard: FC<EditCardProps> = ({
         </div> */}
       </div>
       <div className={s.footerBtn}>
-        <div style={{ marginTop: '0.5rem'}}>
+        <div style={{ marginTop: '0.5rem' }}>
           {/* ANALYTICS */}
           {/* <p className={s.smallFont}>Sell:
             <span className={s.accentWhiteFont}> 0 {cardData.type}s</span>
@@ -403,22 +432,22 @@ const EditCard: FC<EditCardProps> = ({
               width: '100%',
             }}
           >
-            <ButtonFollow 
-              caption='Save'
-              onClick={(e:any) => handleSubmit(e, false)}
+            <ButtonFollow
+              caption="Save"
+              onClick={(e: any) => handleSubmit(e, false)}
               flexGrow={0}
             />
           </div>
-          <div style={{ marginRight: '1rem'}}/>
+          <div style={{ marginRight: '1rem' }} />
           <div
             style={{
               width: '100%',
             }}
           >
-            <ButtonFollow 
+            <ButtonFollow
               fill={true}
-              caption='Post'
-              onClick={(e:any) => handleSubmit(e, true)}
+              caption="Post"
+              onClick={(e: any) => handleSubmit(e, true)}
               flexGrow={0}
             />
           </div>
