@@ -1,0 +1,22 @@
+.containerNumbers {
+  width: 100%;
+  display: flex;
+}
+
+.numberDiv {
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  @media (min-width: 800px) {
+    grid-template-columns: 3fr 3fr 3fr 1fr;
+    column-gap: 3rem;
+  }
+
+  justify-items: center;
+  // modification with numbers 3.3
+  align-items: flex-end;
+  font-size: 1rem;
+  color: #adb5bd;
+  text-align: center;
+}

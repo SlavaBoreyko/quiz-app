@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
-import BloggersHeader from '../components/Bloggers/BloggersHeader/BloggersHeader';
 import Container from '../components/Containers/Container/Container';
 import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
 import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
@@ -36,8 +35,9 @@ import EditCard from '../components/BloggerCabinet/EditCard/EditCard';
 import ContainerHint from '../components/BloggerCabinet/ContainerHint/ContainerHint';
 import imgHint2 from '../assets/mockups/hint-screen-2-2.png';
 import ContainerList from '../components/Containers/ContainerList/ContainerList';
-import { BloggersHeader2 } from '../components/Bloggers/BloggersHeader2/BloggersHeader2';
+import { BloggersHeader } from '../components/Bloggers/BloggersHeader/BloggersHeader';
 import { SocialType } from '../components/Bloggers/types/blogger.types';
+import { BloggerNumbers } from '../components/Bloggers/BloggerNumbers/BloggerNumbers';
 
 const BloggerPage = () => {
   const myRefCardHint = useRef<HTMLDivElement>(null);
@@ -192,28 +192,19 @@ const BloggerPage = () => {
       locked={false}
     >
       {blogger ? (
-        <BloggersHeader2
+        <BloggersHeader
           id={blogger.id}
           key={blogger.id}
           avatar={blogger.avatar}
           name={blogger.name.ua}
-          mainBlog={mainBlog}
-          // mainBlogSoc={blogger.mainBlog.soc}
-          // mainBlogName={blogger.mainBlog.ua}
-          // mainBlogFollowers={blogger.mainBlog.followers}
-          // mainBlogLink={blogger.mainBlog.link}
-          followers={blogger.followers}
-          passedTests={blogger.passedTests}
-          // description={
-          //   language === 'ua'
-          //     ? blogger.description.ua
-          //     : blogger.description.pl
-          // }
           description={blogger.description.ua}
-          language={language}
-          followHandler={followHandler}
-          followingState={followingState}
-        />
+        >
+          <BloggerNumbers
+            mainBlog={mainBlog}
+            followers={blogger.followers}
+            passedTests={blogger.passedTests}
+          />
+        </BloggersHeader>
       ) : (
         <div
           style={{
