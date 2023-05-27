@@ -39,6 +39,7 @@ import { BloggersHeader } from '../components/Bloggers/BloggersHeader/BloggersHe
 import { SocialType } from '../components/Bloggers/types/blogger.types';
 import { BloggerNumbers } from '../components/Bloggers/BloggerNumbers/BloggerNumbers';
 import { SkeletonBloggerHeader } from '../components/shared/SkeletonLayouts/SkeletonBloggerHeader/SkeletonBloggerHeader';
+import { SkeletonTestCards } from '../components/shared/SkeletonLayouts';
 
 const BloggerPage = () => {
   const myRefCardHint = useRef<HTMLDivElement>(null);
@@ -209,210 +210,24 @@ const BloggerPage = () => {
       ) : (
         <SkeletonBloggerHeader />
       )}
-      {isBloggerProfile && !editMode ? (
-        <HeaderCreateBtn
-          createGame={createGame}
-          setCreateGame={setCreateGame}
-          createTest={createTest}
-          setCreateTest={setCreateTest}
-        />
-      ) : (
-        <></>
-      )}
-      <div
-        ref={myRefCardHint}
-        onClick={() => setCreateGame(true)}
-        style={{
-          width: '100%',
-          cursor: 'pointer',
-        }}
-      >
-        {editPathname && (
-          <ContainerHint
-            img={imgHint2}
-            textHint={'Create Game Card with cover and title 🥰'}
-          />
-        )}
-      </div>
-      {!editMode && createGame && formData && (
-        <EditCard
-          blogger={{
-            id: formData.id,
-            avatar: formData.avatar,
-            name: {
-              en: formData.name.en,
-              pl: formData.name.pl,
-              ua: formData.name.pl,
-              or: formData.name.pl,
-            },
-          }}
-        />
-      )}
 
-      {/* DEMO SubcriptionCard */}
-      {/* {(blogger) ? (
-        <>
-          <SubcriptionCard
-            option={'donation'}
-            footerText={(language === 'or') ? 
-              '<p>- От $1</p><p>- Месседж блогеру</p>' : 
-              '<p>- Від $1</p><p>- Меседж блогеру</p>'
-            }
-            onClick={(userState.id) && (() => openInNewTab('subscritption.link'))}
-            price={'$'} 
-          />
-          <SubcriptionCard
-            option={'subscription'}
-            footerText={(language === 'or') ? 
-              '<p>- 4 тесты в месяц</p><p>- Флирт-тренажер</p>' : 
-              '<p>- 4 тести в місяць</p><p>- Флірт-тренажер</p>'
-            }
-            onClick={(userState.id) && (() => openInNewTab('subscritption.link'))}
-            price={'5$'} 
-          />
-        </>
-      ) : (
-        <Skeleton     
-          sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
-          variant="rounded"  
-          animation="wave"  
-          width={'100%'} 
-          height={'8rem'} 
-        />
-      )} */}
       <ContainerList>
         {testList ? (
-          testList.map((test, index) =>
-            test.type && test.type === 'game' ? (
-              <TestCardLock
-                editMode={isBloggerProfile}
-                docId={test.docId}
-                key={test.id}
-                // testName={
-                //   language === 'ua' ? test.testName.ua : test.testName.pl
-                // }
-                testName={test.testName.ua}
-                cover={test.cover}
-                bloggerId={test.blogger.id}
-                // bloggerName={
-                //   language === 'ua'
-                //     ? test.blogger.name.ua
-                //     : test.blogger.name.pl
-                // }
-                bloggerName={test.blogger.name.ua}
-                bloggerAvatar={test.blogger.avatar}
-                // picsMini={(userState.id) ? test.picsMini : undefined}
-                picsMini={test.picsMini}
-                footerText={
-                  // (test.payment === 'free' && userState.id) ?
-                  test.payment === 'free'
-                    ? `${language === 'ua' ? 'Фото: ' : 'Zdjęcia: '} ${
-                        test.qLength
-                      }`
-                    : test.payment !== 'free' && userState.id
-                    ? `${language === 'ua' ? '' : ''}`
-                    : `${
-                        language === 'ua' ? 'Вход через email' : 'Zaloguj się'
-                      }`
-                }
-                onClick={
-                  // (test.payment === 'free' && userState.id) ? () => navigate(`/game/${test.id}/1`) :
-                  test.payment === 'free'
-                    ? () => navigate(`/game/${test.id}/1`)
-                    : test.payment !== 'free' && userState.id
-                    ? () => openInNewTab(test.payment)
-                    : onGoogleClick
-                }
-                price={test.price ? test.price : undefined}
-                button={
-                  // (test.payment === 'free' && userState.id) ?
-                  test.payment === 'free' ? (
-                    <ButtonPlay width={'22%'} />
-                  ) : test.payment !== 'free' && userState.id ? (
-                    <ButtonPrice
-                      currency={test.currency}
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        openInNewTab(test.payment);
-                      }}
-                    />
-                  ) : (
-                    <BtnEmail />
-                  )
-                }
-              />
-            ) : (
-              <TestCardOpen
-                key={test.id}
-                testName={test.testName.ua}
-                cover={test.cover}
-                bloggerId={test.blogger.id}
-                bloggerName={test.blogger.name.ua}
-                bloggerAvatar={test.blogger.avatar}
-                footerText={
-                  // (test.payment === 'free' && userState.id) ?
-                  test.payment === 'free'
-                    ? `${'Питань:  '} ${test.qLength}`
-                    : test.payment !== 'free'
-                    ? `${'Платный тест '}`
-                    : `${'Вход через email'}`
-                }
-                onClick={
-                  test.payment === 'free'
-                    ? () => navigate(`/test/${test.id}/1`)
-                    : test.payment !== 'free' && userState.id
-                    ? () => openInNewTab(test.payment)
-                    : onGoogleClick
-                }
-                button={
-                  test.payment === 'free' ? (
-                    <ButtonPlay width={'22%'} />
-                  ) : test.payment !== 'free' && userState.id ? (
-                    <ButtonPrice
-                      currency={test.currency}
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        openInNewTab(test.payment);
-                      }}
-                    />
-                  ) : (
-                    <BtnEmail />
-                  )
-                }
-              />
-            ),
-          )
+          testList.map((test) => (
+            <TestCardOpen
+              key={test.id}
+              testName={test.testName.ua}
+              cover={test.cover}
+              bloggerId={test.blogger.id}
+              bloggerName={test.blogger.name.ua}
+              bloggerAvatar={test.blogger.avatar}
+              footerText={`${'Питань:  '} ${test.qLength}`}
+              onClick={() => navigate(`/test/${test.id}/1`)}
+              button={<ButtonPlay width={'22%'} />}
+            />
+          ))
         ) : (
-          <>
-            <Skeleton
-              sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
-              variant="rounded"
-              animation="wave"
-              width={'100%'}
-              height={'15rem'}
-            />
-            <Skeleton
-              sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
-              variant="rounded"
-              animation="wave"
-              width={'100%'}
-              height={'15rem'}
-            />
-            <Skeleton
-              sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
-              variant="rounded"
-              animation="wave"
-              width={'100%'}
-              height={'15rem'}
-            />
-            <Skeleton
-              sx={{ bgcolor: '#2f363c', marginTop: '1rem' }}
-              variant="rounded"
-              animation="wave"
-              width={'100%'}
-              height={'15rem'}
-            />
-          </>
+          <SkeletonTestCards length={4} height="15rem" />
         )}
       </ContainerList>
       <FooterPolicy language={language} />
