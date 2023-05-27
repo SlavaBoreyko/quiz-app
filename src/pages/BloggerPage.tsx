@@ -38,6 +38,7 @@ import ContainerList from '../components/Containers/ContainerList/ContainerList'
 import { BloggersHeader } from '../components/Bloggers/BloggersHeader/BloggersHeader';
 import { SocialType } from '../components/Bloggers/types/blogger.types';
 import { BloggerNumbers } from '../components/Bloggers/BloggerNumbers/BloggerNumbers';
+import { SkeletonBloggerHeader } from '../components/shared/SkeletonLayouts/SkeletonBloggerHeader/SkeletonBloggerHeader';
 
 const BloggerPage = () => {
   const myRefCardHint = useRef<HTMLDivElement>(null);
@@ -206,38 +207,7 @@ const BloggerPage = () => {
           />
         </BloggersHeader>
       ) : (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            width: '100%',
-          }}
-        >
-          <div style={{ width: '100%' }}>
-            <Skeleton
-              sx={{
-                bgcolor: '#2f363c',
-                margin: '-1rem 2rem 0rem 0',
-                justifyContent: 'flex-start',
-              }}
-              variant="rounded"
-              animation="wave"
-              width="48%"
-              height="17rem"
-            />
-            <Skeleton
-              sx={{
-                bgcolor: '#2f363c',
-                margin: '1rem 2rem 2rem 0',
-                justifyContent: 'flex-start',
-              }}
-              variant="rounded"
-              animation="wave"
-              width="48%"
-              height="7rem"
-            />
-          </div>
-        </div>
+        <SkeletonBloggerHeader />
       )}
       {isBloggerProfile && !editMode ? (
         <HeaderCreateBtn
