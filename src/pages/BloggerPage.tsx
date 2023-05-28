@@ -40,6 +40,7 @@ import { SocialType } from '../components/Bloggers/types/blogger.types';
 import { BloggerNumbers } from '../components/Bloggers/BloggerNumbers/BloggerNumbers';
 import { SkeletonBloggerHeader } from '../components/shared/SkeletonLayouts/SkeletonBloggerHeader/SkeletonBloggerHeader';
 import { SkeletonTestCards } from '../components/shared/SkeletonLayouts';
+import TestCard from '../components/Profile/TestCard/TestCard';
 
 const BloggerPage = () => {
   const myRefCardHint = useRef<HTMLDivElement>(null);
@@ -210,18 +211,15 @@ const BloggerPage = () => {
       ) : (
         <SkeletonBloggerHeader />
       )}
-
       <ContainerList>
         {testList ? (
           testList.map((test) => (
-            <TestCardOpen
+            <TestCard
               key={test.id}
               testName={test.testName.ua}
               cover={test.cover}
-              bloggerId={test.blogger.id}
-              bloggerName={test.blogger.name.ua}
-              bloggerAvatar={test.blogger.avatar}
-              footerText={`${'Питань:  '} ${test.qLength}`}
+              blogger={test.blogger}
+              footerText={`Питань: ${test.qLength}`}
               onClick={() => navigate(`/test/${test.id}/1`)}
               button={<ButtonPlay width={'22%'} />}
             />

@@ -4,15 +4,14 @@ import s from './TestCardPass.module.scss';
 
 import { useFetchVerdictQuery } from '../../../../features/user/userApi';
 import TestCard from '../TestCard';
+import { BloggerShortType } from '../../../../types/blogger.types';
 
 export interface TestCardPassProps {
   id: string;
   testName: string;
   cover: string;
-    // blogger: SimpleBloggerType;
-  bloggerId: string;
-  bloggerName: string; 
-  bloggerAvatar: string;
+  // blogger: SimpleBloggerType;
+  blogger: BloggerShortType;
 
   points: number;
   language: string;
@@ -21,13 +20,13 @@ export interface TestCardPassProps {
 
 const TestCardPass: FC<TestCardPassProps> = ({
   id,
-  points, onClick,
-  testName, cover,
-  bloggerId,
-  bloggerName, 
-  bloggerAvatar,
+  points,
+  onClick,
+  testName,
+  cover,
+  blogger,
 
-  language
+  language,
 }) => {
   // const refImg = useRef<HTMLDivElement>(null);
 
@@ -38,28 +37,24 @@ const TestCardPass: FC<TestCardPassProps> = ({
 
   // }, [refImg.current])
 
-  const { data } = useFetchVerdictQuery({ testId: id, points});
+  const { data } = useFetchVerdictQuery({ testId: id, points });
 
   return (
     <TestCard
       onClick={onClick}
       // coverImage={ <div ref={refImg} className={s.coverOpen} /> }
-      coverImage={cover}
-      bloggerId={bloggerId}
-      bloggerName={bloggerName}
-      bloggerAvatar={bloggerAvatar}
+      cover={cover}
+      blogger={blogger}
       testName={testName}
       footerText={data && (language === 'or' ? data.status.or : data.status.ua)}
-      buttonEl={data && (
-        <>
-          <img className={s.statusIcon} src={data.icon} alt='Status icon'/>
-          <CircleBar 
-            resultPoints={points} 
-            width={4}
-            fontSize={'1.2rem'}
-          />
-        </>
-      )}
+      button={
+        data && (
+          <>
+            <img className={s.statusIcon} src={data.icon} alt="Status icon" />
+            <CircleBar resultPoints={points} width={4} fontSize={'1.2rem'} />
+          </>
+        )
+      }
     />
   );
 };

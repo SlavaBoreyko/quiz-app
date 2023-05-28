@@ -216,9 +216,7 @@ const ExplorePage = () => {
                       key={test.id}
                       testName={test.testName.ua}
                       cover={test.cover}
-                      bloggerId={test.blogger.id}
-                      bloggerName={test.blogger.name.ua}
-                      bloggerAvatar={test.blogger.avatar}
+                      blogger={test.blogger}
                       footerText={
                         test.payment === 'free'
                           ? `${

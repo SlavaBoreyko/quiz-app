@@ -4,22 +4,21 @@ import s from './TestCardLock.module.scss';
 import ButtonPlay from '../../../Buttons/ButtonPlay/ButtonPlay';
 import iconLock from '../../../../assets/svg/lock.svg';
 import TestCard from '../TestCard';
+import { BloggerShortType } from '../../../../types/blogger.types';
 
 export interface TestCardLockProps {
-    editMode?: boolean;
-    docId?: string;
+  editMode?: boolean;
+  docId?: string;
 
-    onClick: MouseEventHandler<HTMLDivElement>;
-    cover: string;
-    bloggerId: string; 
-    bloggerName: string; 
-    bloggerAvatar: string;
-    testName: string;
+  onClick: MouseEventHandler<HTMLDivElement>;
+  cover: string;
+  blogger: BloggerShortType;
+  testName: string;
 
-    picsMini: string[] | undefined;
-    footerText: string;
-    price?: number;
-    button?: any;
+  picsMini: string[] | undefined;
+  footerText: string;
+  price?: number;
+  button?: any;
 }
 
 const TestCardLock: FC<TestCardLockProps> = ({
@@ -28,71 +27,64 @@ const TestCardLock: FC<TestCardLockProps> = ({
 
   onClick,
   cover,
-  bloggerId,
-  bloggerName,
-  bloggerAvatar,
+  blogger,
 
-  testName, 
+  testName,
   picsMini,
   footerText,
   price,
-  button
+  button,
 }) => {
-
   const refBlurImg = useRef<HTMLDivElement>(null);
   const refIconLock = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if(refBlurImg.current) {
+    if (refBlurImg.current) {
       refBlurImg.current.style.backgroundImage = `url("${cover}")`;
     }
   }, [refBlurImg.current]);
 
   useEffect(() => {
-    if(refIconLock.current) {
+    if (refIconLock.current) {
       refIconLock.current.style.backgroundImage = `url("${iconLock}")`;
     }
   }, [refIconLock.current]);
 
   console.log('testcardlock docId', docId);
   return (
-    <TestCard 
-      editMode={editMode}
-      docId={docId}
+    <TestCard
       onClick={onClick}
-      coverUrl={cover}
-      coverImage={
-        <>
-          <div ref={refIconLock} className={s.iconLock} />
-          <div ref={refBlurImg} className={s.coverBlur} />
-        </>
-      }
-      bloggerId={bloggerId}
-      bloggerName={bloggerName}
-      bloggerAvatar={bloggerAvatar}
+      cover={cover}
+      // coverImage={
+      //   <>
+      //     <div ref={refIconLock} className={s.iconLock} />
+      //     <div ref={refBlurImg} className={s.coverBlur} />
+      //   </>
+      // }
+      blogger={blogger}
       testName={testName}
-      footerText={(picsMini) ? ( 
-        <>
-          <div 
-            style={{ 
-              marginLeft: '2.5rem', 
-              display: 'flex', 
-              alignItems: 'center', 
-            }}
-          >
-            {
-              picsMini.slice(0,3).map((pic, index) => (
+      footerText={
+        picsMini ? (
+          <>
+            <div
+              style={{
+                marginLeft: '2.5rem',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {picsMini.slice(0, 3).map((pic, index) => (
                 <img key={index} className={s.picsCircleOpen} src={pic} />
-              ))
-            }
-            <div style={{marginLeft: '0.5rem', }}>{footerText}</div>        
-          </div>
-        </>
-      ) : (
-        <>{footerText}</>
-      )}
+              ))}
+              <div style={{ marginLeft: '0.5rem' }}>{footerText}</div>
+            </div>
+          </>
+        ) : (
+          <>{footerText}</>
+        )
+      }
       price={price ? price : undefined}
-      buttonEl={ (button) ? button : <ButtonPlay width={'24%'}/>} 
+      button={button ? button : <ButtonPlay width={'24%'} />}
     />
   );
 };

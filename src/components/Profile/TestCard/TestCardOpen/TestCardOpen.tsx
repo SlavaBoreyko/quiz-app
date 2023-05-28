@@ -2,15 +2,14 @@ import React, { FC, MouseEventHandler } from 'react';
 
 import ButtonPlay from '../../../Buttons/ButtonPlay/ButtonPlay';
 import TestCard from '../TestCard';
+import { BloggerShortType } from '../../../../types/blogger.types';
 
 export interface TestCardOpenProps {
-  // onClick:  MouseEventHandler<HTMLDivElement>; 
-  onClick: MouseEventHandler<HTMLDivElement>; 
+  // onClick:  MouseEventHandler<HTMLDivElement>;
+  onClick: MouseEventHandler<HTMLDivElement>;
   cover: string;
   // blogger: SimpleBloggerType;
-  bloggerId: string; 
-  bloggerName: string; 
-  bloggerAvatar: string;
+  blogger: BloggerShortType;
   testName: string;
   // length: number;
   button?: any;
@@ -21,23 +20,19 @@ const TestCardOpen: FC<TestCardOpenProps> = ({
   onClick,
   cover,
 
-  bloggerId,
-  bloggerName, 
-  bloggerAvatar,
-  testName, 
+  blogger,
+  testName,
   // length,
   footerText,
-  button
+  button,
 }) => (
-  <TestCard 
+  <TestCard
     onClick={onClick}
-    coverImage={cover}
-    bloggerId={bloggerId}
-    bloggerName={bloggerName}
-    bloggerAvatar={bloggerAvatar}
+    cover={cover}
+    blogger={blogger}
     testName={testName}
     footerText={footerText}
-    buttonEl={ (button) ? button : <ButtonPlay width={'22%'}/>} 
+    button={button ? button : <ButtonPlay width={'22%'} />}
   />
 );
 

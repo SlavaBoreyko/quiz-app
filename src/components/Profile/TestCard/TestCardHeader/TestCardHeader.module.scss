@@ -1,0 +1,43 @@
+.centerTitle {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.divCenterBlogger {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.bloggerAvatar {
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  object-fit: cover;
+
+  @media (min-width: 700px) {
+    height: 2rem;
+    width: 2rem;
+  }
+}
+
+.bloggerName {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ced7df;
+
+  @media (min-width: 700px) {
+    font-size: 1.2rem;
+  }
+
+  @media only screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) {
+    font-size: 1.2rem;
+  }
+
+  @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    font-size: 1.2rem;
+  }
+}

@@ -114,13 +114,7 @@ const ProfilePage = () => {
                         : testItem.testName.ua
                     }
                     cover={testItem.cover}
-                    bloggerId={testItem.blogger.id}
-                    bloggerName={
-                      language === 'or'
-                        ? testItem.blogger.name.or
-                        : testItem.blogger.name.ua
-                    }
-                    bloggerAvatar={testItem.blogger.avatar}
+                    blogger={testItem.blogger}
                     picsMini={testItem.picsMini}
                     answersArrGame={answersArrGame}
                     openAndLock={`${points}/${testItem.qLength}`}
@@ -139,13 +133,7 @@ const ProfilePage = () => {
                         : testItem.testName.ua
                     }
                     cover={testItem.cover}
-                    bloggerId={testItem.blogger.id}
-                    bloggerName={
-                      language === 'or'
-                        ? testItem.blogger.name.or
-                        : testItem.blogger.name.ua
-                    }
-                    bloggerAvatar={testItem.blogger.avatar}
+                    blogger={testItem.blogger}
                     points={points}
                     language={language ? language : 'ua'}
                     onClick={() => navigate(`/test/${testItem.id}/result`)}
