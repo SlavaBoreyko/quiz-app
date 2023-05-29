@@ -8,7 +8,6 @@ import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import Container from '../components/Containers/Container/Container';
 import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
-import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import {
   useFetchBloggerQuery,
   useFollowingMutation,
@@ -27,7 +26,7 @@ import openInNewTab from '../utils/openInNewTab';
 import BtnEmail from '../components/Buttons/BtnEmail/BtnEmail';
 import FooterPolicy from '../components/Footers/FooterPolicy';
 import SubcriptionCard from '../components/Profile/TestCard/SubcriptionCard/SubcriptionCard';
-import TestCardLock from '../components/Profile/TestCard/TestCardLock/TestCardLock';
+
 import { bloggerDataType, bloggerInitialState } from './BloggerCreatePage';
 import EditHeader from '../components/BloggerCabinet/EditHeader/EditHeader';
 import HeaderCreateBtn from '../components/BloggerCabinet/HeaderCreateBtn/HeaderCreateBtn';
@@ -41,6 +40,7 @@ import { BloggerNumbers } from '../components/Bloggers/BloggerNumbers/BloggerNum
 import { SkeletonBloggerHeader } from '../components/shared/SkeletonLayouts/SkeletonBloggerHeader/SkeletonBloggerHeader';
 import { SkeletonTestCards } from '../components/shared/SkeletonLayouts';
 import TestCard from '../components/Profile/TestCard/TestCard';
+import { TestCardBody } from '../components/Profile/TestCard/TestCardBody/TestCardBody';
 
 const BloggerPage = () => {
   const myRefCardHint = useRef<HTMLDivElement>(null);
@@ -216,13 +216,17 @@ const BloggerPage = () => {
           testList.map((test) => (
             <TestCard
               key={test.id}
-              testName={test.testName.ua}
               cover={test.cover}
-              blogger={test.blogger}
-              footerText={`Питань: ${test.qLength}`}
               onClick={() => navigate(`/test/${test.id}/1`)}
-              button={<ButtonPlay width={'22%'} />}
-            />
+            >
+              <TestCardBody
+                blogger={test.blogger}
+                testName={test.testName.ua}
+                footerText={`Питань: ${test.qLength}`}
+              >
+                <ButtonPlay width={'22%'} />
+              </TestCardBody>
+            </TestCard>
           ))
         ) : (
           <SkeletonTestCards length={4} height="15rem" />

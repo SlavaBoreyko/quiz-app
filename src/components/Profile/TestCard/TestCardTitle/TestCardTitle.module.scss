@@ -1,0 +1,14 @@
+.title {
+  // new
+  display: flex;
+  height: 100%;
+  align-items: center;
+
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: #adb5bd;
+
+  @media (min-width: 700px) {
+    font-size: 1.6rem;
+  }
+}

@@ -1,61 +1,52 @@
-import React, { FC, MouseEventHandler, useEffect, useRef } from 'react';
+import React, {
+  FC,
+  MouseEventHandler,
+  ReactElement,
+  useEffect,
+  useRef,
+} from 'react';
 import s from './TestCard.module.scss';
 
 import { BloggerShortType } from '../../../types/blogger.types';
-import { TestCardHeader } from './TestCardHeader/TestCardHeader';
-import { TestCardFooter } from './TestCardFooter/TestCardFooter';
+import { TestCardCoverImg } from './TestCardCoverImg/TestCardCoverImg';
 
 export interface TestCardProps {
   onClick: MouseEventHandler<HTMLDivElement> | undefined;
   cover: string;
-  blogger: BloggerShortType;
-  testName: string;
-  footerText?: any;
+  children: ReactElement;
+  // blogger: BloggerShortType;
+  // testName: string;
+  // footerText?: any;
 
-  price?: number;
-  button: any;
+  // price?: number;
+  // button: any;
 }
 
 const TestCard: FC<TestCardProps> = ({
   onClick,
   cover,
-  blogger,
-  testName,
-  footerText,
-  price,
-  button,
-}) => {
-  const refImg = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (refImg.current) {
-      refImg.current.style.backgroundImage = `url("${cover}")`;
-    }
-  }, [refImg.current]);
-
-  return (
-    <>
-      <div className={s.testCardContainter} onClick={onClick}>
-        {/* COVER */}
-        <div className={s.coverFrame}>
-          <div ref={refImg} className={s.coverOpen} />
-        </div>
-        <div className={s.divPaddingContainer}>
-          <div className={s.textDiv}>
-            <div className={s.centerTitle}>
-              <TestCardHeader blogger={blogger} />
-              <div className={s.titleTest}>
-                <p>{testName}</p>
-              </div>
-            </div>
-            <TestCardFooter title={footerText} num={price}>
-              {button}
-            </TestCardFooter>
-          </div>
+  children,
+  // blogger,
+  // testName,
+  // footerText,
+  // price,
+  // button,
+}) => (
+  <>
+    <div className={s.testCardContainter} onClick={onClick}>
+      <TestCardCoverImg img={cover} />
+      <div className={s.divPaddingContainer}>
+        <div className={s.textDiv}>
+          {children}
+          {/* <TestCardHeader blogger={blogger} />
+          <TestCardTitle title={testName} />
+          <TestCardFooter title={footerText} num={price}>
+            {button}
+          </TestCardFooter> */}
         </div>
       </div>
-    </>
-  );
-};
+    </div>
+  </>
+);
 
 export default TestCard;

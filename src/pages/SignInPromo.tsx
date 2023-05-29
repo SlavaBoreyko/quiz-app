@@ -20,7 +20,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import ProfileSection from '../components/Profile/ProfileSection/ProfileSection';
-import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import BtnGoogleOAuth from '../components/Buttons/BtnGoogleOAuth/BtnGoogleOAuth';
 import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
@@ -30,6 +29,8 @@ import { TestCardType } from '../types/test.types';
 import { useAppSelector } from '../app/hooks';
 import { useFetchTestsByBloggerIdQuery } from '../features/test/testApi';
 import FooterPolicy from '../components/Footers/FooterPolicy';
+import TestCard from '../components/Profile/TestCard/TestCard';
+import { TestCardBody } from '../components/Profile/TestCard/TestCardBody/TestCardBody';
 
 const SignInPromo = () => {
   // const { t } = useTranslation();
@@ -139,38 +140,19 @@ const SignInPromo = () => {
         }
       >
         {testDemo ? (
-          // allTestsByBlogger.slice(0,1).map((test: any) => (
-          <TestCardOpen
+          <TestCard
             key={testDemo.id}
-            testName={
-              language === 'or' ? testDemo.testName.or : testDemo.testName.ua
-            }
             cover={testDemo.cover}
-            blogger={testDemo.blogger}
-            footerText={
-              userState.id
-                ? `${language === 'or' ? 'Вопросов: ' : 'Питань: '} ${
-                    testDemo.qLength
-                  }`
-                : `${
-                    language === 'or'
-                      ? 'Вход через Gmail*'
-                      : 'Вхід через Gmail*'
-                  }`
-            }
-            onClick={
-              userState.id
-                ? () => navigate(`/test/${testDemo.id}`)
-                : onGoogleClick
-            }
-            button={
-              userState.id ? (
-                <ButtonPlay width={'22%'} />
-              ) : (
-                <BtnGoogleOAuth width={'22%'} />
-              )
-            }
-          />
+            onClick={() => navigate(`/test/${testDemo.id}/1`)}
+          >
+            <TestCardBody
+              blogger={testDemo.blogger}
+              testName={testDemo.testName.ua}
+              footerText={`Питань: ${testDemo.qLength}`}
+            >
+              <ButtonPlay width={'22%'} />
+            </TestCardBody>
+          </TestCard>
         ) : (
           // ))
           <Skeleton
@@ -196,33 +178,19 @@ const SignInPromo = () => {
 
       {otherTests ? (
         otherTests.map((test: any) => (
-          <TestCardOpen
+          <TestCard
             key={test.id}
-            testName={language === 'or' ? test.testName.or : test.testName.ua}
             cover={test.cover}
-            blogger={test.blogger}
-            footerText={
-              userState.id
-                ? `${language === 'or' ? 'Вопросов: ' : 'Питань: '} ${
-                    test.qLength
-                  }`
-                : `${
-                    language === 'or'
-                      ? 'Вход через Gmail*'
-                      : 'Вхід через Gmail*'
-                  }`
-            }
-            onClick={
-              userState.id ? () => navigate(`/test/${test.id}`) : onGoogleClick
-            }
-            button={
-              userState.id ? (
-                <ButtonPlay width={'22%'} />
-              ) : (
-                <BtnGoogleOAuth width={'22%'} />
-              )
-            }
-          />
+            onClick={() => navigate(`/test/${test.id}/1`)}
+          >
+            <TestCardBody
+              blogger={test.blogger}
+              testName={test.testName.ua}
+              footerText={`Питань: ${test.qLength}`}
+            >
+              <ButtonPlay width={'22%'} />
+            </TestCardBody>
+          </TestCard>
         ))
       ) : (
         <Skeleton

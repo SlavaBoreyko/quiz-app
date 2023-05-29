@@ -5,8 +5,9 @@ import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../firebase.config';
 import BtnGoogleOAuth from '../../Buttons/BtnGoogleOAuth/BtnGoogleOAuth';
-import TestCardOpen from '../../Profile/TestCard/TestCardOpen/TestCardOpen';
 import s from './PreviewCard.module.scss';
+import TestCard from '../../Profile/TestCard/TestCard';
+import { TestCardBody } from '../../Profile/TestCard/TestCardBody/TestCardBody';
 
 export interface PreviewCardProps {
   showText: boolean;
@@ -62,18 +63,19 @@ const PreviewCard: FC<PreviewCardProps> = ({ showText }) => {
   return (
     <div className={showText ? s.showText : s.hidden}>
       {oneTest && (
-        <TestCardOpen
-          testName={
-            language === 'or' ? oneTest.testName.or : oneTest.testName.ua
-          }
+        <TestCard
+          key={oneTest.id}
           cover={oneTest.cover}
-          blogger={oneTest.blogger}
-          footerText={
-            language === 'or' ? 'Вход через Gmail*' : 'Вхід через Gmail*'
-          }
-          onClick={onGoogleClick}
-          button={<BtnGoogleOAuth />}
-        />
+          onClick={() => navigate(`/test/${oneTest.id}/1`)}
+        >
+          <TestCardBody
+            blogger={oneTest.blogger}
+            testName={oneTest.testName.ua}
+            footerText="Вхід через Gmail*"
+          >
+            <BtnGoogleOAuth />
+          </TestCardBody>
+        </TestCard>
       )}
       {/* <OAuth /> */}
       <div
