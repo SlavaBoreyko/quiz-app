@@ -1,44 +1,31 @@
-import React, {
-  FC,
-  MouseEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { FC, MouseEventHandler, useEffect, useRef } from 'react';
 import s from './TestCard.module.scss';
-import { useNavigate } from 'react-router-dom';
-import ButtonNav from '../../Buttons/ButtonNav/ButtonNav';
 
 import { BloggerShortType } from '../../../types/blogger.types';
 import { TestCardHeader } from './TestCardHeader/TestCardHeader';
+import { TestCardFooter } from './TestCardFooter/TestCardFooter';
 
 export interface TestCardProps {
   onClick: MouseEventHandler<HTMLDivElement> | undefined;
   cover: string;
   blogger: BloggerShortType;
-  // Title
   testName: string;
-  //Footer and button
   footerText?: any;
 
   price?: number;
-  button?: any;
+  button: any;
 }
 
 const TestCard: FC<TestCardProps> = ({
   onClick,
   cover,
-
   blogger,
-
   testName,
   footerText,
   price,
   button,
 }) => {
-  const navigate = useNavigate();
   const refImg = useRef<HTMLDivElement>(null);
-  const [openEditCard, setOpenEditCard] = useState<boolean>(false);
 
   useEffect(() => {
     if (refImg.current) {
@@ -61,14 +48,9 @@ const TestCard: FC<TestCardProps> = ({
                 <p>{testName}</p>
               </div>
             </div>
-
-            {/* FOOTER */}
-            <div className={s.divResult}>
-              <span className={s.status}>{footerText}</span>
-              <div className={s.priceNumber}>{price}</div>
-              {/* Radius 24% must be equal to other circle elements for Balance */}
+            <TestCardFooter title={footerText} num={price}>
               {button}
-            </div>
+            </TestCardFooter>
           </div>
         </div>
       </div>
