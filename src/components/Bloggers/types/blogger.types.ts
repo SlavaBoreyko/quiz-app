@@ -6,8 +6,15 @@ export enum SocialType {
 }
 
 export interface MainBlog {
-  socialType: SocialType;
-  name: string;
+  en: string;
+  pl: string;
+  ua: string;
+  or: string;
+  soc: string;
   followers: number;
   link: string;
+  // socialType: SocialType;
+  // name: string;
+  // followers: number;
+  // link: string;
 }

@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 import { BlogBadge } from '../BlogBadge/BlogBadge';
 import { BigNumSmallTitle } from '../BigNumSmallTitle/BigNumSmallTitle';
-import s from './BloggerNumbers.module.scss';
+import s from './BloggerMetrics.module.scss';
 import { MainBlog } from '../types/blogger.types';
 
-interface BloggerNumbersProps {
+interface BloggerMetricsProps {
   mainBlog: MainBlog | null;
   followers: number;
   passedTests: number;
 }
 
-export const BloggerNumbers: FC<BloggerNumbersProps> = ({
+export const BloggerMetrics: FC<BloggerMetricsProps> = ({
   mainBlog,
   followers,
   passedTests,

@@ -1,9 +1,9 @@
 import { FC, ReactNode } from 'react';
 import ContainerList from '../../Containers/ContainerList/ContainerList';
 import { AvatarLoginName } from '../AvatarLoginName/AvatarLoginName';
-import s from './BloggersHeader.module.scss';
+import s from './BloggerHeaderContainer.module.scss';
 
-export interface BloggersHeaderProps {
+export interface BloggerHeaderContainerProps {
   id: string;
   avatar: string;
   name: string;
@@ -11,7 +11,7 @@ export interface BloggersHeaderProps {
   children?: ReactNode;
 }
 
-export const BloggersHeader: FC<BloggersHeaderProps> = ({
+export const BloggerHeaderContainer: FC<BloggerHeaderContainerProps> = ({
   id,
   avatar,
   name,
