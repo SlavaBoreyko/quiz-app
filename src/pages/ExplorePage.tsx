@@ -18,7 +18,6 @@ import {
 // import { useFetchFollowingListQuery, useFollowMutation, useUnfollowMutation } from '../features/user/userApi';
 import { BloggerBigType, TestCardType } from '../types/test.types';
 import { useFetchTestsCardByAudienceQuery } from '../features/test/testApi';
-import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import BtnGoogleOAuth from '../components/Buttons/BtnGoogleOAuth/BtnGoogleOAuth';
 import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
@@ -29,8 +28,10 @@ import BtnEmail from '../components/Buttons/BtnEmail/BtnEmail';
 import openInNewTab from '../utils/openInNewTab';
 import ButtonPrice from '../components/Buttons/ButtonPrice/ButtonPrice';
 import FooterPolicy from '../components/Footers/FooterPolicy';
-import TestCardLock from '../components/Profile/TestCard/TestCardLock/TestCardLock';
+
 import ContainerList from '../components/Containers/ContainerList/ContainerList';
+import TestCard from '../components/Profile/TestCard/TestCard';
+import { TestCardBody } from '../components/Profile/TestCard/TestCardBody/TestCardBody';
 
 const ExplorePage = () => {
   const location = useLocation();
@@ -212,52 +213,19 @@ const ExplorePage = () => {
             <ContainerList>
               {testsListForMen
                 ? testsListForMen.map((test) => (
-                    <TestCardOpen
+                    <TestCard
                       key={test.id}
-                      testName={test.testName.ua}
                       cover={test.cover}
-                      bloggerId={test.blogger.id}
-                      bloggerName={test.blogger.name.ua}
-                      bloggerAvatar={test.blogger.avatar}
-                      footerText={
-                        test.payment === 'free'
-                          ? `${
-                              'Питань:  '
-                              // : 'Pytań: '
-                            } ${test.qLength}`
-                          : test.payment !== 'free' && userState.id
-                          ? `${
-                              'Платний тест '
-                              // : 'Płatny test '
-                            }`
-                          : `${
-                              'Вхід через email'
-                              // : 'Zaloguj się'
-                            }`
-                      }
-                      onClick={
-                        test.payment === 'free'
-                          ? () => navigate(`/test/${test.id}/1`)
-                          : test.payment !== 'free' && userState.id
-                          ? () => openInNewTab(test.payment)
-                          : onGoogleClick
-                      }
-                      button={
-                        test.payment === 'free' ? (
-                          <ButtonPlay width={'22%'} />
-                        ) : test.payment !== 'free' && userState.id ? (
-                          <ButtonPrice
-                            currency={test.currency}
-                            onClick={(e: any) => {
-                              e.stopPropagation();
-                              openInNewTab(test.payment);
-                            }}
-                          />
-                        ) : (
-                          <BtnEmail />
-                        )
-                      }
-                    />
+                      onClick={() => navigate(`/test/${test.id}/1`)}
+                    >
+                      <TestCardBody
+                        blogger={test.blogger}
+                        testName={test.testName.ua}
+                        footerText={`Питань: ${test.qLength}`}
+                      >
+                        <ButtonPlay width={'22%'} />
+                      </TestCardBody>
+                    </TestCard>
                   ))
                 : Array.apply(null, Array(4)).map((item, index) => (
                     <Skeleton

@@ -1,0 +1,40 @@
+.cardFooter {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  // padding-top: 1rem;
+  // height: 6rem;
+  height: 4rem;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1;
+  // color: #adb5bd;
+  color: #f59f00;
+  width: 50%;
+  // padding-right: 2rem;
+  padding-right: 1rem;
+  flex-grow: 1;
+
+  @media (min-width: 700px) {
+    font-size: 1.2rem;
+  }
+
+  @media only screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) {
+    font-size: 1.2rem;
+  }
+
+  @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    font-size: 1.2rem;
+  }
+}
+
+.number {
+  color: #f59f00;
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
+}

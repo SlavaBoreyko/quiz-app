@@ -1,5 +1,5 @@
 /* eslint-disable no-irregular-whitespace */
-import { Skeleton } from '@mui/material';
+
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react';
@@ -8,7 +8,6 @@ import { useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
 import Container from '../components/Containers/Container/Container';
 import ButtonPlay from '../components/Buttons/ButtonPlay/ButtonPlay';
-import TestCardOpen from '../components/Profile/TestCard/TestCardOpen/TestCardOpen';
 import {
   useFetchBloggerQuery,
   useFollowingMutation,
@@ -22,24 +21,12 @@ import {
 } from '../features/user/userApi';
 import { db } from '../firebase.config';
 import { BloggerBigType, TestCardType } from '../types/test.types';
-import ButtonPrice from '../components/Buttons/ButtonPrice/ButtonPrice';
-import openInNewTab from '../utils/openInNewTab';
-import BtnEmail from '../components/Buttons/BtnEmail/BtnEmail';
 import FooterPolicy from '../components/Footers/FooterPolicy';
-import SubcriptionCard from '../components/Profile/TestCard/SubcriptionCard/SubcriptionCard';
-import TestCardLock from '../components/Profile/TestCard/TestCardLock/TestCardLock';
-import { bloggerDataType, bloggerInitialState } from './BloggerCreatePage';
-import EditHeader from '../components/BloggerCabinet/EditHeader/EditHeader';
-import HeaderCreateBtn from '../components/BloggerCabinet/HeaderCreateBtn/HeaderCreateBtn';
-import EditCard from '../components/BloggerCabinet/EditCard/EditCard';
-import ContainerHint from '../components/BloggerCabinet/ContainerHint/ContainerHint';
-import imgHint2 from '../assets/mockups/hint-screen-2-2.png';
-import ContainerList from '../components/Containers/ContainerList/ContainerList';
-import { BloggersHeader } from '../components/Bloggers/BloggersHeader/BloggersHeader';
-import { SocialType } from '../components/Bloggers/types/blogger.types';
-import { BloggerNumbers } from '../components/Bloggers/BloggerNumbers/BloggerNumbers';
-import { SkeletonBloggerHeader } from '../components/shared/SkeletonLayouts/SkeletonBloggerHeader/SkeletonBloggerHeader';
-import { SkeletonTestCards } from '../components/shared/SkeletonLayouts';
+
+import { bloggerInitialState } from './BloggerCreatePage';
+
+import { TestCardList } from '../components/Profile/TestCard/TestCardList/TestCardList';
+import { BloggerHeader } from '../components/Bloggers/BloggerHeader/BloggerHeader';
 
 const BloggerPage = () => {
   const myRefCardHint = useRef<HTMLDivElement>(null);
@@ -178,58 +165,14 @@ const BloggerPage = () => {
     }
   };
 
-  const mainBlog = blogger
-    ? {
-        socialType: blogger.mainBlog.soc as unknown as SocialType,
-        name: blogger.mainBlog.ua,
-        followers: blogger.mainBlog.followers,
-        link: blogger.mainBlog.link,
-      }
-    : null;
-
   return (
     <Container
       justifyContent="flex-start"
       backgroundColor="#212529"
       locked={false}
     >
-      {blogger ? (
-        <BloggersHeader
-          id={blogger.id}
-          key={blogger.id}
-          avatar={blogger.avatar}
-          name={blogger.name.ua}
-          description={blogger.description.ua}
-        >
-          <BloggerNumbers
-            mainBlog={mainBlog}
-            followers={blogger.followers}
-            passedTests={blogger.passedTests}
-          />
-        </BloggersHeader>
-      ) : (
-        <SkeletonBloggerHeader />
-      )}
-
-      <ContainerList>
-        {testList ? (
-          testList.map((test) => (
-            <TestCardOpen
-              key={test.id}
-              testName={test.testName.ua}
-              cover={test.cover}
-              bloggerId={test.blogger.id}
-              bloggerName={test.blogger.name.ua}
-              bloggerAvatar={test.blogger.avatar}
-              footerText={`${'Питань:  '} ${test.qLength}`}
-              onClick={() => navigate(`/test/${test.id}/1`)}
-              button={<ButtonPlay width={'22%'} />}
-            />
-          ))
-        ) : (
-          <SkeletonTestCards length={4} height="15rem" />
-        )}
-      </ContainerList>
+      <BloggerHeader blogger={blogger} />
+      <TestCardList list={testList} footerEl={<ButtonPlay width={'22%'} />} />
       <FooterPolicy language={language} />
     </Container>
   );

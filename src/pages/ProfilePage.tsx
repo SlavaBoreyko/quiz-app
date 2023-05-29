@@ -16,7 +16,6 @@ import { RootState } from '../app/store';
 import Container from '../components/Containers/Container/Container';
 import TestCardPass from '../components/Profile/TestCard/TestCardPass/TestCardPass';
 import { useFetchTestsCardsByListIdQuery } from '../features/test/testApi';
-import GameCardPass from '../components/Profile/TestCard/GameCardPass/GameCardPass';
 import ContainerList from '../components/Containers/ContainerList/ContainerList';
 
 const ProfilePage = () => {
@@ -102,56 +101,22 @@ const ProfilePage = () => {
           testList.map((testItem, index) => {
             if (data && testItem.id in data) {
               const points = data[testItem.id].points;
-              if (testItem.type && testItem.type === 'game') {
-                const answersArrGame = data[testItem.id].answersArray;
-                return (
-                  <GameCardPass
-                    id={testItem.id}
-                    key={index}
-                    testName={
-                      language === 'or'
-                        ? testItem.testName.or
-                        : testItem.testName.ua
-                    }
-                    cover={testItem.cover}
-                    bloggerId={testItem.blogger.id}
-                    bloggerName={
-                      language === 'or'
-                        ? testItem.blogger.name.or
-                        : testItem.blogger.name.ua
-                    }
-                    bloggerAvatar={testItem.blogger.avatar}
-                    picsMini={testItem.picsMini}
-                    answersArrGame={answersArrGame}
-                    openAndLock={`${points}/${testItem.qLength}`}
-                    language={language ? language : 'ua'}
-                    onClick={() => navigate(`/game/${testItem.id}/result`)}
-                  />
-                );
-              } else {
-                return (
-                  <TestCardPass
-                    id={testItem.id}
-                    key={index}
-                    testName={
-                      language === 'or'
-                        ? testItem.testName.or
-                        : testItem.testName.ua
-                    }
-                    cover={testItem.cover}
-                    bloggerId={testItem.blogger.id}
-                    bloggerName={
-                      language === 'or'
-                        ? testItem.blogger.name.or
-                        : testItem.blogger.name.ua
-                    }
-                    bloggerAvatar={testItem.blogger.avatar}
-                    points={points}
-                    language={language ? language : 'ua'}
-                    onClick={() => navigate(`/test/${testItem.id}/result`)}
-                  />
-                );
-              }
+              return (
+                <TestCardPass
+                  id={testItem.id}
+                  key={index}
+                  testName={
+                    language === 'or'
+                      ? testItem.testName.or
+                      : testItem.testName.ua
+                  }
+                  cover={testItem.cover}
+                  blogger={testItem.blogger}
+                  points={points}
+                  language={language ? language : 'ua'}
+                  onClick={() => navigate(`/test/${testItem.id}/result`)}
+                />
+              );
             }
           })}
       </ContainerList>

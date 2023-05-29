@@ -5,16 +5,15 @@ import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../firebase.config';
 import BtnGoogleOAuth from '../../Buttons/BtnGoogleOAuth/BtnGoogleOAuth';
-import TestCardOpen from '../../Profile/TestCard/TestCardOpen/TestCardOpen';
 import s from './PreviewCard.module.scss';
+import TestCard from '../../Profile/TestCard/TestCard';
+import { TestCardBody } from '../../Profile/TestCard/TestCardBody/TestCardBody';
 
 export interface PreviewCardProps {
   showText: boolean;
 }
 
-const PreviewCard: FC<PreviewCardProps> = ({
-  showText
-}) => {    
+const PreviewCard: FC<PreviewCardProps> = ({ showText }) => {
   const navigate = useNavigate();
   const [oneTest, setOneTest] = useState<any | undefined>(undefined);
 
@@ -22,13 +21,13 @@ const PreviewCard: FC<PreviewCardProps> = ({
   useEffect(() => {
     const languageSet = localStorage.getItem('i18nextLng');
     languageSet && setLanguage(languageSet);
-  },[]);
+  }, []);
 
   useEffect(() => {
-    const fetchData = async() => {
+    const fetchData = async () => {
       const docRef = doc(db, 'tests', 'at-home');
       const getOneTest = await getDoc(docRef);
-      if(getOneTest.exists()) { 
+      if (getOneTest.exists()) {
         const testData = getOneTest.data();
         setOneTest(testData);
       }
@@ -47,8 +46,8 @@ const PreviewCard: FC<PreviewCardProps> = ({
       const docRef = doc(db, 'users', user.uid);
       const docSnap = await getDoc(docRef);
 
-      // If user, doesn't exist, create user 
-      if(!docSnap.exists()) {
+      // If user, doesn't exist, create user
+      if (!docSnap.exists()) {
         await setDoc(doc(db, 'users', user.uid), {
           name: user.displayName,
           email: user.email,
@@ -62,45 +61,59 @@ const PreviewCard: FC<PreviewCardProps> = ({
   };
 
   return (
-    <div className={ (showText) ? s.showText : s.hidden}>
-      {   (oneTest) &&
-                <TestCardOpen
-                  testName={(language === 'or') ? oneTest.testName.or : oneTest.testName.ua}
-                  cover={oneTest.cover}
-                  bloggerId={oneTest.blogger.id}
-                  bloggerName={(language === 'or') ? oneTest.blogger.name.or : oneTest.blogger.name.ua}
-                  bloggerAvatar={oneTest.blogger.avatar}
-                  footerText={(language === 'or') ? 'Вход через Gmail*' : 'Вхід через Gmail*'}
-                  onClick={onGoogleClick}
-                  button={<BtnGoogleOAuth />}
-                />
-      } 
+    <div className={showText ? s.showText : s.hidden}>
+      {oneTest && (
+        <TestCard
+          key={oneTest.id}
+          cover={oneTest.cover}
+          onClick={() => navigate(`/test/${oneTest.id}/1`)}
+        >
+          <TestCardBody
+            blogger={oneTest.blogger}
+            testName={oneTest.testName.ua}
+            footerText="Вхід через Gmail*"
+          >
+            <BtnGoogleOAuth />
+          </TestCardBody>
+        </TestCard>
+      )}
       {/* <OAuth /> */}
-      <div 
+      <div
         style={{
           color: '#adb5bdaa',
           fontSize: '1.2rem',
           marginTop: '1rem',
         }}
       >
-        {(language === 'or') ? 
-          <>  
+        {language === 'or' ? (
+          <>
             *Пользуясь сайтом, вы принимаете правила
-            <a  href={require('../../../assets/pdf/privacy-policy.pdf')} target='blank'
+            <a
+              href={require('../../../assets/pdf/privacy-policy.pdf')}
+              target="blank"
               style={{
                 color: '#adb5bd',
               }}
-            > Политики конфиденциальности.</a>
-          </> :
+            >
+              {' '}
+              Политики конфиденциальности.
+            </a>
+          </>
+        ) : (
           <>
             *Користуючись сайтом, ви приймаєте правила
-            <a  href={require('../../../assets/pdf/privacy-policy.pdf')} target='blank'
+            <a
+              href={require('../../../assets/pdf/privacy-policy.pdf')}
+              target="blank"
               style={{
                 color: '#adb5bd',
               }}
-            > Політики конфіденційності.</a>
+            >
+              {' '}
+              Політики конфіденційності.
+            </a>
           </>
-        }
+        )}
       </div>
     </div>
   );
