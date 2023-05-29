@@ -41,6 +41,7 @@ import { SkeletonBloggerHeader } from '../components/shared/SkeletonLayouts/Skel
 import { SkeletonTestCards } from '../components/shared/SkeletonLayouts';
 import TestCard from '../components/Profile/TestCard/TestCard';
 import { TestCardBody } from '../components/Profile/TestCard/TestCardBody/TestCardBody';
+import { TestCardList } from '../components/Profile/TestCard/TestCardList/TestCardList';
 
 const BloggerPage = () => {
   const myRefCardHint = useRef<HTMLDivElement>(null);
@@ -211,27 +212,7 @@ const BloggerPage = () => {
       ) : (
         <SkeletonBloggerHeader />
       )}
-      <ContainerList>
-        {testList ? (
-          testList.map((test) => (
-            <TestCard
-              key={test.id}
-              cover={test.cover}
-              onClick={() => navigate(`/test/${test.id}/1`)}
-            >
-              <TestCardBody
-                blogger={test.blogger}
-                testName={test.testName.ua}
-                footerText={`Питань: ${test.qLength}`}
-              >
-                <ButtonPlay width={'22%'} />
-              </TestCardBody>
-            </TestCard>
-          ))
-        ) : (
-          <SkeletonTestCards length={4} height="15rem" />
-        )}
-      </ContainerList>
+      <TestCardList list={testList} footerEl={<ButtonPlay width={'22%'} />} />
       <FooterPolicy language={language} />
     </Container>
   );
