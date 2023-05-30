@@ -1,12 +1,21 @@
-
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
-import { 
-  doc, collection, getDoc, 
-  addDoc, query, where, 
-  getDocs, setDoc, updateDoc 
+import {
+  doc,
+  collection,
+  getDoc,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase.config';
-import { TestCardType, TestType, VerdictListType } from '../../types/test.types';
+import {
+  TestCardType,
+  TestType,
+  VerdictListType,
+} from '../../types/test.types';
 
 export interface updateCard {
   docId: string;
@@ -20,115 +29,113 @@ export const testApi = createApi({
   endpoints: (builder) => ({
     fetchTest: builder.query<any, string | undefined>({
       async queryFn(testId) {
-        if(testId) {
+        if (testId) {
           try {
-            const docRef = doc(db, "tests", testId);
+            const docRef = doc(db, 'tests', testId);
             const testDoc = await getDoc(docRef);
             const testData = testDoc.data();
 
-            return { data: testData};
-          } catch(err) {
+            return { data: testData };
+          } catch (err) {
             return { error: err };
           }
         } else {
           return { error: 'testId is undefined' };
         }
       },
-      providesTags: ['Test'],                 
+      providesTags: ['Test'],
     }),
     fetchTestsCardByAudience: builder.query<TestCardType[], string>({
       async queryFn(audienceType) {
         let TestsCardList: any[] = [];
         try {
           const q = query(
-            collection(db, "testsCards"), 
-            where("audience", "array-contains", audienceType),
+            collection(db, 'testsCards'),
+            where('audience', 'array-contains', audienceType),
           );
           const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((doc) => 
-            TestsCardList.push(doc.data())
-          );
-          return { data: TestsCardList};
-        } catch(err) {
+          querySnapshot.forEach((doc) => TestsCardList.push(doc.data()));
+          return { data: TestsCardList };
+        } catch (err) {
           return { error: err };
         }
-      },              
+      },
     }),
-    fetchTestsByBloggerId: builder.query<any, string>({
+    fetchTestsByBloggerId: builder.query<any, string | undefined>({
       async queryFn(bloggerId) {
+        if (!bloggerId) return { error: 'undefined id' };
         let arrayTests: any[] = [];
         try {
           const q = query(
-            collection(db, "testsCards"), 
-            where("blogger.id", "==", bloggerId),
+            collection(db, 'testsCards'),
+            where('blogger.id', '==', bloggerId),
             // orderBy("desc"),
           );
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
             const Data = doc.data();
-            arrayTests.push({ 
+            arrayTests.push({
               ...Data,
               docId: doc.id,
             });
           });
 
           // setListings((prevState) => [...prevState, ...listingsList])
-          return { data: arrayTests};
-        } catch(err) {
+          return { data: arrayTests };
+        } catch (err) {
           return { error: err };
         }
       },
-      providesTags: ['TestCard'],                 
+      providesTags: ['TestCard'],
     }),
     fetchTestsCardsByListId: builder.query<any, string[] | undefined>({
       async queryFn(listId) {
         // empty listId[] triggers firebase query error
-        if(listId && listId.length !== 0) {
+        if (listId && listId.length !== 0) {
           let arrayTests: any[] = [];
           try {
             const q = query(
-              collection(db, "testsCards"), 
-              where("id", "in", listId),
+              collection(db, 'testsCards'),
+              where('id', 'in', listId),
               // orderBy("desc"),
             );
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => arrayTests.push(doc.data()));
-            return { data: arrayTests};
-          } catch(err) {
+            return { data: arrayTests };
+          } catch (err) {
             return { error: err };
           }
         } else {
           return { data: [] };
         }
-
       },
-      providesTags: ['TestCard'],                 
+      providesTags: ['TestCard'],
     }),
     createTestCard: builder.mutation<any, TestCardType>({
       async queryFn(cardData) {
         try {
-          const docRef = await addDoc(collection(db, "testsCards"), {
-            ...cardData
+          const docRef = await addDoc(collection(db, 'testsCards'), {
+            ...cardData,
           });
-          return { data:  {id: docRef.id}};
-        } catch(err) {
+          return { data: { id: docRef.id } };
+        } catch (err) {
           return { error: err };
         }
-      },     
-      invalidatesTags: ['TestCard'],           
+      },
+      invalidatesTags: ['TestCard'],
     }),
     updateTestCard: builder.mutation<any, updateCard>({
-      async queryFn({docId, cardData}) {
+      async queryFn({ docId, cardData }) {
         try {
           const docRef = doc(db, 'testsCards', docId);
-          console.log('updateTestCard redux',{...cardData,});
-          await setDoc(docRef, {...cardData,});
-          return { data:  'Updated success'};
-        } catch(err) {
+          console.log('updateTestCard redux', { ...cardData });
+          await setDoc(docRef, { ...cardData });
+          return { data: 'Updated success' };
+        } catch (err) {
           return { error: err };
         }
-      },      
-      invalidatesTags: ['TestCard'],          
+      },
+      invalidatesTags: ['TestCard'],
     }),
     addTest: builder.mutation<any, TestType>({
       async queryFn(data) {
@@ -137,10 +144,9 @@ export const testApi = createApi({
             ...data,
           });
           return { data: 'Added Test Success' };
-        } catch(err) {  
+        } catch (err) {
           return { error: err };
         }
-                   
       },
       invalidatesTags: ['Test'],
     }),
@@ -151,22 +157,21 @@ export const testApi = createApi({
             ...data,
           });
           return { data: 'Added Verdict Success' };
-        } catch(err) {  
+        } catch (err) {
           return { error: err };
         }
-                   
       },
       invalidatesTags: ['Verdict'],
     }),
   }),
 });
 
-export const { 
-  useFetchTestQuery, 
-  useAddTestMutation, 
+export const {
+  useFetchTestQuery,
+  useAddTestMutation,
   useFetchTestsCardByAudienceQuery,
   useFetchTestsByBloggerIdQuery,
   useFetchTestsCardsByListIdQuery,
   useCreateTestCardMutation,
   useUpdateTestCardMutation,
-} = testApi; 
+} = testApi;
