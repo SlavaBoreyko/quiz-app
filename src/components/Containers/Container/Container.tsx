@@ -8,8 +8,6 @@ export interface PropsChildren {
   justifyContent?: string;
   alignItems?: string;
   backgroundColor?: string;
-  locked: boolean;
-  fullScreen?: boolean;
 }
 
 const Container: FC<PropsChildren> = ({
@@ -18,29 +16,24 @@ const Container: FC<PropsChildren> = ({
   alignItems,
   img,
   backgroundColor,
-  locked,
-  fullScreen,
 }) => (
   <div
     className={s.containerBack}
     style={{
-      // justifyContent: `${justifyContent}`,
-      // justifyContent: 'center',
       alignItems: `${alignItems}`,
-      backgroundColor: `${locked ? '#000000cb' : backgroundColor}`,
+      backgroundColor: `${backgroundColor}`,
     }}
   >
-    {/* <TestHeader /> */}
     <NavSidebar />
-    {locked && <div className={s.iconLock} />}
     {children}
     {img && (
       <>
         <div className={s.filterContainerImg}> </div>
         <img
-          className={
-            locked ? s.lockedImage : fullScreen ? s.fullScreen : s.backImage
-          }
+          // className={
+          //   locked ? s.lockedImage : fullScreen ? s.fullScreen : s.backImage
+          // }
+          className={s.backImage}
           src={img}
           alt="Background illustration"
         />

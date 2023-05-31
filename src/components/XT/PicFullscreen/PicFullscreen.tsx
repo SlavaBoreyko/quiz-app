@@ -8,17 +8,14 @@ const PicFullscreen = () => {
   const location: any = useLocation();
   const navigate = useNavigate();
 
-
   return (
     <Container
-      img={location.state.picSrc} 
+      img={location.state.picSrc}
       // backgroundColor='#000000a0'
-      justifyContent='center'
-      locked={false}
-      fullScreen={true}
+      justifyContent="center"
     >
-      <div 
-        style={{ 
+      <div
+        style={{
           zIndex: '300',
           display: 'flex',
           width: '100%',

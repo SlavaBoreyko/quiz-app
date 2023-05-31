@@ -154,11 +154,7 @@ const ExplorePage = () => {
   };
 
   return (
-    <Container
-      justifyContent="flex-start"
-      backgroundColor="#212529"
-      locked={false}
-    >
+    <Container justifyContent="flex-start" backgroundColor="#212529">
       <ExploreNavbar
         categoryList={categoryList}
         toggleListHandler={toggleListHandler}

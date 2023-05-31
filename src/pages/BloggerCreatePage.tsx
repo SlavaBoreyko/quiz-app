@@ -76,11 +76,7 @@ const BloggerCreatePage = () => {
   }, [formData]);
 
   return (
-    <Container
-      justifyContent="flex-start"
-      backgroundColor="#212529"
-      locked={false}
-    >
+    <Container justifyContent="flex-start" backgroundColor="#212529">
       <div style={{ marginTop: '3rem' }} />
       <EditHeader formData={formData} setFormData={setFormData} />
       <ContainerHint

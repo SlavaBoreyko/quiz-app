@@ -21,10 +21,6 @@ export interface TestProps {
   setReactionSrc?: Dispatch<SetStateAction<string>>;
   reactionShow?: boolean;
 
-  fullScreenBtnHandle: () => void;
-  locked: boolean;
-  backBtnToggle: boolean;
-
   bloggerName: {
     pl: string;
     ua: string;
@@ -55,54 +51,8 @@ const Test: FC<TestProps> = ({
   setReactionSrc,
   reactionShow,
 
-  fullScreenBtnHandle,
-  locked,
-  backBtnToggle,
-
   language,
 }) => {
-  // const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
-  // const { t } = useTranslation();
-  // useEffect(() => {
-
-  //     const languageSet = localStorage.getItem('i18nextLng');
-  //     languageSet && setLanguage(languageSet);
-  // },[questionNum]);
-
-  // const translationsUA = {
-  //     question: question.question.ua,
-  //     answer: {
-  //         0: question.answers[0].answer.ua,
-  //         1: question.answers[1].answer.ua,
-  //         2: question.answers[2].answer.ua,
-  //     },
-  //     bloggerName: bloggerName.ua,
-  //     testName: testName.ua,
-  // }
-  // const translationsOR = {
-  //     question: question.question.or,
-  //     answer: {
-  //         0: question.answers[0].answer.or,
-  //         1: question.answers[1].answer.or,
-  //         2: question.answers[2].answer.or,
-  //     },
-  //     bloggerName: bloggerName.or,
-  //     testName: testName.or,
-  // }
-
-  // useEffect(() => {
-  //     // const lang = localStorage.getItem('i18nextLng');
-  //     initLang( translationsUA, translationsOR);
-  // },[]);
-
-  // useEffect(() => {
-  //     // const lang = localStorage.getItem('i18nextLng');
-  //     // initLang(lang, translationsUA, translationsOR);
-  //     // initLang(translationsUA, translationsOR);
-
-  //     // i18n.addResource('ua', 'translationsUA', key, value, options)
-  // },[ questionNum]);
-
   const [checked, setChecked] = useState([false, false, false]);
   const [trueAnswer, setTrueAnswer] = useState<number | undefined>(undefined);
 
@@ -121,21 +71,7 @@ const Test: FC<TestProps> = ({
 
   return (
     <>
-      {/* // <div
-    //   style={{
-    //     height: '100%',
-    //     display: 'flex',
-    //     flexDirection: 'column',
-    //     alignItems: 'center',
-    //   }}
-    // > */}
-      <Card
-        reactionSrc={reactionSrc}
-        reactionShow={reactionShow}
-        fullScreenBtnHandle={fullScreenBtnHandle}
-        locked={locked}
-        backBtnToggle={backBtnToggle}
-      />
+      <Card reactionSrc={reactionSrc} reactionShow={reactionShow} />
       <div
         style={{
           display: 'flex',
@@ -171,7 +107,6 @@ const Test: FC<TestProps> = ({
           />
         ))}
       </div>
-      {/* </div> */}
     </>
   );
 };
