@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { QuestionTestType } from '../../types/test.types';
 import Card from './Card/Card';
-import ProgressBar from './ProgressBar/ProgressBar';
+import { ProgressPanel } from './ProgressPanel/ProgressPanel';
 import RadioInput from './RadioInput/RadioInput';
 
 export interface TestProps {
@@ -82,12 +82,11 @@ const Test: FC<TestProps> = ({
           alignItems: 'flex-end',
         }}
       >
-        <ProgressBar
+        <ProgressPanel
           // question={t('question')}
           question={question.question.ua}
-          amountQA={length}
-          current={questionNum + 1}
-          nextIcon={nextIcon}
+          length={length}
+          count={questionNum + 1}
           nextHandler={nextHandler}
         />
         {question.answers.map((variant, index: number) => (

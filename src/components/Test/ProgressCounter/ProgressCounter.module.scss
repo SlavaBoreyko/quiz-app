@@ -1,0 +1,32 @@
+@import '../../../style/variables.scss';
+
+.circle,
+.circleActive {
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  // border: 1px solid #0b7285;
+  border: 1px solid $colorBorderLight;
+  border-radius: 3rem;
+}
+
+.circleActive {
+  border: 1px solid $colorAccentOrange;
+}
+
+.count {
+  font-size: 1.4rem;
+  // color: #3bc9db;
+  color: $colorAccentOrange;
+  font-weight: 700;
+}
+
+.lengthQA {
+  font-size: 1rem;
+  // color: $colorDarkOrange;
+  color: rgb(237 159 17 / 88%);
+}

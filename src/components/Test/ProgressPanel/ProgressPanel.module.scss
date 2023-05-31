@@ -1,0 +1,41 @@
+@import '../../../style/variables.scss';
+
+.divCounterButton {
+  // Does -1rem create some bug?
+  // margin-bottom: -1rem;
+  margin-bottom: -0.5rem;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  // align-items: flex-end;
+  align-items: center;
+
+  @media (min-width: 800px) {
+    width: 50%;
+  }
+}
+
+.question {
+  margin: 0 1rem 1rem 1rem;
+  & p,
+  span {
+    font-size: 1.6rem;
+    text-align: center;
+    color: #e3eaf1;
+
+    @media (min-width: 700px) {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+
+    & span {
+      background-color: #00000098;
+      padding: 4px;
+      line-height: 1.5;
+
+      @media (min-width: 800px) {
+        background-color: transparent;
+      }
+    }
+  }
+}
