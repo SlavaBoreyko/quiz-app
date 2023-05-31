@@ -73,8 +73,6 @@ const TestPage: FC<TestPageProps> = () => {
   );
 
   // XTIVKA
-  const [locked, setLocked] = useState<boolean>(false);
-  const [fullScreen, setFullScreen] = useState<boolean>(false);
 
   const [testComplete] = useTestCompleteMutation();
 
@@ -101,18 +99,8 @@ const TestPage: FC<TestPageProps> = () => {
 
   // Logic for /xtivka
   useEffect(() => {
-    if (gameMode) {
-      setLocked(true);
-    }
     if (value !== -1) setReactionShow(true);
-    if (value === 1) setLocked(false);
   }, [location.pathname, questionNum, value]);
-
-  const fullScreenBtnHandle = () => {
-    if (locked === false) {
-      setFullScreen((prev) => !prev);
-    }
-  };
 
   useEffect(() => {
     if (location.pathname.split('/')[3] === 'answers') {
@@ -252,8 +240,6 @@ const TestPage: FC<TestPageProps> = () => {
           // backgroundColor="#000000a0"
           backgroundColor="none"
           justifyContent="flex-end"
-          locked={locked}
-          fullScreen={fullScreen}
         >
           {/* <Routes>
               <Route path={`/:numPage`} element={ */}
@@ -269,9 +255,6 @@ const TestPage: FC<TestPageProps> = () => {
             indicatedAnswer={indecatedAnswer}
             nextIcon={answersArrayPrev ? galleryIcon : arrowIcon}
             nextHandler={nextHandler}
-            fullScreenBtnHandle={fullScreenBtnHandle}
-            locked={locked}
-            backBtnToggle={fullScreen}
             reactionSrc={reactionSrc}
             setReactionSrc={setReactionSrc}
             reactionShow={reactionShow}

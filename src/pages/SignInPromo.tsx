@@ -123,11 +123,7 @@ const SignInPromo = () => {
   }, []);
 
   return (
-    <Container
-      justifyContent="flex-start"
-      backgroundColor="#212529"
-      locked={false}
-    >
+    <Container justifyContent="flex-start" backgroundColor="#212529">
       <ProfileSection
         title={language === 'or' ? 'Тесты' : 'Тести'}
         // description={t('descriptionPlatform')}

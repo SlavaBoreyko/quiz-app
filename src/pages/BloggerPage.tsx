@@ -15,11 +15,7 @@ const BloggerPage = () => {
   const { data: allTestsByBlogger } = useFetchTestsByBloggerIdQuery(params.id);
 
   return (
-    <Container
-      justifyContent="flex-start"
-      backgroundColor="#212529"
-      locked={false}
-    >
+    <Container justifyContent="flex-start" backgroundColor="#212529">
       <BloggerHeader blogger={bloggerData} />
       <TestCardList
         list={allTestsByBlogger}

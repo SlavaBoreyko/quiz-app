@@ -9,7 +9,10 @@ import testImage from '../assets/test-images/hand-or-not.jpg';
 import IconReset from '../assets/svg/reset-svgrepo-com.svg';
 
 // redux-toolkit
-import { useFetchAnswersQuery, useFetchVerdictQuery } from '../features/user/userApi';
+import {
+  useFetchAnswersQuery,
+  useFetchVerdictQuery,
+} from '../features/user/userApi';
 
 // actions
 import { useAppSelector } from '../app/hooks';
@@ -27,62 +30,69 @@ const ResultPage = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const [gameMode, setGameMode] = useState<boolean>(pathname.split('/')[1] === 'game');
+  const [gameMode, setGameMode] = useState<boolean>(
+    pathname.split('/')[1] === 'game',
+  );
   const userState = useAppSelector((state: RootState) => state.user);
   const { data: answersData } = useFetchAnswersQuery(userState.id!);
 
-  // FOR XT 
-  const { data: test }  = useFetchTestQuery(params.id!);
-  const [ picsList, setPicsList ] = useState<string[]>([]);
+  // FOR XT
+  const { data: test } = useFetchTestQuery(params.id!);
+  const [picsList, setPicsList] = useState<string[]>([]);
   const [answersArray, setAnswersArray] = useState<number[]>([]);
   // const [dataVerdict, setDataVerdict] = useState<any | undefined>(undefined);
 
   useEffect(() => {
-    if(gameMode) {
+    if (gameMode) {
       let picsArray: string[] = [];
-      test && test.questions.forEach((item: any) => {
-        picsArray.push(item.img);
-      });
+      test &&
+        test.questions.forEach((item: any) => {
+          picsArray.push(item.img);
+        });
       setPicsList(picsArray);
     }
   }, [test, gameMode]);
 
-  const [resultPoints, setResultPoints] = useState<number | undefined>(undefined);
+  const [resultPoints, setResultPoints] = useState<number | undefined>(
+    undefined,
+  );
   const [showResult, setShowResult] = useState(false);
 
   const [language, setLanguage] = useState(localStorage.getItem('i18nextLng'));
   useEffect(() => {
     const languageSet = localStorage.getItem('i18nextLng');
-    if(userState.language) {
+    if (userState.language) {
       setLanguage(userState.language);
-    } else if(languageSet) {
+    } else if (languageSet) {
       setLanguage(languageSet);
     }
-  },[userState.language]);
+  }, [userState.language]);
 
   // Result for an Unregistered User
   useEffect(() => {
-    if(!userState.id) {
+    if (!userState.id) {
       const demoTest = localStorage.getItem('demoTest');
-      if(demoTest) {
+      if (demoTest) {
         const demoTestParsed = JSON.parse(demoTest);
         const points = _.get(demoTestParsed, `${params.id}.points`);
         setAnswersArray(_.get(demoTestParsed, `${params.id}.answersArray`));
         setResultPoints(points);
       }
-    } 
+    }
   }, []);
-    
+
   useEffect(() => {
-    if(answersData) {
+    if (answersData) {
       const points = _.get(answersData, `${params.id}.points`);
       setAnswersArray(_.get(answersData, `${params.id}.answersArray`));
       setResultPoints(points);
     }
   }, [answersData]);
 
-  const { data: dataVerdict } = useFetchVerdictQuery({ testId: params.id, points: resultPoints});
-
+  const { data: dataVerdict } = useFetchVerdictQuery({
+    testId: params.id,
+    points: resultPoints,
+  });
 
   // useEffect(() => {
   //   if(params.id && resultPoints && !gameMode) {
@@ -90,7 +100,6 @@ const ResultPage = () => {
   //     setDataVerdict(dataVerdict);
   //   }
   // }, []);
-
 
   // useEffect(() => {
   //   if(answersArray && gameMode) {
@@ -107,58 +116,81 @@ const ResultPage = () => {
   // }, [answersArray]);
 
   return (
-    <Container 
-      img={gameMode ? '' : testImage} 
-      backgroundColor={gameMode ? '#212529' : '#000000da'}
-      justifyContent='flex-start'
-      locked={false}
+    <Container
+      img={testImage}
+      backgroundColor="#000000da"
+      justifyContent="flex-start"
     >
-      {(dataVerdict) && (resultPoints) && (!gameMode) &&
-            <img className={s.IconBigBackgroung} src={dataVerdict.icon} alt='Status icon'/>
-      }
-      {(answersArray && resultPoints) ?
-        <CircleBar 
+      {dataVerdict && resultPoints && !gameMode && (
+        <img
+          className={s.IconBigBackgroung}
+          src={dataVerdict.icon}
+          alt="Status icon"
+        />
+      )}
+      {answersArray && resultPoints ? (
+        <CircleBar
           resultPoints={gameMode ? undefined : resultPoints}
-          openAndLock={gameMode ? `${resultPoints}/${answersArray.length}` : undefined}
+          openAndLock={
+            gameMode ? `${resultPoints}/${answersArray.length}` : undefined
+          }
           setShowResult={setShowResult}
           width={gameMode ? 16 : 20}
-        /> : <></>
-      }
-      { (gameMode) && (
-        <div style={{ marginTop: '4rem'}}>
-          <PicsGallery 
+        />
+      ) : (
+        <></>
+      )}
+      {gameMode && (
+        <div style={{ marginTop: '4rem' }}>
+          <PicsGallery
             pics={picsList}
             answers={answersArray ? answersArray : undefined}
           />
         </div>
       )}
-      {(dataVerdict) && (
+      {dataVerdict && (
         <>
-          <ResultCard 
+          <ResultCard
             showText={showResult}
-            status={(language === 'or') ? dataVerdict.status.or : dataVerdict.status.ua}
-            description={(language === 'or') ? dataVerdict.description.or : dataVerdict.description.ua}
+            status={
+              language === 'or' ? dataVerdict.status.or : dataVerdict.status.ua
+            }
+            description={
+              language === 'or'
+                ? dataVerdict.description.or
+                : dataVerdict.description.ua
+            }
           />
           {/* BUTTONS */}
-          {(dataVerdict.blogLink) && (
-            <ButtonTextIcon 
-              caption={(language === 'or') ?  'Открыть видео Макса' : 'Відкрити відео Макса'} 
-              // icon={IconReset} 
-              onClick={() => openInNewTab(dataVerdict.blogLink) }
+          {dataVerdict.blogLink && (
+            <ButtonTextIcon
+              caption={
+                language === 'or'
+                  ? 'Открыть видео Макса'
+                  : 'Відкрити відео Макса'
+              }
+              // icon={IconReset}
+              onClick={() => openInNewTab(dataVerdict.blogLink)}
             />
           )}
-          {(!gameMode) && (
-            <ButtonTextIcon 
-              caption={(language === 'or') ? 'Пройти тест еще раз' : 'Пройти тест ще раз'} 
-              icon={IconReset} 
-              onClick={() => navigate(`/test/${params.id}/1`) }
+          {!gameMode && (
+            <ButtonTextIcon
+              caption={
+                language === 'or' ? 'Пройти тест еще раз' : 'Пройти тест ще раз'
+              }
+              icon={IconReset}
+              onClick={() => navigate(`/test/${params.id}/1`)}
             />
           )}
-          {(!userState.email) && (!gameMode) && (
-            <ButtonTextIcon 
-              caption={(language === 'or') ? 'Просмотреть свои ошибки' : 'Переглянути свої помилки'} 
-              // icon={} 
-              onClick={() => navigate(`/test/${params.id}/answers`) }
+          {!userState.email && !gameMode && (
+            <ButtonTextIcon
+              caption={
+                language === 'or'
+                  ? 'Просмотреть свои ошибки'
+                  : 'Переглянути свої помилки'
+              }
+              // icon={}
+              onClick={() => navigate(`/test/${params.id}/answers`)}
             />
           )}
         </>

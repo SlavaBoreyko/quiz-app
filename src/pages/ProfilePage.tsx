@@ -82,11 +82,7 @@ const ProfilePage = () => {
   // }, [testList]);
 
   return (
-    <Container
-      justifyContent="flex-start"
-      backgroundColor="#212529"
-      locked={false}
-    >
+    <Container justifyContent="flex-start" backgroundColor="#212529">
       {userState.name && userState.email && (
         <ProfileHeader
           marginTop={'6rem'}

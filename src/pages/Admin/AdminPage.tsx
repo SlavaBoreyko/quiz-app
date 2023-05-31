@@ -187,7 +187,7 @@ const AdminPage = () => {
   console.log('questionArray', questionArray);
 
   return (
-    <Container justifyContent="flex-start" locked={false}>
+    <Container justifyContent="flex-start">
       <form className={s.answersDiv}>
         {pageForm === 0 && (
           <>
