@@ -1,8 +1,15 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import { QuestionTestType } from '../../types/test.types';
 import Card from './Card/Card';
 import { ProgressPanel } from './ProgressPanel/ProgressPanel';
 import RadioInput from './RadioInput/RadioInput';
+import { answerHandler } from './RadioInput/api/answerHandler';
 
 export interface TestProps {
   length: number;
@@ -69,6 +76,11 @@ const Test: FC<TestProps> = ({
     setTrueAnswer(answermaxPointTrue);
   }, [questionNum]);
 
+  const answerSimpleHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    reaction: string | undefined,
+  ) => answerHandler(e, setChecked, setValue, reaction, setReactionSrc);
+
   return (
     <>
       <Card reactionSrc={reactionSrc} reactionShow={reactionShow} />
@@ -83,7 +95,6 @@ const Test: FC<TestProps> = ({
         }}
       >
         <ProgressPanel
-          // question={t('question')}
           question={question.question.ua}
           length={length}
           count={questionNum + 1}
@@ -96,10 +107,9 @@ const Test: FC<TestProps> = ({
             // text={t(`answer.${index}`)}
             text={variant.answer.ua}
             value={variant.points}
-            reaction={variant.reaction}
-            setReactionSrc={setReactionSrc}
-            setValue={setValue}
-            setChecked={setChecked}
+            handler={(e: React.ChangeEvent<HTMLInputElement>) =>
+              answerSimpleHandler(e, variant.reaction)
+            }
             checked={checked}
             indicatedAnswer={indicatedAnswer}
             trueAnswer={trueAnswer}
