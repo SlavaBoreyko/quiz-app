@@ -1,16 +1,18 @@
 import { FC } from 'react';
 import Reaction from '../Reaction/Reaction';
 import s from './Card.module.scss';
+import { StickerDataType } from '../QuizLayout/QuizLayout';
 
 export interface CardProps {
-  reactionShow?: boolean;
-  reactionSrc?: string;
+  sticker?: StickerDataType;
 }
 
-const Card: FC<CardProps> = ({ reactionShow, reactionSrc }) => (
+const Card: FC<CardProps> = ({ sticker }) => (
   <div className={s.cardContainer}>
     <div className={s.reactionDiv}>
-      {reactionSrc && <Reaction show={reactionShow} stickerSrc={reactionSrc} />}
+      {sticker && sticker.img && (
+        <Reaction show={sticker.show} stickerSrc={sticker.img} />
+      )}
     </div>
   </div>
 );

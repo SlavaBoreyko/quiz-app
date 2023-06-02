@@ -1,25 +1,21 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import s from './RadioInput.module.scss';
 import { InputChecked } from '../InputChecked/InputChecked';
 
 export interface RadioInputProps {
-  text: any;
   index: number;
-  value: any;
+  value: number;
   checked: boolean[];
   handler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  indicatedAnswer?: number;
-  trueAnswer?: number;
+  children: ReactNode;
 }
 
 const RadioInput: FC<RadioInputProps> = ({
-  text,
   value,
   index,
   checked,
   handler,
-  indicatedAnswer,
-  trueAnswer,
+  children,
 }) => (
   <div className={s.radioContainer}>
     <label htmlFor={`${index}`}>
@@ -32,14 +28,7 @@ const RadioInput: FC<RadioInputProps> = ({
         onChange={handler}
         checked={checked[+index]}
       />
-      <InputChecked
-        checkedAnswer={indicatedAnswer}
-        trueAnswer={trueAnswer}
-        checked={checked}
-        index={index}
-        value={value}
-        text={text}
-      />
+      {children}
     </label>
   </div>
 );

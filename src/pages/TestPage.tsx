@@ -1,7 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Container from '../components/Containers/Container/Container';
-import Test from '../components/Test/Test';
+import {
+  QuizLayout,
+  QuestionExtendedType,
+} from '../components/Test/QuizLayout';
 import galleryIcon from '../assets/svg/navigation/gallery-2-1.svg';
 import arrowIcon from '../assets/svg/arrow-right.svg';
 
@@ -232,41 +235,38 @@ const TestPage: FC<TestPageProps> = () => {
     }
   };
 
+  const sticker = {
+    img: reactionSrc,
+    setImg: setReactionSrc,
+    show: reactionShow,
+  };
+
+  const questionExtended: QuestionExtendedType | undefined = test
+    ? {
+        data: test.questions[questionNum],
+        length: test.questions.length,
+        index: questionNum,
+      }
+    : undefined;
+
   return (
     <>
       {test ? (
         <Container
           img={test.questions[questionNum].img}
-          // backgroundColor="#000000a0"
           backgroundColor="none"
           justifyContent="flex-end"
         >
-          {/* <Routes>
-              <Route path={`/:numPage`} element={ */}
-          <Test
-            language={language}
-            length={test.questions.length}
-            questionNum={questionNum}
-            question={test.questions[questionNum]}
-            // questions={test.questions}
-
-            value={value}
+          <QuizLayout
+            question={questionExtended}
             setValue={setValue}
             indicatedAnswer={indecatedAnswer}
-            nextIcon={answersArrayPrev ? galleryIcon : arrowIcon}
             nextHandler={nextHandler}
-            reactionSrc={reactionSrc}
-            setReactionSrc={setReactionSrc}
-            reactionShow={reactionShow}
-            bloggerName={test.blogger.name}
-            testName={test.testName}
+            sticker={sticker}
           />
-          {/* } 
-              />
-            </Routes> */}
         </Container>
       ) : (
-        'API problem'
+        'Please refresh the page'
       )}
     </>
   );

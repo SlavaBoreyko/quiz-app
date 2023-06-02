@@ -4,9 +4,8 @@ import s from './InputChecked.module.scss';
 interface InputCheckedProps {
   checkedAnswer: number | undefined;
   trueAnswer: number | undefined;
-  checked: boolean[];
-  index: number;
-  value: any;
+  checked: boolean;
+  value: number;
   text: string;
 }
 
@@ -14,13 +13,12 @@ export const InputChecked: FC<InputCheckedProps> = ({
   checkedAnswer,
   trueAnswer,
   checked,
-  index,
   value,
   text,
 }) => (
   <>
     {(checkedAnswer === undefined || trueAnswer === undefined) && (
-      <div className={checked[+index] ? s.textContainerTrue : s.textContainer}>
+      <div className={checked ? s.textContainerTrue : s.textContainer}>
         <span>{text}</span>
       </div>
     )}
