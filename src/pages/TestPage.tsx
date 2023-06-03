@@ -30,17 +30,12 @@ const TestPage: FC<TestPageProps> = () => {
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state: any) => state.user);
 
-  // const [test, setTest] = useState<TestType | any | undefined>(undefined);
   const [questionNum, setQuestion] = useState(0);
   const [value, setValue] = useState(-1);
   const [answersArr, setAnswersArr] = useState<number[]>([]);
   const [answersArrayPrev, setAnswersArrayPrev] = useState<
     number[] | undefined
   >(undefined);
-  const [openAndLock, setOpenAndLock] = useState<number>(0);
-  const [gameMode, setGameMode] = useState<boolean>(
-    location.pathname.split('/')[1] === 'game',
-  );
 
   useEffect(() => {
     params.numPage && setQuestion(+params.numPage - 1);
@@ -51,22 +46,6 @@ const TestPage: FC<TestPageProps> = () => {
     state && state.answersArray && setAnswersArrayPrev(state.answersArray);
   }, [location.state]);
 
-  // ADD-1
-  // useEffect(() => {
-  //   if(answersArr && gameMode) {
-  //     const removeMinusArray = answersArr.map((num) => {
-  //       if (num === -1) {
-  //         return num = 0;
-  //       } else {
-  //         return num;
-  //       }
-  //     });
-  //     setAnswersArr(removeMinusArray);
-  //     const sum = removeMinusArray.reduce((partialSum, a) => partialSum + a, 0);
-  //     setOpenAndLock(sum);
-  //   }
-  // }, []);
-
   // REACTION
   const [reactionShow, setReactionShow] = useState(false);
   const [reactionSrc, setReactionSrc] = useState<string>('');
@@ -75,30 +54,16 @@ const TestPage: FC<TestPageProps> = () => {
     undefined,
   );
 
-  // XTIVKA
-
-  const [testComplete] = useTestCompleteMutation();
+  // const [testComplete] = useTestCompleteMutation();
 
   const { data: test } = useFetchTestQuery(params.id!);
 
-  const [language, setLanguage] = useState('ua');
   useEffect(() => {
     if (localDemoTest) {
       const demoTestParsed = JSON.parse(localDemoTest);
       setDemoAnswers(demoTestParsed);
     }
   }, []);
-  // console.log('userState.language', userState.language);
-  // console.log('language', language);
-
-  useEffect(() => {
-    const languageSet = localStorage.getItem('i18nextLng');
-    if (userState.language) {
-      setLanguage(userState.language);
-    } else if (languageSet) {
-      setLanguage(languageSet);
-    }
-  }, [userState.language]);
 
   // Logic for /xtivka
   useEffect(() => {
@@ -116,9 +81,7 @@ const TestPage: FC<TestPageProps> = () => {
   // FOR ADMIN PAGE
   const calcResultPoints = () => {
     // sumPoints has to calculate when add addTest from Admin
-    if (gameMode) {
-      return openAndLock;
-    } else if (test) {
+    if (test) {
       const resultPoints = Math.round(
         (100 *
           (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)) /
@@ -132,10 +95,7 @@ const TestPage: FC<TestPageProps> = () => {
 
   const saveAnswerNextQuestion = () => {
     setQuestion((prev) => prev + 1);
-    if (gameMode) {
-      if (value === -1) setAnswersArr((prev) => [...prev, 0]);
-      else setAnswersArr((prev) => [...prev, value]);
-    } else setAnswersArr((prev) => [...prev, value]);
+    setAnswersArr((prev) => [...prev, value]);
 
     history.pushState(
       null,
@@ -186,22 +146,11 @@ const TestPage: FC<TestPageProps> = () => {
             // timestamp: serverTimestamp(),
           };
         } else {
-          if (gameMode) {
-            ObjectWithTestId[testId] = {
-              answersArray: [...answersArr, value],
-              points: [...answersArr, value].reduce(
-                (partialSum, a) => partialSum + a,
-                0,
-              ),
-              // timestamp: serverTimestamp(),
-            };
-          } else {
-            ObjectWithTestId[testId] = {
-              answersArray: [...answersArr, value],
-              points: calcResultPoints(),
-              // timestamp: serverTimestamp(),
-            };
-          }
+          ObjectWithTestId[testId] = {
+            answersArray: [...answersArr, value],
+            points: calcResultPoints(),
+            // timestamp: serverTimestamp(),
+          };
         }
         switch (userState.id) {
           // 1. If  user finished first demo test without auth

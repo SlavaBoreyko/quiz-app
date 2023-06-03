@@ -1,6 +1,5 @@
 import React, { FC, ReactNode } from 'react';
 import s from './RadioInput.module.scss';
-import { InputChecked } from '../InputChecked/InputChecked';
 
 export interface RadioInputProps {
   index: number;
