@@ -7,7 +7,7 @@ interface RadioInputListProps {
   question: QuestionTestType;
   handler: (
     e: React.ChangeEvent<HTMLInputElement>,
-    reaction: string | undefined,
+    stickerSrc: string | undefined,
   ) => void;
   checked: boolean[];
   indicatedAnswer?: number;
