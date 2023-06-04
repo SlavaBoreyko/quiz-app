@@ -12,6 +12,7 @@ import { answerHandler } from '../RadioInput/api/answerHandler';
 import { RadioInputList } from '../RadioInputList/RadioInputList';
 import { maxPointTrue } from '../api/maxPointTrue';
 import s from './QuizLayout.module.scss';
+import { useCheckTrueAnswer } from '../hooks/useCheckTrueAnswer';
 
 export type QuestionExtendedType = {
   data: QuestionTestType;
@@ -23,6 +24,7 @@ export type StickerDataType = {
   img: string;
   setImg: Dispatch<SetStateAction<string>>;
   show: boolean;
+  setShow: Dispatch<SetStateAction<boolean>>;
 };
 
 export interface QuizLayoutProps {
@@ -41,18 +43,12 @@ export const QuizLayout: FC<QuizLayoutProps> = ({
   sticker,
 }) => {
   if (!question) return null;
-  const [checked, setChecked] = useState([false, false, false]);
-  const [trueAnswer, setTrueAnswer] = useState<number | undefined>(undefined);
-
-  useEffect(() => {
-    setChecked([false, false, false]);
-    setTrueAnswer(maxPointTrue(question.data));
-  }, [question.index]);
+  const { checked, setChecked, trueAnswer } = useCheckTrueAnswer(question);
 
   const answerSimpleHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
-    reaction: string | undefined,
-  ) => answerHandler(e, setChecked, setValue, reaction, sticker?.setImg);
+    stickerSrc: string | undefined,
+  ) => answerHandler(e, setChecked, setValue, stickerSrc, sticker?.setImg);
 
   return (
     <>

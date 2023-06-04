@@ -17,6 +17,7 @@ import { useAddAnswerMutation } from '../features/user/userApi';
 import { useFetchTestQuery } from '../features/test/testApi';
 import { addDemoAnswer, UserAnswersType } from '../features/user/userSlice';
 import { useTestCompleteMutation } from '../features/blogger/bloggerApi';
+import { useSticker } from '../components/Test/hooks';
 
 export interface TestPageProps {}
 
@@ -46,9 +47,11 @@ const TestPage: FC<TestPageProps> = () => {
     state && state.answersArray && setAnswersArrayPrev(state.answersArray);
   }, [location.state]);
 
-  // REACTION
-  const [reactionShow, setReactionShow] = useState(false);
-  const [reactionSrc, setReactionSrc] = useState<string>('');
+  // STICKER
+  // REFACTORING
+  const sticker = useSticker();
+  // const [reactionShow, setReactionShow] = useState(false);
+  // const [reactionSrc, setReactionSrc] = useState<string>('');
   const [demoAnswers, setDemoAnswers] = useState<any | undefined>(undefined);
   const [indecatedAnswer, setIndecatedAnswer] = useState<number | undefined>(
     undefined,
@@ -67,7 +70,7 @@ const TestPage: FC<TestPageProps> = () => {
 
   // Logic for /xtivka
   useEffect(() => {
-    if (value !== -1) setReactionShow(true);
+    if (value !== -1) sticker.setShow(true);
   }, [location.pathname, questionNum, value]);
 
   useEffect(() => {
@@ -107,15 +110,15 @@ const TestPage: FC<TestPageProps> = () => {
     );
     //clear for next answer:
     setValue(0);
-    setReactionShow(false);
-    setReactionSrc('');
+    sticker.setShow(false);
+    sticker.setImg('');
   };
 
   const nextHandler = async () => {
     if (test && location.pathname.split('/')[3] !== 'answers') {
       if (questionNum < test.questions.length - 1) {
         // 1 === true, 0 === false in database fields
-        setReactionShow(false);
+        sticker.setShow(false);
         saveAnswerNextQuestion();
       }
 
@@ -174,7 +177,7 @@ const TestPage: FC<TestPageProps> = () => {
       }
     } else if (test && location.pathname.split('/')[3] === 'answers') {
       if (questionNum < test.questions.length - 1) {
-        setReactionShow(false);
+        sticker.setShow(false);
         setQuestion((prev) => prev + 1);
       } else if (questionNum === test.questions.length - 1 && params.id) {
         // CHECK IF TEST.ID DOESN'T CONTAINS IN USER.ANSWERS[KEY]
@@ -182,12 +185,6 @@ const TestPage: FC<TestPageProps> = () => {
         return navigate(`/test/${params.id}/result`);
       }
     }
-  };
-
-  const sticker = {
-    img: reactionSrc,
-    setImg: setReactionSrc,
-    show: reactionShow,
   };
 
   const questionExtended: QuestionExtendedType | undefined = test
