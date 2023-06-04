@@ -1,18 +1,11 @@
-import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import React, { Dispatch, FC, SetStateAction } from 'react';
 import { QuestionTestType } from '../../../types/test.types';
 import Card from '../Card/Card';
 import { ProgressPanel } from '../ProgressPanel/ProgressPanel';
 import { answerHandler } from '../RadioInput/api/answerHandler';
 import { RadioInputList } from '../RadioInputList/RadioInputList';
-import { maxPointTrue } from '../api/maxPointTrue';
-import s from './QuizLayout.module.scss';
 import { useCheckTrueAnswer } from '../hooks/useCheckTrueAnswer';
+import s from './QuizLayout.module.scss';
 
 export type QuestionExtendedType = {
   data: QuestionTestType;

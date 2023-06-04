@@ -17,13 +17,18 @@ import { useAddAnswerMutation } from '../features/user/userApi';
 import { useFetchTestQuery } from '../features/test/testApi';
 import { addDemoAnswer, UserAnswersType } from '../features/user/userSlice';
 import { useTestCompleteMutation } from '../features/blogger/bloggerApi';
-import { useSticker } from '../components/Test/hooks';
+import { useQuestionDataByPage, useSticker } from '../components/Test/hooks';
 
 export interface TestPageProps {}
 
 const TestPage: FC<TestPageProps> = () => {
   const location = useLocation();
+  // const params = useParams();
   const params = useParams();
+  const { data: test } = useFetchTestQuery(params.id);
+  const { questionExtended, questionNum, setQuestionNum } =
+    useQuestionDataByPage(params.numPage, test);
+
   const navigate = useNavigate();
   const localDemoTest = localStorage.getItem('demoTest');
 
@@ -31,16 +36,16 @@ const TestPage: FC<TestPageProps> = () => {
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state: any) => state.user);
 
-  const [questionNum, setQuestion] = useState(0);
+  // const [questionNum, setQuestion] = useState(0);
   const [value, setValue] = useState(-1);
   const [answersArr, setAnswersArr] = useState<number[]>([]);
   const [answersArrayPrev, setAnswersArrayPrev] = useState<
     number[] | undefined
   >(undefined);
 
-  useEffect(() => {
-    params.numPage && setQuestion(+params.numPage - 1);
-  }, [params.numPage]);
+  // useEffect(() => {
+  //   params.numPage && setQuestionNum(+params.numPage - 1);
+  // }, [params.numPage]);
 
   useEffect(() => {
     const state: any = location.state;
@@ -50,8 +55,7 @@ const TestPage: FC<TestPageProps> = () => {
   // STICKER
   // REFACTORING
   const sticker = useSticker();
-  // const [reactionShow, setReactionShow] = useState(false);
-  // const [reactionSrc, setReactionSrc] = useState<string>('');
+
   const [demoAnswers, setDemoAnswers] = useState<any | undefined>(undefined);
   const [indecatedAnswer, setIndecatedAnswer] = useState<number | undefined>(
     undefined,
@@ -59,7 +63,7 @@ const TestPage: FC<TestPageProps> = () => {
 
   // const [testComplete] = useTestCompleteMutation();
 
-  const { data: test } = useFetchTestQuery(params.id!);
+  // const { data: test } = useFetchTestQuery(params.id!);
 
   useEffect(() => {
     if (localDemoTest) {
@@ -97,7 +101,7 @@ const TestPage: FC<TestPageProps> = () => {
   const [addAnswer] = useAddAnswerMutation();
 
   const saveAnswerNextQuestion = () => {
-    setQuestion((prev) => prev + 1);
+    setQuestionNum((prev) => prev + 1);
     setAnswersArr((prev) => [...prev, value]);
 
     history.pushState(
@@ -178,7 +182,7 @@ const TestPage: FC<TestPageProps> = () => {
     } else if (test && location.pathname.split('/')[3] === 'answers') {
       if (questionNum < test.questions.length - 1) {
         sticker.setShow(false);
-        setQuestion((prev) => prev + 1);
+        setQuestionNum((prev) => prev + 1);
       } else if (questionNum === test.questions.length - 1 && params.id) {
         // CHECK IF TEST.ID DOESN'T CONTAINS IN USER.ANSWERS[KEY]
         // await testComplete(test.blogger.id);
@@ -187,13 +191,13 @@ const TestPage: FC<TestPageProps> = () => {
     }
   };
 
-  const questionExtended: QuestionExtendedType | undefined = test
-    ? {
-        data: test.questions[questionNum],
-        length: test.questions.length,
-        index: questionNum,
-      }
-    : undefined;
+  // const questionExtended: QuestionExtendedType | undefined = test
+  //   ? {
+  //       data: test.questions[questionNum],
+  //       length: test.questions.length,
+  //       index: questionNum,
+  //     }
+  //   : undefined;
 
   return (
     <>
