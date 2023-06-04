@@ -1,76 +1,45 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Container from '../components/Containers/Container/Container';
-import {
-  QuizLayout,
-  QuestionExtendedType,
-} from '../components/Test/QuizLayout';
-import galleryIcon from '../assets/svg/navigation/gallery-2-1.svg';
-import arrowIcon from '../assets/svg/arrow-right.svg';
-
-// import { addDoc, collection, serverTimestamp, getDoc, doc } from 'firebase/firestore'
-import { useAppSelector } from '../app/hooks';
-
-// redux-toolkit
-import { useAppDispatch } from '../app/hooks';
-import { useAddAnswerMutation } from '../features/user/userApi';
-import { useFetchTestQuery } from '../features/test/testApi';
-import { addDemoAnswer, UserAnswersType } from '../features/user/userSlice';
-import { useTestCompleteMutation } from '../features/blogger/bloggerApi';
+import { QuizLayout } from '../components/Test/QuizLayout';
 import { useQuestionDataByPage, useSticker } from '../components/Test/hooks';
+import { useDemoAnswersFromStorage } from '../components/Test/hooks/useDemoAnswersFromStorage';
+import { useFetchTestQuery } from '../features/test/testApi';
+import { useAddAnswerMutation } from '../features/user/userApi';
+import { UserAnswersType, addDemoAnswer } from '../features/user/userSlice';
 
 export interface TestPageProps {}
 
 const TestPage: FC<TestPageProps> = () => {
   const location = useLocation();
-  // const params = useParams();
+  const navigate = useNavigate();
   const params = useParams();
   const { data: test } = useFetchTestQuery(params.id);
   const { questionExtended, questionNum, setQuestionNum } =
     useQuestionDataByPage(params.numPage, test);
-
-  const navigate = useNavigate();
-  const localDemoTest = localStorage.getItem('demoTest');
+  const demoAnswers = useDemoAnswersFromStorage();
+  const sticker = useSticker();
+  // const [testComplete] = useTestCompleteMutation();
 
   // redux-toolkit
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state: any) => state.user);
 
-  // const [questionNum, setQuestion] = useState(0);
   const [value, setValue] = useState(-1);
   const [answersArr, setAnswersArr] = useState<number[]>([]);
   const [answersArrayPrev, setAnswersArrayPrev] = useState<
     number[] | undefined
   >(undefined);
 
-  // useEffect(() => {
-  //   params.numPage && setQuestionNum(+params.numPage - 1);
-  // }, [params.numPage]);
+  const [indecatedAnswer, setIndecatedAnswer] = useState<number | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     const state: any = location.state;
     state && state.answersArray && setAnswersArrayPrev(state.answersArray);
   }, [location.state]);
-
-  // STICKER
-  // REFACTORING
-  const sticker = useSticker();
-
-  const [demoAnswers, setDemoAnswers] = useState<any | undefined>(undefined);
-  const [indecatedAnswer, setIndecatedAnswer] = useState<number | undefined>(
-    undefined,
-  );
-
-  // const [testComplete] = useTestCompleteMutation();
-
-  // const { data: test } = useFetchTestQuery(params.id!);
-
-  useEffect(() => {
-    if (localDemoTest) {
-      const demoTestParsed = JSON.parse(localDemoTest);
-      setDemoAnswers(demoTestParsed);
-    }
-  }, []);
 
   // Logic for /xtivka
   useEffect(() => {
