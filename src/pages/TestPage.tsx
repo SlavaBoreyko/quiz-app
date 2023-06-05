@@ -1,10 +1,13 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Container from '../components/Containers/Container/Container';
 import { QuizLayout } from '../components/Test/QuizLayout';
+import { nextQuestion } from '../components/Test/api';
 import { useQuestionDataByPage, useSticker } from '../components/Test/hooks';
+import { useAnswersLogic } from '../components/Test/hooks/useAnswersLogic';
 import { useDemoAnswersFromStorage } from '../components/Test/hooks/useDemoAnswersFromStorage';
+import { calcResultPoints } from '../components/Test/utils';
 import { useFetchTestQuery } from '../features/test/testApi';
 import { useAddAnswerMutation } from '../features/user/userApi';
 import { UserAnswersType, addDemoAnswer } from '../features/user/userSlice';
@@ -20,68 +23,23 @@ const TestPage: FC<TestPageProps> = () => {
     useQuestionDataByPage(params.numPage, test);
   const demoAnswers = useDemoAnswersFromStorage();
   const sticker = useSticker();
-  // const [testComplete] = useTestCompleteMutation();
 
   // redux-toolkit
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state: any) => state.user);
-
-  const [value, setValue] = useState(-1);
-  const [answersArr, setAnswersArr] = useState<number[]>([]);
-  const [answersArrayPrev, setAnswersArrayPrev] = useState<
-    number[] | undefined
-  >(undefined);
-
-  const [indecatedAnswer, setIndecatedAnswer] = useState<number | undefined>(
-    undefined,
-  );
-
-  useEffect(() => {
-    const state: any = location.state;
-    state && state.answersArray && setAnswersArrayPrev(state.answersArray);
-  }, [location.state]);
-
-  // Logic for /xtivka
-  useEffect(() => {
-    if (value !== -1) sticker.setShow(true);
-  }, [location.pathname, questionNum, value]);
-
-  useEffect(() => {
-    if (location.pathname.split('/')[3] === 'answers') {
-      if (demoAnswers && params.id) {
-        setIndecatedAnswer(demoAnswers[params.id].answersArray[questionNum]);
-      }
-    }
-  }, [questionNum, demoAnswers, location.pathname]);
-
-  // FOR ADMIN PAGE
-  const calcResultPoints = () => {
-    // sumPoints has to calculate when add addTest from Admin
-    if (test) {
-      const resultPoints = Math.round(
-        (100 *
-          (answersArr.reduce((partialSum, a) => partialSum + a, 0) + value)) /
-          test.sumPoints,
-      );
-      return resultPoints;
-    } else return 0;
-  };
-
   const [addAnswer] = useAddAnswerMutation();
+  // const [testComplete] = useTestCompleteMutation();
 
-  const saveAnswerNextQuestion = () => {
-    setQuestionNum((prev) => prev + 1);
-    setAnswersArr((prev) => [...prev, value]);
+  const {
+    value,
+    setValue,
+    indecatedAnswer,
+    answersArr,
+    setAnswersArr,
+    answersArrayPrev,
+  } = useAnswersLogic(demoAnswers, sticker.setShow, questionNum);
 
-    history.pushState(
-      null,
-      `Question ${questionNum + 1}`,
-      `${window.location.href.substring(
-        0,
-        window.location.href.lastIndexOf('/'),
-      )}/${questionNum + 2}`,
-    );
-    //clear for next answer:
+  const clearAnswer = () => {
     setValue(0);
     sticker.setShow(false);
     sticker.setImg('');
@@ -92,7 +50,8 @@ const TestPage: FC<TestPageProps> = () => {
       if (questionNum < test.questions.length - 1) {
         // 1 === true, 0 === false in database fields
         sticker.setShow(false);
-        saveAnswerNextQuestion();
+        setAnswersArr((prev) => [...prev, value]);
+        nextQuestion(setQuestionNum, questionNum, clearAnswer);
       }
 
       if (
@@ -124,7 +83,7 @@ const TestPage: FC<TestPageProps> = () => {
         } else {
           ObjectWithTestId[testId] = {
             answersArray: [...answersArr, value],
-            points: calcResultPoints(),
+            points: calcResultPoints(answersArr, value, test.sumPoints),
             // timestamp: serverTimestamp(),
           };
         }
@@ -159,14 +118,6 @@ const TestPage: FC<TestPageProps> = () => {
       }
     }
   };
-
-  // const questionExtended: QuestionExtendedType | undefined = test
-  //   ? {
-  //       data: test.questions[questionNum],
-  //       length: test.questions.length,
-  //       index: questionNum,
-  //     }
-  //   : undefined;
 
   return (
     <>
